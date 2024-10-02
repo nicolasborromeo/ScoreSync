@@ -3,13 +3,34 @@ const router = require('express').Router();
 const { Op } = require('sequelize')
 const bcrypt = require('bcryptjs')
 
-const { setTokenCookie, restoreUser} = require('../../utils/auth')
+const { setTokenCookie, restoreUser } = require('../../utils/auth')
 const { User } = require('../../db/models');
+
+
+
+router.get(
+    '/',
+    (req, res) => {
+        const { user } = req;
+        if (user) {
+            const safeUser = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+            };
+            return res.json({
+                user: safeUser
+            });
+        } else return res.json({ user: null });
+    }
+);
+
+
 
 router.post(
     '/',
     async (req, res, next) => {
-        const {credential, password} = req.body;
+        const { credential, password } = req.body;
 
         const user = await User.unscoped().findeOne({
             where: {
@@ -45,9 +66,9 @@ router.post(
 
 router.delete(
     '/',
-    (_req, res)=> {
+    (_req, res) => {
         res.clearCookie('token');
-        return res.json({message: 'success'});
+        return res.json({ message: 'success' });
     }
 );
 
