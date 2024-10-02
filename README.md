@@ -18,6 +18,8 @@ Welcome to the ScoreSync readme.
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Database Schema](#database-schema-design)
+- [API Documentation](#api-documentation)
 - [License](#license)
 - [Contact](#contact)
 
@@ -54,6 +56,14 @@ Follow these steps to get started with ScoreSync:
 - **Creating Reels**: Use the dashboard to create and customize your music reels. Share the generated URLs with collaborators or clients.
 - **Commenting**: Enable commenting on your reels to gather feedback from your audience.
 - **Version Control**: Use the version control feature to manage updates and changes to your music.
+
+## Database Schema Design
+
+![db-schema]
+
+[db-schema]: ./images/example.png
+
+## API Documentation
 
 
 ## License
