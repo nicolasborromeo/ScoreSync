@@ -44,11 +44,17 @@ Follow these steps to get started with ScoreSync:
 
 1. Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
 2. For the backend, set up a database (PostgreSQL or SQLite) and configure your `.env` file.
-3. For the front end, run:
+3. For the back end, run:
     ```bash
+    cd backend
     npm start
     ```
-4. Visit `http://localhost:3000` in your browser to see the application in action.
+4. For the front end, run:
+    ```bash
+    cd frontent
+    npm run dev
+    ```
+5. Visit `http://localhost:5173` in your browser to see the application in action.
 
 ## Usage
 
