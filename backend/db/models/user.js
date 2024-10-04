@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.hasOne(models.UserDisplayInfo,{ foreignKey: 'userId', onDelete: 'CASCADE'})
+      User.hasMany(models.ExternalLink, {foreignKey: 'userId', onDelete:'CASCADE'})
     }
   }
   User.init({

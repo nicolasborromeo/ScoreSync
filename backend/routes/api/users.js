@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, UserDisplayInfo } = require('../../db/models');
+const { User, UserDisplayInfo, ExternalLink } = require('../../db/models');
 
 const router = express.Router();
 
@@ -57,16 +57,24 @@ router.post(
 
 router.get('/current', async (req, res) => {
     const { user } = req;
-    if (!user) return res.json({error: 'You need to login first'})
+    if (!user) return res.json({ error: 'You need to login first' })
 
     let userData = await User.findOne({
-        where: {id: user.id},
-        include: {
-            model: UserDisplayInfo,
-            attributes: {
-                exclude: ['createdAt', 'updatedAt']
+        where: { id: user.id },
+        include: [
+            {
+                model: UserDisplayInfo,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            },
+            {
+                model: ExternalLink,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'userId']
+                }
             }
-        }
+        ]
 
     })
     return res.status(200).json({
