@@ -55,31 +55,33 @@ router.post(
     }
 );
 
-router.get('/current', async (req, res) => {
-    const { user } = req;
-    if (!user) return res.json({ error: 'You need to login first' })
+router.get('/current',
+    requireAuth,
+    async (req, res) => {
+        const { user } = req;
+        if (!user) return res.json({ error: 'You need to login first' })
 
-    let userData = await User.findOne({
-        where: { id: user.id },
-        include: [
-            {
-                model: UserDisplayInfo,
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+        let userData = await User.findOne({
+            where: { id: user.id },
+            include: [
+                {
+                    model: UserDisplayInfo,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                },
+                {
+                    model: ExternalLink,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt', 'userId']
+                    }
                 }
-            },
-            {
-                model: ExternalLink,
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'userId']
-                }
-            }
-        ]
+            ]
 
+        })
+        return res.status(200).json({
+            userData: userData
+        })
     })
-    return res.status(200).json({
-        userData: userData
-    })
-})
 
 module.exports = router
