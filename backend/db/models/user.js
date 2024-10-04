@@ -6,6 +6,7 @@ const Validator = require('validator');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
+      User.hasOne(models.UserDisplayInfo,{ foreignKey: 'userId', onDelete: 'CASCADE'})
     }
   }
   User.init({
