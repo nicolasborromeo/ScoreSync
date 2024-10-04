@@ -62,7 +62,10 @@ router.get('/current', async (req, res) => {
     let userData = await User.findOne({
         where: {id: user.id},
         include: {
-            model: UserDisplayInfo
+            model: UserDisplayInfo,
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
         }
 
     })
