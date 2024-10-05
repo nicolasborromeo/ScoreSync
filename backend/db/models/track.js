@@ -3,13 +3,13 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class ExternalLink extends Model {
+  class Track extends Model {
 
     static associate(models) {
-      ExternalLink.belongsTo(models.User, {foreignKey: 'userId', onDelete: 'CASCADE'})
+      Track.belongsTo(models.User, {foreignKey: 'userId', onDelete: 'CASCADE'})
     }
   }
-  ExternalLink.init({
+  Track.init({
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -19,19 +19,26 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'CASCADE'
     },
-    company: {
+    title: {
       type: DataTypes.STRING,
+      allowNull: false
     },
-    url: {
-      type: DataTypes.STRING,
+    filePath: {
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        isUrl: true
-      }
+        isUrl: true,
+      },
+    },
+    duration: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true,
+      },
     },
   }, {
     sequelize,
-    modelName: 'ExternalLink',
+    modelName: 'Track',
   });
-  return ExternalLink;
+  return Track;
 };

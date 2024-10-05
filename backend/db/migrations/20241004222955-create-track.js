@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ExternalLinks', {
+    await queryInterface.createTable('Tracks', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,18 +21,25 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users',
-          key:'id'
+          key: 'id'
         },
-        onDelete: "CASCADE"
+        onDelete: 'CASCADE'
       },
-      company: {
+      title: {
         type: Sequelize.STRING,
+        allowNull: false
       },
-      url: {
-        type: Sequelize.STRING,
+      filePath: {
+        type: Sequelize.TEXT,
         allowNull: false,
         validate: {
           isUrl: true
+        },
+      },
+      duration: {
+        type: Sequelize.INTEGER,
+        validate: {
+          isNumeric: true
         }
       },
       createdAt: {
@@ -48,7 +55,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'ExternalLinks'
+    options.tableName = 'Tracks'
     await queryInterface.dropTable(options);
   }
 };
