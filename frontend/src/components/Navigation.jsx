@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom"
+import { TbCards } from "react-icons/tb";
+import { GiMusicalScore } from "react-icons/gi";
 
 
 export default function Navigation() {
@@ -6,12 +8,11 @@ export default function Navigation() {
     return (
         <div className="navigation-container">
             <ul className="navigation-ul">
-                <li className="logos-container">
-                    <NavLink to='/'><img className='navigation-logo' src="/Logo.png" /></NavLink>
-                    <NavLink to='/'><img className='navigation-brand' src="/brand.png" /></NavLink>
+                <li>
+                    <NavLink to='/portfolios'><TbCards />Portfolios</NavLink>
                 </li>
-                <li className="user-menu-container">
-
+                <li>
+                    <NavLink to='/catalog'><GiMusicalScore />Catalog</NavLink>
                 </li>
             </ul>
         </div>

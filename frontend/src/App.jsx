@@ -2,23 +2,15 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 // import { useEffect, useState } from "react";
 // import { useDispatch } from "react-redux";
 import Navigation from '../src/components/Navigation'
-import LoginPage from '../src/components/LoginPage'
+import LoginPage from './components/LoginPage/LoginPage'
+import SignUpPage from './components/SignUpPage'
+import Catalog from "./components/Catalog";
+import Dashboard from "./components/Dashboard";
 
 function Layout() {
-  // const dispatch = useDispatch()
-  // const [isLoaded, setIsLoaded] = useState(false);
-
-  // useEffect(()=> {
-  //   dispatch(sessionActions.restoreUser()).then(()=> {
-  //     setIsLoaded(true)
-  //   });
-  // }, [dispatch])
-
-
   return (
     <>
       <Navigation/>
-      {/* {isLoaded && <Outlet />} */}
       <Outlet />
     </>
   )
@@ -26,20 +18,24 @@ function Layout() {
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUpPage />,
+  },
+  {
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <LoginPage />,
+        path: '/dashboard',
+        element: <Dashboard />
       },
-      // {
-      //   path: 'spots/:spotId',
-      //   element: <SpotDetails />
-      // },
-      // {
-      //   path: 'list',
-      //   element: <CreateSpotPage />
-      // },
+      {
+        path: '/catalog',
+        element: <Catalog />
+      },
       // {
       //   path: '/user/manage-spots',
       //   element: <ManageSpots />,
