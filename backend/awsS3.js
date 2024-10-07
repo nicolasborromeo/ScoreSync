@@ -3,27 +3,29 @@ const multer = require("multer");
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 const NAME_OF_BUCKET = "my-score-sync-bucket";
 
-const singleFileUpload = async ({ file, public = false }) => {
+const singleFileUpload = async ({ file, public = false, username}) => {
     const { originalname, buffer } = file;
     const path = require('path');
     //using data in miliseconds to name the faile in my S3 bucker + the extension name
-    const Key = new Date().getTime().toString() + path.extname(originalname);
+    // const Key = new Date().getTime().toString() + path.extname(originalname);
+    const Key = new Date().getTime().toString() + originalname
+    
     const uploadParams = {
         Bucket: NAME_OF_BUCKET,
-        Key: public ? `public/${Key}`: Key,
+        Key: username ? `${username}/${Key}`: Key,
         Body: buffer
     }
     const result = await s3.upload(uploadParams).promise()
     // Return the link if public. If private, return the name of the file in your
     // S3 bucket as the key in your database for subsequent retrieval.
-    return public ? result.Location : result.Key;
+    return username ?{ url: result['Location'], title: originalname} : result.Key;
 }
 
 
-const multipleFilesUpload = async ({files, public = false}) => {
+const multipleFilesUpload = async ({files, public = false, username}) => {
     return await Promise.all(
         files.map((file)=> {
-            return singleFileUpload({file, public})
+            return singleFileUpload({file, public, username})
         })
     )
 }

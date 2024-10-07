@@ -1,6 +1,7 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-// import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
+import { createBrowserRouter, Outlet, redirect, RouterProvider } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import * as sessionActions from './store/session'
 import Navigation from '../src/components/Navigation'
 import LoginPage from './components/LoginPage/LoginPage'
 import SignUpPage from './components/SignUpPage'
@@ -8,10 +9,25 @@ import Catalog from "./components/Catalog";
 import Dashboard from "./components/Dashboard";
 
 function Layout() {
+
+  const user = useSelector(state => state.session.user)
+  if (!user) redirect('/')
+
+  const dispatch = useDispatch()
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => {
+      setIsLoaded(true)
+    });
+  }, [dispatch])
+
+
   return (
     <>
-      <Navigation/>
-      <Outlet />
+      <Navigation />
+      {isLoaded && <Outlet />}
+      {/* <Outlet /> */}
     </>
   )
 }
@@ -36,14 +52,6 @@ const router = createBrowserRouter([
         path: '/catalog',
         element: <Catalog />
       },
-      // {
-      //   path: '/user/manage-spots',
-      //   element: <ManageSpots />,
-      // },
-      // {
-      //   path: '/user/manage-spots/:spotId',
-      //   element: <UpdateSpotPage />
-      // },
       {
         path: '*',
         element: <h1>Page Not Found</h1>

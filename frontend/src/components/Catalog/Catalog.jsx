@@ -6,20 +6,24 @@ import { FaPlay } from "react-icons/fa6";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import './Catalog.css'
+import { thunkUploadTracks } from "../../store/tracks";
 
 
 export default function Catalog() {
     const user = useSelector(state => state.session.user)
-    const catalog = useSelector(state => state.catalog.userTracks)
+    const catalog = useSelector(state => state.catalog.userTracks || [])
     const dispatch = useDispatch()
 
+
     //State variables
-    // const [tracksToUpload, setTracksToUpload] = useState([])
+    const [stateUpdated, setStateUpdated] = useState()
     const [errors, setErrors] = useState([])
 
     //Thunk operations
     useEffect(() => {
-        dispatch(thunkGetUserTracks())
+        dispatch(thunkGetUserTracks()).then(()=> {
+            if(Array.isArray(catalog)) setStateUpdated(true)
+        })
     }, [user, dispatch])
 
     const updateTracksToUpload = async e => {
@@ -27,13 +31,20 @@ export default function Catalog() {
         if (files.length >= 1) {
             setErrors([]);
             const res = await dispatch(thunkUploadTracks(files, user.id));
-            if (res.ok) window.alert('Uploading your tracks');
+            if (res.ok) {
+                setStateUpdated(false)
+                window.alert('Uploading your tracks')
+            }
             else {
                 const data = await res.json();
                 if (data?.errors) setErrors(data.errors);
             }
         }
     }
+
+    useEffect(()=> {
+        if(Array.isArray(catalog)) setStateUpdated(true)
+    }, [stateUpdated])
 
     //Table and Tracks functions
     const handleTrackPlay = () => {
@@ -62,7 +73,7 @@ export default function Catalog() {
                     </tr>
                 </thead>
                 <tbody>
-                    {catalog?.map(track => (
+                    {stateUpdated && catalog.map(track => (
                         <tr key={track.id} className="catalog-track-row">
                             <td><FaPlay onClick={handleTrackPlay} /></td>
                             <td>{track.title}</td>
