@@ -1,39 +1,44 @@
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { thunkGetUserTracks } from "../../store/tracks"
+import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks } from "../../store/tracks"
 import AudioPlayer from "../AudioPlayer"
 import { FaPlay } from "react-icons/fa6";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlineLoading } from "react-icons/ai";
+
 import './Catalog.css'
-import { thunkUploadTracks } from "../../store/tracks";
+
 
 
 export default function Catalog() {
     const user = useSelector(state => state.session.user)
-    const catalog = useSelector(state => state.catalog.userTracks || [])
+    const catalog = useSelector(state => state.catalog.userTracks)
     const dispatch = useDispatch()
 
 
     //State variables
     const [stateUpdated, setStateUpdated] = useState()
+    const [uploading, setUploading] = useState()
+
     const [errors, setErrors] = useState([])
 
     //Thunk operations
     useEffect(() => {
-        dispatch(thunkGetUserTracks()).then(()=> {
-            if(Array.isArray(catalog)) setStateUpdated(true)
+        dispatch(thunkGetUserTracks()).then(() => {
+            setStateUpdated(true)
         })
     }, [user, dispatch])
 
-    const updateTracksToUpload = async e => {
+    const handleUploadTracks = async e => {
         const files = e.target.files
         if (files.length >= 1) {
+            setUploading(true)
             setErrors([]);
             const res = await dispatch(thunkUploadTracks(files, user.id));
             if (res.ok) {
-                setStateUpdated(false)
-                window.alert('Uploading your tracks')
+                // window.alert('Uploading your tracks')
+                setUploading(false)
             }
             else {
                 const data = await res.json();
@@ -42,16 +47,13 @@ export default function Catalog() {
         }
     }
 
-    useEffect(()=> {
-        if(Array.isArray(catalog)) setStateUpdated(true)
-    }, [stateUpdated])
+    const handleDeleteTrack = (trackId) => {
+        dispatch(thunkDeleteTrack(trackId))
+    }
 
     //Table and Tracks functions
     const handleTrackPlay = () => {
         console.log('open a bottom player')
-    }
-    const handleDeleteTrack = () => {
-        console.log('I want to delete this track from the db and AWS')
     }
 
     const formatUploaded = (createdAt) => {
@@ -65,7 +67,7 @@ export default function Catalog() {
     return (
         <>
             <h1>Catalog</h1>
-            <TrackUploadButton updateTracksToUpload={updateTracksToUpload} />
+            <TrackUploadButton handleUploadTracks={handleUploadTracks} />
             <table className="tracks-table">
                 <thead>
                     <tr>
@@ -79,10 +81,15 @@ export default function Catalog() {
                             <td>{track.title}</td>
                             <td>{track.duration}</td>
                             <td>{formatUploaded(track.createdAt)}</td>
-                            <td><RiDeleteBin6Line onClick={handleDeleteTrack} /></td>
+                            <td><RiDeleteBin6Line onClick={() => handleDeleteTrack(track.id)} /></td>
                         </tr>
                     ))}
                 </tbody>
+                {uploading &&
+                    <div>
+                        <AiOutlineLoading className='loading-icon' />
+                    </div>
+                }
             </table>
 
             {/* <AudioPlayer audioUrl={'https://my-score-sync-bucket.s3.us-west-1.amazonaws.com/Nico+Borromeo_Cyrillic+Magic.wav'}/> */}
@@ -91,7 +98,7 @@ export default function Catalog() {
     )
 }
 
-function TrackUploadButton({ updateTracksToUpload }) {
+function TrackUploadButton({ handleUploadTracks }) {
     const hiddenInputRef = useRef(null)
 
     const handleClick = () => {
@@ -106,16 +113,18 @@ function TrackUploadButton({ updateTracksToUpload }) {
                 type="file"
                 accept=".wav,.mp3"
                 multiple
-                onChange={updateTracksToUpload}
+                onChange={handleUploadTracks}
                 ref={hiddenInputRef}
-                style={{ display: 'none' }} />
+                style={{ display: 'none' }}
+            />
+
             <button onClick={handleClick}
                 style={{
                     border: 'none',
                     background: 'transparent',
                     cursor: 'pointer'
                 }}>
-                Upload Tracks:
+                {/* Upload Track s: */}
                 <FaCloudUploadAlt size={30} />
             </button>
         </div>
