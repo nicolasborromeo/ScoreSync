@@ -57,8 +57,9 @@ const initialState = {}
 
 const catalogReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER_TRACKS:
+        case SET_USER_TRACKS:{
             return {...state, userTracks: action.payload.userTracks}
+        }
         case RECEIVE_TRACKS:
             return {...state, userTracks: [...state.userTracks, ...action.newlyUploadedTracks]};
         case DELETE_TRACK: {

@@ -32,12 +32,13 @@ export default function Catalog() {
 
     const handleUploadTracks = async e => {
         const files = e.target.files
+        console.log(e.target.files)
         if (files.length >= 1) {
             setUploading(true)
             setErrors([]);
             const res = await dispatch(thunkUploadTracks(files, user.id));
             if (res.ok) {
-                // window.alert('Uploading your tracks')
+                // window.alert('Succesfully uploaded your tracks')
                 setUploading(false)
             }
             else {
@@ -74,17 +75,36 @@ export default function Catalog() {
                         <th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th>Rm</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {stateUpdated && catalog.map(track => (
-                        <tr key={track.id} className="catalog-track-row">
-                            <td><FaPlay onClick={handleTrackPlay} /></td>
-                            <td>{track.title}</td>
-                            <td>{track.duration}</td>
-                            <td>{formatUploaded(track.createdAt)}</td>
-                            <td><RiDeleteBin6Line onClick={() => handleDeleteTrack(track.id)} /></td>
-                        </tr>
-                    ))}
-                </tbody>
+                {catalog?.length >= 1 &&
+                    Array.isArray(catalog) &&
+                    <tbody>
+                        {stateUpdated && catalog.map(track => (
+                            <tr key={track.id} className="catalog-track-row">
+                                <td><FaPlay onClick={handleTrackPlay} /></td>
+                                <td>{track.title}</td>
+                                <td>{track.duration}</td>
+                                <td>{formatUploaded(track.createdAt)}</td>
+                                <td><RiDeleteBin6Line onClick={() => handleDeleteTrack(track.id)} /></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                }
+                {!catalog &&
+                    <>
+                        <tbody>
+                            <tr>
+                                <td colSpan="5" style={{ textAlign: 'center' }}>
+                                    <div style={{fontSize: '10px', marginBottom:'10px'}}>
+                                        You don't have any uploaded tracks yet. Click the icon <FaCloudUploadAlt/> to start building your catalog
+                                    </div>
+                                    {/* <div>
+                                        <button> <input type="file"/><FaCloudUploadAlt/>UPLOAD TRACKS</button>
+                                    </div> */}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </>
+                }
                 {uploading &&
                     <div>
                         <AiOutlineLoading className='loading-icon' />
@@ -128,7 +148,6 @@ function TrackUploadButton({ handleUploadTracks }) {
                 <FaCloudUploadAlt size={30} />
             </button>
         </div>
-
     )
 
 }

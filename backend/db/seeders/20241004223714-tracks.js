@@ -14,12 +14,12 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     Track.bulkCreate([
       {
-        userId: 4,
+        userId: 2,
         title: 'Nico Borromeo - Cyrillic Magic',
         filePath: 'https://my-score-sync-bucket.s3.us-west-1.amazonaws.com/Nico+Borromeo_Cyrillic+Magic.wav',
       },
       {
-        userId: 4,
+        userId: 2,
         title: 'Nico Borromeo - Ayrad Kingdom',
         filePath: 'https://my-score-sync-bucket.s3.us-west-1.amazonaws.com/Nic+Borromeo_Ayrad+Kingdom.wav',
       },
