@@ -3,8 +3,8 @@ const { multipleFilesUpload, multipleMulterUpload, deleteFile } = require("../..
 const { requireAuth } = require('../../utils/auth');
 const { Track } = require('../../db/models');
 const router = express.Router();
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3()
+
+
 
 router.get(
     '/current',
@@ -30,7 +30,8 @@ router.post(
             awsResponse.map(track => Track.create({
                 filePath: track.url,
                 userId: userId,
-                title: track.title
+                title: track.title,
+                duration: Math.ceil(track.duration)
             }))
         );
 
@@ -38,7 +39,7 @@ router.post(
     },
 )
 
-// ///////////////DELETING FROM AWS AND DTABASE
+////////////////DELETING FROM AWS AND DTABASE
 
 router.delete(
     '/:trackId',

@@ -35,6 +35,7 @@ export const thunkGetUserTracks = () => async (dispatch) => {
 export const thunkUploadTracks = (tracks) => async dispatch => {
     const formData = new FormData();
     Array.from(tracks).forEach(track => formData.append("tracks", track))
+    
     const response = await csrfFetch(`/api/tracks/`, {
         method: "POST",
         body: formData
@@ -53,7 +54,7 @@ export const thunkDeleteTrack = (trackId) => async dispatch => {
     if(response.ok) dispatch(deleteTrack(trackId))
 }
 
-const initialState = {}
+const initialState = {userTracks: []}
 
 const catalogReducer = (state = initialState, action) => {
     switch (action.type) {

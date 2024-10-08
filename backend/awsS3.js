@@ -2,16 +2,10 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 const NAME_OF_BUCKET = "my-score-sync-bucket";
+const mm = require('music-metadata')
 
-// AWS.config.update({
-//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//     region: "us-west-1"
-// })
 
 const deleteFile = async (key) => {
-
-
     const params = {
         Bucket: NAME_OF_BUCKET,
         Key: key
@@ -34,11 +28,15 @@ const deleteFile = async (key) => {
     }
 }
 
-const singleFileUpload = async ({ file, public = false, username }) => {
+const singleFileUpload = async ({ file, username }) => {
     const { originalname, buffer } = file;
-    const path = require('path');
-    //using data in miliseconds to name the file in my S3 bucker + the extension name
-    // const Key = new Date().getTime().toString() + path.extname(originalname);
+
+    const mmFunctions = await mm.loadMusicMetadata()
+    const parse = mmFunctions.parseBuffer
+    const metadata = await parse(buffer)
+    const duration = metadata.format.duration
+
+
     const Key = new Date().getTime().toString() + originalname
 
     const uploadParams = {
@@ -47,16 +45,16 @@ const singleFileUpload = async ({ file, public = false, username }) => {
         Body: buffer
     }
     const result = await s3.upload(uploadParams).promise()
-    // Return the link if public. If private, return the name of the file in your
-    // S3 bucket as the key in your database for subsequent retrieval.
-    return username ? { url: result['Location'], title: originalname } : result.Key;
+
+    return username ? { url: result['Location'], title: originalname, duration: duration} : result.Key;
 }
 
 
-const multipleFilesUpload = async ({ files, public = false, username }) => {
+
+const multipleFilesUpload = async ({ files, username }) => {
     return await Promise.all(
         files.map((file) => {
-            return singleFileUpload({ file, public, username })
+            return singleFileUpload({ file, username })
         })
     )
 }
