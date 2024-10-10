@@ -1,5 +1,5 @@
 import { createBrowserRouter, Outlet, redirect, RouterProvider } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import * as sessionActions from './store/session'
 import Navigation from '../src/components/Navigation'
@@ -25,10 +25,12 @@ function Layout() {
 
   return (
     <div id="app-container">
-      <Navigation isLoaded={isLoaded}/>
-      {isLoaded && <Outlet />}
-      {/* <Outlet /> */}
+      <Navigation isLoaded={isLoaded} />
+      <div className="main">
+        {isLoaded && <Outlet />}
+      </div>
     </div>
+
   )
 }
 

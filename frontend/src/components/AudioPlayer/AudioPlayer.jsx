@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import { FaCirclePlay } from "react-icons/fa6";
+import { FaBedPulse, FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
 import { AiOutlineLoading } from "react-icons/ai";
 
@@ -19,7 +19,7 @@ const AudioPlayer = ({ audioUrl }) => {
         container: containerRef,
         height: 100,
         autoplay: false,
-        waveColor: 'rgb(200, 0, 200)',
+        waveColor: '#EB3678',
         progressColor: 'rgb(100, 0, 100)',
         url: audioUrl,
         plugins: useMemo(() => [Timeline.create()], []),
@@ -59,11 +59,11 @@ const AudioPlayer = ({ audioUrl }) => {
                 <div style={{width: `${loadingProgress}%`,backgroundColor: 'blue',height: '60%',transition: 'width 0.2s'}}></div>
             </div>}
             {/* Waveform */}
-            <div ref={containerRef} />
+            <div id="waveform" ref={containerRef} />
 
             {isReady &&
                 <div className="player-controls">
-                    <span id="player-playpause"onClick={onPlayPause} style={{ minWidth: '5em' }}>
+                    <span id="player-playpause"onClick={onPlayPause} >
                         {isPlaying ? <FaCirclePause size={40} /> : <FaCirclePlay size={40} />}
                     </span>
                     <span id="player-timeline">{formatTime(currentTime)} / {formatTime(duration)}</span>

@@ -24,6 +24,9 @@ export default function Catalog() {
     const catalog = useSelector(state => state.catalog.userTracks)
     const dispatch = useDispatch()
 
+    //Catalog Table State Variables
+    const [activeTrackId, setActiveTrackId] = useState()
+
     //Track Option Menu States Variables
     const [trackId, setTrackId] = useState()
     const [trackTitle, setTrackTitle] = useState()
@@ -36,7 +39,7 @@ export default function Catalog() {
     const [stateUpdated, setStateUpdated] = useState()
     const [uploading, setUploading] = useState()
     const [audioUrl, setAudioUrl] = useState()
-    const [showPlayer, setShowPlayer] = useState(true)
+    const [showPlayer, setShowPlayer] = useState(false)
 
     //Thunk operations
     useEffect(() => {
@@ -65,11 +68,15 @@ export default function Catalog() {
         console.log('open a bottom player')
         console.log(url)
         setAudioUrl(url)
+        setShowPlayer(true)
     }
 
     const toggleShowPlayer = () => {
         console.log('toggle')
-        if (showPlayer) setShowPlayer(false)
+        if (showPlayer) {
+            setShowPlayer(false)
+            setActiveTrackId(null)
+        }
         else setShowPlayer(true)
     }
 
@@ -92,20 +99,21 @@ export default function Catalog() {
 
 
     return (
-        <>
-            <h1>Catalog</h1>
-            <TrackUploadButton handleUploadTracks={handleUploadTracks} />
+        <div id="catalog-container">
+            <div className="page-title-container">
+                <p>Catalog</p>
+            </div>
             <table className="tracks-table">
                 <thead>
                     <tr>
-                        <th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th>Rm</th>
+                        <th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th></th>
                     </tr>
                 </thead>
                 {catalog?.length >= 1 &&
                     Array.isArray(catalog) &&
                     <tbody>
                         {stateUpdated && catalog.map(track => (
-                            <tr key={track.id} className="catalog-track-row">
+                            <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track': ''}`} id={track.id} onClick={() => setActiveTrackId(track.id)}>
                                 <td><FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath)} /></td>
                                 <td>{track.title}</td>
                                 <td>{formatSecsToMins(track.duration)}</td>
@@ -115,6 +123,8 @@ export default function Catalog() {
                         ))}
                     </tbody>
                 }
+
+
                 {!catalog.length &&
                     <>
                         <tbody>
@@ -133,12 +143,17 @@ export default function Catalog() {
 
                 }
             </table>
-            <div className="audio-player-container">
-                <span style={{ justifySelf: 'flex-end', width: '100%', cursor: 'pointer' }} onClick={toggleShowPlayer}>x</span>
+            <TrackUploadButton handleUploadTracks={handleUploadTracks} />
+
+
+           {showPlayer &&
+           <div className="audio-player-container">
+                <span className="close-audio-player-x" onClick={toggleShowPlayer}>x</span>
                 <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
                     <AudioPlayer audioUrl={audioUrl} />
                 </div>
             </div>
+           }
             <div
                 className="track-options-menu-container"
             >
@@ -152,7 +167,7 @@ export default function Catalog() {
                 x={x}
                 y={y}
             />
-        </>
+        </div>
     )
 }
 
@@ -176,14 +191,9 @@ function TrackUploadButton({ handleUploadTracks }) {
                 style={{ display: 'none' }}
             />
 
-            <button onClick={handleClick}
-                style={{
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: 'pointer'
-                }}>
-                {/* Upload Track s: */}
-                <FaCloudUploadAlt size={30} />
+            <button onClick={handleClick} className="upload-tracks-icon">
+                UPLOAD TRACKS
+                <FaCloudUploadAlt size={30} className="colored" />
             </button>
         </div>
     )
@@ -200,7 +210,7 @@ function TrackOptionsMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handle
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={()=>setModalContent(<RenameModal trackId={trackId} trackTitle={trackTitle} closeModal={closeModal}/>)}
+                onClick={() => setModalContent(<RenameModal trackId={trackId} trackTitle={trackTitle} closeModal={closeModal} />)}
             >
                 <RxCursorText />Rename
             </div>
@@ -214,14 +224,14 @@ function TrackOptionsMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handle
     )
 }
 
-function RenameModal({trackId, trackTitle, closeModal}) {
+function RenameModal({ trackId, trackTitle, closeModal }) {
     const [title, setTitle] = useState(trackTitle)
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState()
     const dispatch = useDispatch()
 
-    useEffect(()=> {
-        if(title.length > 2) {
+    useEffect(() => {
+        if (title.length > 2) {
             setDisabled(false)
         } else {
             setDisabled(true)
@@ -229,7 +239,7 @@ function RenameModal({trackId, trackTitle, closeModal}) {
     }, [title])
 
     const handleUpdateTitle = async (trackId) => {
-        if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(()=> closeModal())
+        if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
     }
 
     return (
@@ -241,11 +251,11 @@ function RenameModal({trackId, trackTitle, closeModal}) {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    />
+                />
             </fieldset>
             <div className="cancel-rename-buttons">
                 <button onClick={closeModal}>CANCEL</button>
-                <button onClick={()=> handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
+                <button onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
             </div>
         </div>
     )

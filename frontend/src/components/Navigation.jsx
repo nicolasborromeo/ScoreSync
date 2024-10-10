@@ -1,25 +1,40 @@
 import { NavLink } from "react-router-dom"
 import { TbCards } from "react-icons/tb";
 import { GiMusicalScore } from "react-icons/gi";
+import { CgMusicNote } from "react-icons/cg";
 import { CiUser } from "react-icons/ci";
 import { logout } from "../store/session";
 import { useDispatch } from "react-redux";
 
-export default function Navigation({isLoaded}) {
+export default function Navigation({ isLoaded }) {
     const dispatch = useDispatch()
     return (
         <div className="navigation-container">
             <ul className="navigation-ul">
-                <li>
-                    <NavLink to='/portfolios'><TbCards />Portfolios</NavLink>
+                <li className="logo">
+                    <NavLink to='/dashboard' style={{textDecoration:'none'}}>
+                    <span className="link-icon"><CgMusicNote /></span>
+                    <span className="link-text">SCORE SYNC</span></NavLink>
                 </li>
-                <li>
-                    <NavLink to='/catalog'><GiMusicalScore />Catalog</NavLink>
+                <li className="nav-item">
+                    <NavLink to='/portfolios' className="nav-link">
+                        <span className="link-icon"><TbCards /></span>
+                        <span className="link-text">Portfolios</span>
+                    </NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to='/catalog' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
+                        <span className="link-icon"><GiMusicalScore /></span>
+                        <span className="link-text">Catalog</span>
+                    </NavLink>
                 </li>
                 {isLoaded &&
-                <li>
-                   <NavLink to='/' onClick={dispatch(logout)}><CiUser />Log Out</NavLink>
-                </li>
+                    <li className="nav-item">
+                        <NavLink to='/' className="nav-link" onClick={dispatch(logout)}>
+                            <span className="link-icon"><CiUser /></span>
+                            <span className="link-text">Log Out</span>
+                        </NavLink>
+                    </li>
                 }
             </ul>
         </div>
