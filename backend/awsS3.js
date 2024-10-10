@@ -37,12 +37,14 @@ const singleFileUpload = async ({ file, username }) => {
     const duration = metadata.format.duration
 
 
+    // const Key = new Date().getTime().toString() + originalname
     const Key = new Date().getTime().toString() + originalname
 
     const uploadParams = {
         Bucket: NAME_OF_BUCKET,
         Key: username ? `${username}/${Key}` : Key,
-        Body: buffer
+        Body: buffer,
+        ContentType: 'audio/wav',
     }
     const result = await s3.upload(uploadParams).promise()
 

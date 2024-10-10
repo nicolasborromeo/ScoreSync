@@ -39,8 +39,9 @@ router.post(
     },
 )
 
-////////////////DELETING FROM AWS AND DTABASE
 
+
+////////////////DELETING FROM AWS AND DTABASE
 router.delete(
     '/:trackId',
     requireAuth,
@@ -60,6 +61,20 @@ router.delete(
             return res.status(201).json({success: deleteFromDb})
         }
         else return res.status(500).json({error: 'An error ocurred while trying to delete the track from the database'})
+    }
+)
+
+/////////////UPDATING RENAME TITLE
+router.put(
+    '/:trackId',
+    requireAuth,
+    async (req, res, next) => {
+        const trackId = req.params.trackId
+        const { title } = req.body
+        const track = await Track.findByPk(trackId)
+        if (!track) return res.status(404).json("Couldn't find track in database")
+        track.update({title: title})
+        res.status(201).json({ newTitle: track.title })
     }
 )
 

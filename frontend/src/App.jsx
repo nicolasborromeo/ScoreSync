@@ -24,11 +24,11 @@ function Layout() {
 
 
   return (
-    <>
+    <div id="app-container">
       <Navigation isLoaded={isLoaded}/>
       {isLoaded && <Outlet />}
       {/* <Outlet /> */}
-    </>
+    </div>
   )
 }
 
