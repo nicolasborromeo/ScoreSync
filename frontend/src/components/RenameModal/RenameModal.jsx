@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { thunkUpdateImageName } from '../../store/images';
+import { thunkUpdateTrackTitle } from '../../store/tracks';
 
 
 export default function RenameModal({ id, title, type, closeModal }) {

@@ -47,17 +47,17 @@ export default function Images() {
     }
 
     //Image Options Menu
-     //States Variables
-     const [imageId, setImageId] = useState()
-     const [imageName, setImageName] = useState()
-     const [x, setX] = useState()
-     const [y, setY] = useState()
-     const [showMenu, setShowMenu] = useState(false)
-     const menuRef = useRef()
+    //States Variables
+    const [imageId, setImageId] = useState()
+    const [imageName, setImageName] = useState()
+    const [x, setX] = useState()
+    const [y, setY] = useState()
+    const [showMenu, setShowMenu] = useState(false)
+    const menuRef = useRef()
 
     const openImageMenu = (e, id, name) => {
         e.stopPropagation()
-        setX(e.clientX -80)
+        setX(e.clientX - 80)
         setY(e.clientY)
         setImageId(id)
         setImageName(name)
@@ -79,46 +79,51 @@ export default function Images() {
                 <p>Images</p>
             </div>
 
-            <div class="image-grid">
-                {images?.map(img => (
-                    <div class="image-item" key={img.id}>
-                        <div id="checkbox-options-container">
-                            <input type="checkbox" />
-                            <CiMenuKebab id="track-menu-icon" onClick={(e) => openImageMenu(e, img.id, img.name)} />
+            {
+                stateUpdated
+                &&
+                <div className="image-grid">
+                    {images?.map(img => (
+                        <div className="image-item" key={img.id}>
+                            <div id="checkbox-options-container">
+                                <input type="checkbox" />
+                                <CiMenuKebab
+                                    id="track-menu-icon"
+                                    onClick={(e) => openImageMenu(e, img.id, img.name)}
+                                />
+                            </div>
+                            <img src={img.url} alt={img.name} />
+                            <p>{img.name}</p>
                         </div>
-                        <img src={img.url} alt={img.name} />
-                        <p>{img.name}</p>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            }
 
-            {/* {
+            {
                 !images.length
                 &&
                 <>
-                    <tbody>
-                        <tr>
-                            <td colSpan="5" style={{ textAlign: 'center' }}>
-                                You don&apos;t have any uploaded tracks yet. Click the icon <FaCloudUploadAlt /> to start building your catalog
-                            </td>
-                        </tr>
-                    </tbody>
+
+                    <div style={{ textAlign: 'center' }}>
+                        You don&apos;t have any uploaded images yet. Click the icon <FaCloudUploadAlt /> to start building your catalog
+                    </div>
+
                 </>
-            } */}
+            }
 
             <ImageUploadButton handleUploadImages={handleUploadImages} />
 
             {
                 uploading
                 &&
-                <div style={{ textAlign: 'center'}}>
+                <div style={{ textAlign: 'center' }}>
                     <AiOutlineLoading className='loading-icon' /> Uploading...
                 </div>
                 // <td colSpan="5" style={{ textAlign: 'center'}}>
                 //     <AiOutlineLoading className='loading-icon' /> Uploading...
                 // </td>
             }
-        <ImageMenu
+            <ImageMenu
                 handleDeleteImage={handleDeleteImage}
                 imageId={imageId}
                 imageName={imageName}
