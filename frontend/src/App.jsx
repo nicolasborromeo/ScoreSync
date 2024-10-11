@@ -1,53 +1,59 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-// import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
+import { createBrowserRouter, Outlet, redirect, RouterProvider } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import * as sessionActions from './store/session'
 import Navigation from '../src/components/Navigation'
-import LoginPage from '../src/components/LoginPage'
+import LoginPage from './components/LoginPage/LoginPage'
+import SignUpPage from './components/SignUpPage'
+import Catalog from "./components/Catalog";
+import Dashboard from "./components/Dashboard";
 
 function Layout() {
-  // const dispatch = useDispatch()
-  // const [isLoaded, setIsLoaded] = useState(false);
 
-  // useEffect(()=> {
-  //   dispatch(sessionActions.restoreUser()).then(()=> {
-  //     setIsLoaded(true)
-  //   });
-  // }, [dispatch])
+  const user = useSelector(state => state.session.user)
+  if (!user) redirect('/')
+
+  const dispatch = useDispatch()
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => {
+      setIsLoaded(true)
+    });
+  }, [dispatch])
 
 
   return (
-    <>
-      <Navigation/>
-      {/* {isLoaded && <Outlet />} */}
-      <Outlet />
-    </>
+    <div id="app-container">
+      <Navigation isLoaded={isLoaded} />
+      <div className="main">
+        {isLoaded && <Outlet />}
+      </div>
+    </div>
+
   )
 }
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUpPage />,
+  },
+  {
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <LoginPage />,
+        path: '/dashboard',
+        element: <Dashboard />
       },
-      // {
-      //   path: 'spots/:spotId',
-      //   element: <SpotDetails />
-      // },
-      // {
-      //   path: 'list',
-      //   element: <CreateSpotPage />
-      // },
-      // {
-      //   path: '/user/manage-spots',
-      //   element: <ManageSpots />,
-      // },
-      // {
-      //   path: '/user/manage-spots/:spotId',
-      //   element: <UpdateSpotPage />
-      // },
+      {
+        path: '/catalog',
+        element: <Catalog />
+      },
       {
         path: '*',
         element: <h1>Page Not Found</h1>
