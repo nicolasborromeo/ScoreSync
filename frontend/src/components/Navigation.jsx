@@ -5,6 +5,8 @@ import { CgMusicNote } from "react-icons/cg";
 import { CiUser } from "react-icons/ci";
 import { logout } from "../store/session";
 import { useDispatch } from "react-redux";
+import { PiImageSquareFill } from "react-icons/pi";
+
 
 export default function Navigation({ isLoaded }) {
     const dispatch = useDispatch()
@@ -26,6 +28,12 @@ export default function Navigation({ isLoaded }) {
                     <NavLink to='/catalog' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
                         <span className="link-icon"><GiMusicalScore /></span>
                         <span className="link-text">Catalog</span>
+                    </NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to='/images' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
+                        <span className="link-icon"><PiImageSquareFill /></span>
+                        <span className="link-text">Images</span>
                     </NavLink>
                 </li>
                 {isLoaded &&

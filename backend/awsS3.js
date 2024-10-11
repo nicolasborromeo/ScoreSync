@@ -36,7 +36,6 @@ const singleFileUpload = async ({ file, username }) => {
     const metadata = await parse(buffer)
     const duration = metadata.format.duration
 
-
     // const Key = new Date().getTime().toString() + originalname
     const Key = new Date().getTime().toString() + originalname
 
@@ -60,6 +59,36 @@ const multipleFilesUpload = async ({ files, username }) => {
         })
     )
 }
+
+// FOR IMAGES
+
+const singleImageUpload = async ({ file, username }) => {
+    const { originalname, buffer } = file;
+
+    const Key = new Date().getTime().toString() + originalname
+
+    const uploadParams = {
+        Bucket: NAME_OF_BUCKET,
+        Key: username ? `${username}/images/${Key}` : Key,
+        Body: buffer,
+    }
+    const result = await s3.upload(uploadParams).promise()
+
+    return username ? { url: result['Location'], name: originalname, key:Key} : result.Key;
+}
+
+
+
+const multipleImagesUpload = async ({ files, username }) => {
+    return await Promise.all(
+        files.map((file) => {
+            return singleImageUpload({ file, username })
+        })
+    )
+}
+
+
+//end aws for images
 
 const retrievePrivateFile = (key) => {
     let fileUrl;
@@ -93,5 +122,7 @@ module.exports = {
     retrievePrivateFile,
     singleMulterUpload,
     multipleMulterUpload,
-    deleteFile
+    deleteFile,
+    multipleImagesUpload,
+    singleImageUpload
 };
