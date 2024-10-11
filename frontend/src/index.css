@@ -13,7 +13,7 @@
     /* --icon-secondary: #c800c8; */
     --transition-speed: 600ms;
 }
-
+.hidden {display: none;}
 .body{
     color: black;
     background-color: white;

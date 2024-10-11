@@ -64,9 +64,8 @@ export default function Catalog() {
     }
 
     //AudioPlayer Functions
-    const handleTrackPlay = (url) => {
-        console.log('open a bottom player')
-        console.log(url)
+    const handleTrackPlay = (url, title) => {
+        setTrackTitle(title)
         setAudioUrl(url)
         setShowPlayer(true)
     }
@@ -83,8 +82,8 @@ export default function Catalog() {
     //Track Options Menu
     const openTrackMenu = (e, trackId, trackTitle) => {
         e.stopPropagation()
-        setX(e.clientX + 10)
-        setY(e.clientY + 10)
+        setX(e.clientX -80)
+        setY(e.clientY)
         setTrackId(trackId)
         setTrackTitle(trackTitle)
         setShowMenu(true)
@@ -100,32 +99,38 @@ export default function Catalog() {
 
     return (
         <div id="catalog-container">
+
             <div className="page-title-container">
                 <p>Catalog</p>
             </div>
+
             <table className="tracks-table">
-                <thead>
-                    <tr>
-                        <th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th></th>
-                    </tr>
-                </thead>
-                {catalog?.length >= 1 &&
-                    Array.isArray(catalog) &&
+                <thead><tr><th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
+                {
+                catalog?.length >= 1
+                &&
+                Array.isArray(catalog)
+                &&
                     <tbody>
-                        {stateUpdated && catalog.map(track => (
+                        {stateUpdated
+                        &&
+                        catalog.map(
+                            track => (
                             <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track': ''}`} id={track.id} onClick={() => setActiveTrackId(track.id)}>
-                                <td><FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath)} /></td>
+                                <td><FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></td>
                                 <td>{track.title}</td>
                                 <td>{formatSecsToMins(track.duration)}</td>
                                 <td>{formatUploaded(track.createdAt)}</td>
-                                <td><CiMenuKebab style={{ cursor: 'pointer' }} onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
+                                <td><CiMenuKebab id="track-menu-icon" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
                             </tr>
                         ))}
                     </tbody>
                 }
 
 
-                {!catalog.length &&
+                {
+                !catalog.length
+                &&
                     <>
                         <tbody>
                             <tr>
@@ -136,19 +141,29 @@ export default function Catalog() {
                         </tbody>
                     </>
                 }
-                {uploading &&
+
+                {
+                uploading
+                &&
                     <td colSpan="5" style={{ textAlign: 'center', borderBottom: '1px solid #eeeeee' }}>
                         <AiOutlineLoading className='loading-icon' /> Uploading...
                     </td>
 
                 }
+
             </table>
+
             <TrackUploadButton handleUploadTracks={handleUploadTracks} />
 
-
-           {showPlayer &&
+            {/* AUDIOPLAYER */}
+           {
+           showPlayer
+           &&
            <div className="audio-player-container">
+            <div className="title-x-container">
+                 <span id="audio-player-track-title">{trackTitle}</span>
                 <span className="close-audio-player-x" onClick={toggleShowPlayer}>x</span>
+            </div>
                 <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
                     <AudioPlayer audioUrl={audioUrl} />
                 </div>
@@ -158,7 +173,7 @@ export default function Catalog() {
                 className="track-options-menu-container"
             >
             </div>
-            <TrackOptionsMenu
+            <TrackMenu
                 handleDeleteTrack={handleDeleteTrack}
                 trackId={trackId}
                 trackTitle={trackTitle}
@@ -200,12 +215,12 @@ function TrackUploadButton({ handleUploadTracks }) {
 
 }
 
-function TrackOptionsMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteTrack }) {
+function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteTrack }) {
     const { setModalContent, closeModal } = useModal()
 
     return (
         <div className="track-options-container"
-            style={{ display: showMenu ? 'block' : 'none', position: 'absolute', top: y, left: x }}
+            style={{ display: showMenu ? 'flex' : 'none', position: 'absolute', top: y, left: x }}
             ref={menuRef}
         >
             <div

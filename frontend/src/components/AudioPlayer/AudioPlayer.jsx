@@ -46,24 +46,24 @@ const AudioPlayer = ({ audioUrl }) => {
         }
     }, [wavesurfer, loadingProgress])
 
-    //LoadUrl
-    // useEffect(()=> {
-    //     wavesurfer && wavesurfer.load(audioUrl)
-    // }, [audioUrl])
 
     return (
         <>
 
             {/* LOADING BAR */}
-           { loadingProgress < 100 && <div style={{ width: '100%', backgroundColor: 'gray', height: '20px', display: 'flex', alignItems:'center' }}>
-                <div style={{width: `${loadingProgress}%`,backgroundColor: 'blue',height: '60%',transition: 'width 0.2s'}}></div>
-            </div>}
+            {loadingProgress < 100 &&
+                <div className="loading-bar-container" style={{ width: '50%', backgroundColor: 'gray', height: '20px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
+                    <div style={{ position: "absolute", display:'flex', justifyContent:'center', padding:'0 10px', fontSize:'0.8rem', color:'black' }}>
+                        <span>Loading...</span>
+                    </div>
+                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#EB3678', filter: 'grayscale(40%) opacity(0.4) brightness(2)', height: '60%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
+                </div>}
             {/* Waveform */}
-            <div id="waveform" ref={containerRef} />
-
+            <div id="waveform" className={!isReady ? 'hidden' : ''} ref={containerRef} />
+            {/* Player Controls */}
             {isReady &&
                 <div className="player-controls">
-                    <span id="player-playpause"onClick={onPlayPause} >
+                    <span id="player-playpause" onClick={onPlayPause} >
                         {isPlaying ? <FaCirclePause size={40} /> : <FaCirclePlay size={40} />}
                     </span>
                     <span id="player-timeline">{formatTime(currentTime)} / {formatTime(duration)}</span>
@@ -72,11 +72,5 @@ const AudioPlayer = ({ audioUrl }) => {
     )
 };
 
-
-// export const LoadingBar = () => {
-//     return (
-
-//     )
-// }
 
 export default AudioPlayer;
