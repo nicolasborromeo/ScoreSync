@@ -169,10 +169,8 @@ export default function Catalog() {
                 </div>
             </div>
            }
-            <div
-                className="track-options-menu-container"
-            >
-            </div>
+
+            {/* OPTIONS MENU hidden component */}
             <TrackMenu
                 handleDeleteTrack={handleDeleteTrack}
                 trackId={trackId}

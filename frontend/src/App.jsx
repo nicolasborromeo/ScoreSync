@@ -7,6 +7,7 @@ import LoginPage from './components/LoginPage/LoginPage'
 import SignUpPage from './components/SignUpPage'
 import Catalog from "./components/Catalog";
 import Dashboard from "./components/Dashboard";
+import Images from './components/Images'
 
 function Layout() {
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: '/catalog',
         element: <Catalog />
+      },
+      {
+        path: '/images',
+        element: <Images />
       },
       {
         path: '*',
