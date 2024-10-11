@@ -191,10 +191,95 @@
 
 .track-options-container div {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    border-bottom: 1px solid #3a3c45;
+    display: inherit;
+    align-items: center;
+    gap: 8px;
 }
 
 .track-options-container div:hover{
     background-color: #737581!important;
-    /* background-color: #404148!important; */
+}
+
+/* RENAME TRACK MODAL */
+#rename-track-modal-content{
+    height: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: 20px;
+    width: 400px;
+    box-shadow: 2px 1px 5px black;
+    border-radius: 4px;
+}
+
+#rename-track-modal-content h4{
+    font-weight: 200;
+    margin: 0;
+    padding: 10px;
+}
+
+#rename-track-modal-content input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    outline: none;
+}
+
+#rename-track-modal-content legend{
+    color: var(--text-primary);
+    font-size: 0.7rem;
+}
+
+#rename-track-modal-content fieldset {
+    border: 1px solid var(--text-primary);
+}
+
+#rename-track-modal-content fieldset:focus-within {
+    border: 1px solid var(--icon-secondary);
+}
+
+#rename-track-modal-content fieldset:focus-within legend {
+    color: var(--icon-secondary);
+}
+
+
+.cancel-rename-buttons {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#rename-modal-cancel-button {
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    padding: 7px 13px;
+    color: var(--text-secondary);
+}
+
+#rename-modal-cancel-button:hover {
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: #343440;
+}
+
+#rename-button {
+    border-radius: 4px;
+    padding: 7px 13px;
+    border: none;
+    background-color: var(--icon-secondary);
+    filter: grayscale(20%) brightness(0.9);
+    transition: filter 200ms ease;
+    box-shadow: 2px 1px 3px 1px;
+    color: black;
+}
+
+#rename-button:hover {
+    filter: grayscale(0%) brightness(1);
+    cursor: pointer;
 }

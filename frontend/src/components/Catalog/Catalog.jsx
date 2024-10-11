@@ -258,9 +258,9 @@ function RenameModal({ trackId, trackTitle, closeModal }) {
     }
 
     return (
-        <div>
-            <h3>Rename Track</h3>
-            <fieldset >
+        <div id="rename-track-modal-content">
+            <h4>Rename Track</h4>
+            <fieldset>
                 <legend>Track name</legend>
                 <input
                     type="text"
@@ -269,8 +269,8 @@ function RenameModal({ trackId, trackTitle, closeModal }) {
                 />
             </fieldset>
             <div className="cancel-rename-buttons">
-                <button onClick={closeModal}>CANCEL</button>
-                <button onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
+                <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
+                <button id="rename-button" onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
             </div>
         </div>
     )

@@ -54,9 +54,9 @@ const AudioPlayer = ({ audioUrl }) => {
             {loadingProgress < 100 &&
                 <div className="loading-bar-container" style={{ width: '50%', backgroundColor: 'gray', height: '20px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
                     <div style={{ position: "absolute", display:'flex', justifyContent:'center', padding:'0 10px', fontSize:'0.8rem', color:'black' }}>
-                        <span>Loading...</span>
                     </div>
-                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#EB3678', filter: 'grayscale(40%) opacity(0.4) brightness(2)', height: '60%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
+                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#EB3678', filter: 'grayscale(40%) brightness(0.5)', height: '60%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
+                    <span style={{position:'absolute', padding:'0 10px', fontSize:'0.8rem'}}>Loading...</span>
                 </div>}
             {/* Waveform */}
             <div id="waveform" className={!isReady ? 'hidden' : ''} ref={containerRef} />
