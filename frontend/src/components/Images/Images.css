@@ -44,6 +44,13 @@
     margin-bottom: 10px;
 }
 
+.image-item p {
+    max-width: 100%;
+    white-space: wrap;
+    text-align: left;
+    
+}
+
 #checkbox-options-container{
     display: flex;
     flex-direction: row;

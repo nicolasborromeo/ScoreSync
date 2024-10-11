@@ -111,9 +111,12 @@ export default function Images() {
             {
                 uploading
                 &&
-                <td colSpan="5" style={{ textAlign: 'center', borderBottom: '1px solid #eeeeee' }}>
+                <div style={{ textAlign: 'center'}}>
                     <AiOutlineLoading className='loading-icon' /> Uploading...
-                </td>
+                </div>
+                // <td colSpan="5" style={{ textAlign: 'center'}}>
+                //     <AiOutlineLoading className='loading-icon' /> Uploading...
+                // </td>
             }
         <ImageMenu
                 handleDeleteImage={handleDeleteImage}
