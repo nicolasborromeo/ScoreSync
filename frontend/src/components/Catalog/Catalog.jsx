@@ -241,7 +241,6 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
 
 function RenameModal({ trackId, trackTitle, closeModal }) {
     const [title, setTitle] = useState(trackTitle)
-    const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState()
     const dispatch = useDispatch()
 

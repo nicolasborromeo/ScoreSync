@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import { FaBedPulse, FaCirclePlay } from "react-icons/fa6";
+import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
-import { AiOutlineLoading } from "react-icons/ai";
 
 import { useWavesurfer } from '@wavesurfer/react'
 import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
