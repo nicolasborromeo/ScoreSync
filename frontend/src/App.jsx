@@ -8,6 +8,7 @@ import SignUpPage from './components/SignUpPage'
 import Catalog from "./components/Catalog";
 import Dashboard from "./components/Dashboard";
 import Images from './components/Images'
+import Card from "./components/Card";
 
 function Layout() {
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/images',
         element: <Images />
+      },
+      {
+        path: '/cards',
+        element: <Card />
       },
       {
         path: '*',

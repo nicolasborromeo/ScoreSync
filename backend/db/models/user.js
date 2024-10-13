@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.ExternalLink, {foreignKey: 'userId', onDelete:'CASCADE'})
       User.hasMany(models.Track, {foreignKey: 'userId', onDelete:'CASCADE'})
       User.hasMany(models.Image, {foreignKey: 'userId', onDelete:'CASCADE'})
+      User.hasMany(models.Card, {foreignKey: 'userId', onDelete:'CASCADE'})
     }
   }
   User.init({

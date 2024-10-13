@@ -100,7 +100,7 @@ export default function Images() {
             }
 
             {
-                !images.length
+                !images
                 &&
                 <>
 
@@ -119,9 +119,7 @@ export default function Images() {
                 <div style={{ textAlign: 'center' }}>
                     <AiOutlineLoading className='loading-icon' /> Uploading...
                 </div>
-                // <td colSpan="5" style={{ textAlign: 'center'}}>
-                //     <AiOutlineLoading className='loading-icon' /> Uploading...
-                // </td>
+
             }
             <ImageMenu
                 handleDeleteImage={handleDeleteImage}

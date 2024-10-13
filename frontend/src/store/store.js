@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import catalogReducer from './tracks';
 import imagesReducer from './images';
+import cardsReducer from './cards';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   catalog: catalogReducer,
   images: imagesReducer,
+  cards: cardsReducer,
 });
 
 let enhancer;
