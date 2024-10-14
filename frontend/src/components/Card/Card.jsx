@@ -32,7 +32,7 @@ export default function Card() {
             setStateUpdated(true)
         })
     }, [user, dispatch])
-    console.log(cards)
+
 
     return (
         <div id="cards-container">
@@ -66,7 +66,7 @@ export default function Card() {
                                 <tr key={card.id}>
                                     <td>{card.isActive? <IoMdCloudDone /> : <MdOutlineCloudOff />
                                     }</td>
-                                    <td><NavLink className='card-link' id="navlink-to-card-details" to={card.previewUrl}>{card.title}</NavLink></td>
+                                    <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title}</NavLink></td>
                                     <td><NavLink className='card-link' id="navlink-to-public-url" to={card.publicUrl}><GoLink/></NavLink></td>
                                     <td>{formatUploaded(card.updatedAt)}</td>
                                     <td>{formatUploaded(card.createdAt)}</td>
@@ -78,7 +78,6 @@ export default function Card() {
                         ))}
                     </tbody>
                 }
-
             </table>
         </div>
     )

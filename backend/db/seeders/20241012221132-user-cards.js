@@ -2,6 +2,7 @@
 
 const { Card } = require('../models')
 
+let DATABASE_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : 'http://localhost:5173'
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -19,8 +20,8 @@ module.exports = {
         isActive: true,
         customBio: "Music Enthusiast",
         customJobTitle: "DJ",
-        previewUrl: "https://your-app.com/reels/preview/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
-        publicUrl: "https://your-app.com/reels/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+        previewUrl: `${DATABASE_URL}/cards/preview/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
+        publicUrl: `${DATABASE_URL}/cards/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
         privateToken: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -33,8 +34,8 @@ module.exports = {
         isActive: true,
         customBio: "Film Composer",
         customJobTitle: "Composer",
-        previewUrl: "https://your-app.com/reels/preview/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r",
-        publicUrl: "https://your-app.com/reels/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r",
+        previewUrl: `${DATABASE_URL}/cards/preview/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
+        publicUrl: `${DATABASE_URL}/cards/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
         privateToken: "c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -47,8 +48,8 @@ module.exports = {
         isActive: false,
         customBio: "Music Historian",
         customJobTitle: "DJ",
-        previewUrl: "https://your-app.com/reels/preview/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s",
-        publicUrl: "https://your-app.com/reels/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s",
+        previewUrl: `${DATABASE_URL}/cards/preview/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
+        publicUrl: `${DATABASE_URL}/cards/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
         privateToken: "d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -61,8 +62,8 @@ module.exports = {
         isActive: true,
         customBio: "Nature Lover",
         customJobTitle: "Field Recordist",
-        previewUrl: "https://your-app.com/reels/preview/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t",
-        publicUrl: "https://your-app.com/reels/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t",
+        previewUrl: `${DATABASE_URL}/cards/preview/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
+        publicUrl: `${DATABASE_URL}/cards/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
         privateToken: "e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t",
         createdAt: new Date(),
         updatedAt: new Date(),
