@@ -1,0 +1,13 @@
+#card-banner img{
+    width: 100% !important;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+#card-headshot-container img{
+max-width: 300px;
+}
+
+#card-bio{
+    display: flex;
+}
