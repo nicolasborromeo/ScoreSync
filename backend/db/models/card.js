@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Card.belongsTo(models.User, {foreignKey: 'userId', onDelete: 'CASCADE'})
       Card.belongsToMany(models.Image, {through: models.CardBanner, as: 'Banner', foreignKey: 'cardId',
-        otherKey: 'imgId'})
+        otherKey: 'imgId', onDelete:'CASCADE'})
       Card.belongsToMany(models.Image, {through: models.CardHeadshot, as:'Headshot', foreignKey: 'cardId',
-        otherKey: 'imgId'})
+        otherKey: 'imgId', onDelete:'CASCADE'})
     }
   }
   Card.init({

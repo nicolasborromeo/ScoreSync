@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Images',
         key: 'id'
       },
+      onDelete:'CASCADE'
     },
     cardId: {
       type: DataTypes.INTEGER,
@@ -27,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Cards',
         key: 'id'
       },
+      onDelete:'CASCADE'
     },
   }, {
     sequelize,
@@ -34,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ['cardId', 'imgId'] 
+        fields: ['cardId', 'imgId']
       }
     ]
   });
