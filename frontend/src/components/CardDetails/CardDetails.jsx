@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { thunkGetCurrentCard } from "../../store/cards"
@@ -58,12 +58,16 @@ export default function CardDetails() {
                 <section id="card-bio">
                     <div id="card-headshot-container"><img src={card.Headshot.url} /></div>
                     <div id="card-bio-text">
-                        {displayInfo?.bio.split('\n').map(paragraph => (
-                            <p>{paragraph}</p>
+                        {displayInfo?.bio.split('\n').map((paragraph, i) => (
+                            <p key={i}>{paragraph}</p>
                         ))}
 
                     </div>
-                    <div id="card-contact-info"></div>
+                </section>
+                <section id="external-links">
+                    <div id="card-contact-info">
+                        <p>{externalLinks[0].url}</p>
+                    </div>
                 </section>
 
             </div>
