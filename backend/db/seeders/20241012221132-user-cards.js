@@ -3,6 +3,7 @@
 const { Card } = require('../models')
 
 let DATABASE_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : 'http://localhost:5173'
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
