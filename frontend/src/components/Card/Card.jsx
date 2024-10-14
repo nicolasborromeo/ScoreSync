@@ -1,13 +1,12 @@
 import './Card.css'
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useModal } from "../../context/Modal";
+// import { useModal } from "../../context/Modal";
 import { formatUploaded } from "../../utils/utils";
 
 import { thunkGetUserCards } from '../../store/cards'
 
-import { MdOutlineDone } from "react-icons/md";
 
 import { CiMenuKebab } from "react-icons/ci";
 import { IoMdSettings } from "react-icons/io";

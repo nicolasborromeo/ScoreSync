@@ -18,20 +18,20 @@ const setCurrentCard = (card) => {
 }
 
 export const thunkGetUserCards = () => async (dispatch) => {
-    const response = await csrfFetch("/api/cards/current");
-    const userCards = await response.json();
-    dispatch(setUserCards(userCards));
-    return userCards;
+    const response = await csrfFetch("/api/cards/current")
+    const userCards = await response.json()
+    dispatch(setUserCards(userCards))
+    return userCards
 }
 
 export const thunkGetCurrentCard = (cardId) => async dispatch => {
-    const response = await csrfFetch(`/api/cards/${cardId}`);
+    const response = await csrfFetch(`/api/cards/${cardId}`)
     if (response.ok) {
-        const card = await response.json();
+        const card = await response.json()
         console.log('---------card after getting from thunk:', card)
-        dispatch(setCurrentCard(card));
-        return card;
-    };
+        dispatch(setCurrentCard(card))
+        return card
+    }
 }
 
 const initialState = {userCards: []}
