@@ -5,26 +5,30 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
     static associate(models) {
-      Image.belongsTo(models.User, {foreignKey:'userId', onDelete:'CASCADE'})
-      Image.belongsToMany(models.Card, {through: models.CardBanner, as:'Banner', foreignKey: 'imgId',
-        otherKey: 'cardId'})
-      Image.belongsToMany(models.Card, {through: models.CardHeadshot, as:'Headshot', foreignKey: 'imgId',
-        otherKey: 'cardId'})
+      Image.belongsTo(models.User, { foreignKey: 'userId', onDelete: 'CASCADE' })
+      Image.belongsToMany(models.Card, {
+        through: models.CardBanner, as: 'Banner', foreignKey: 'imgId',
+        otherKey: 'cardId', onDelete: 'CASCADE'
+      })
+      Image.belongsToMany(models.Card, {
+        through: models.CardHeadshot, as: 'Headshot', foreignKey: 'imgId',
+        otherKey: 'cardId', onDelete: 'CASCADE'
+      })
     }
   }
   Image.init({
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references:{
-        model:'Users',
-        key:'id',
+      references: {
+        model: 'Users',
+        key: 'id',
       },
     },
     url: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate:{
+      validate: {
         isUrl: true
       }
     },

@@ -22,6 +22,7 @@ module.exports = {
           model:"Images",
           key: 'id'
         },
+        onDelete:'CASCADE'
       },
       cardId: {
         type: Sequelize.INTEGER,
@@ -29,6 +30,7 @@ module.exports = {
           model:"Cards",
           key: 'id'
         },
+        onDelete:'CASCADE'
       },
       createdAt: {
         allowNull: false,
