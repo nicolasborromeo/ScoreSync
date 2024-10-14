@@ -19,9 +19,9 @@ export default function Navigation({ isLoaded }) {
                     <span className="link-text">SCORE SYNC</span></NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to='/portfolios' className="nav-link">
+                    <NavLink to='/cards' className="nav-link">
                         <span className="link-icon"><TbCards /></span>
-                        <span className="link-text">Portfolios</span>
+                        <span className="link-text">Cards</span>
                     </NavLink>
                 </li>
                 <li className="nav-item">

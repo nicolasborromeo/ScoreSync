@@ -28,12 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     bio: {
       type: DataTypes.TEXT
     },
-    website: {
-      type: DataTypes.STRING,
-      validate: {
-        isUrl: true
-      }
-    },
     jobTitle: {
       type: DataTypes.STRING
     },

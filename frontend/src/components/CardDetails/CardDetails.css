@@ -1,0 +1,47 @@
+#background-for-app-in-card-details{
+    background-color:var(--bg-secondary)!important;
+    height: 100%;
+    padding: 1rem;
+    color: white
+}
+#card-details-container{
+  margin: 0 10em 5em;
+}
+#card-banner img{
+    width: 100% !important;
+    max-height: 300px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+#card-user-info,
+#card-audioplayer {
+    border-bottom: 1px solid lightgray;
+}
+
+#users-name,
+#job-title{
+    margin: 0;
+    padding: 0;
+}
+
+#contact-info {
+    margin: 1em 0;
+}
+#contact-info p{
+    margin: 0;
+    padding: 1px;
+}
+
+#card-headshot-container img{
+max-width: 300px;
+}
+
+
+#card-bio{
+    display: flex;
+}
+
+#card-description {
+    font-style:italic;
+}

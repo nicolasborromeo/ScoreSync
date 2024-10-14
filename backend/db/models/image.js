@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
     static associate(models) {
       Image.belongsTo(models.User, {foreignKey:'userId', onDelete:'CASCADE'})
+      Image.belongsToMany(models.Card, {through: models.CardBanner, as:'Banner', foreignKey: 'imgId',
+        otherKey: 'cardId'})
+      Image.belongsToMany(models.Card, {through: models.CardHeadshot, as:'Headshot', foreignKey: 'imgId',
+        otherKey: 'cardId'})
     }
   }
   Image.init({

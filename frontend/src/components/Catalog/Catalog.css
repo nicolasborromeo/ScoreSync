@@ -71,7 +71,6 @@
 
 .tracks-table tbody .active-track {
     background-color: var(--icon-secondary) !important;
-    /* background-color: #c800c8 !important; */
     filter: opacity(1) brightness(0.9);
     color: black !important;
 
@@ -87,15 +86,13 @@
 @keyframes rotate {
     0% {
         transform: rotate(0deg);
-        /* Start at 0 degrees */
     }
-
     100% {
         transform: rotate(360deg);
-        /* Rotate to 360 degrees */
     }
 }
 
+/* UPLOAD TRACKS ICON */
 
 .upload-tracks-icon {
     cursor: pointer;

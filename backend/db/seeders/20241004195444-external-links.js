@@ -19,11 +19,6 @@ module.exports = {
       },
       {
         userId: 4,
-        company: 'Website',
-        url: 'https://www.nicoborromeo.com'
-      },
-      {
-        userId: 4,
         company: 'Linkedin',
         url: 'https://www.linkedin.com/in/nicoborromeo/'
       },
