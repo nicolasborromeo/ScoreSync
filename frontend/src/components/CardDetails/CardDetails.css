@@ -1,18 +1,81 @@
-#background-for-app-in-card-details{
-    background-color:var(--bg-secondary)!important;
+#background-for-app-in-card-details {
+    background-color: var(--bg-secondary) !important;
     height: 100%;
+    width: 100%;
     padding: 1rem;
-    color: white
+    color: white;
+    position: fixed;
+    overflow: scroll;
 }
-#card-details-container{
-  margin: 0 10em 5em;
+
+#card-details-container {
+    margin: 0 20em 5em;
 }
-#card-banner img{
+
+
+#card-banner img {
     width: 100% !important;
     max-height: 300px;
     object-fit: cover;
     margin-bottom: 1rem;
 }
+
+/* Image Effect for suggesting editing */
+.image-container {
+    position: relative;
+    /* display: inline-block; */
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.image-container:hover {
+    filter: grayscale(100%);
+    /* Start the image in grayscale */
+    cursor: pointer;
+}
+
+.image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Gray overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container .pencil-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: #ccc;
+    /* Light gray color for the pencil icon */
+    filter: brightness(2);
+}
+
+.image-container:hover::after {
+    opacity: 1;
+}
+
+.image-container:hover .pencil-icon {
+    opacity: 1;
+}
+
+
+/* end image effect for suggestin editing */
 
 #card-user-info,
 #card-audioplayer {
@@ -20,7 +83,7 @@
 }
 
 #users-name,
-#job-title{
+#job-title {
     margin: 0;
     padding: 0;
 }
@@ -28,20 +91,54 @@
 #contact-info {
     margin: 1em 0;
 }
-#contact-info p{
+
+#contact-info p {
     margin: 0;
     padding: 1px;
 }
 
-#card-headshot-container img{
-max-width: 300px;
+#card-headshot-container img {
+    max-width: 300px;
 }
 
 
-#card-bio{
+#card-bio {
     display: flex;
 }
 
 #card-description {
-    font-style:italic;
+    font-style: italic;
+}
+
+/* EDITABLE FIELDS */
+
+.editable-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pencil-icon-on-field {
+    display: none;
+    margin-left: 5px;
+}
+
+.editable-field-container:hover .pencil-icon-on-field {
+    display: inline;
+}
+
+.editable-field {
+    transition: all 100ms ease;
+    width: fit-content;
+}
+
+.editable-field:hover {
+    cursor: pointer;
+}
+
+.editable-field-input,
+.editable-field-textarea {
+    border: none;
+    background: transparent;
+    color: white;
 }

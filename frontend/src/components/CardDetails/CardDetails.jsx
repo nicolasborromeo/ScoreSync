@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom"
 import { thunkGetCurrentCard, thunkUpdateCard } from "../../store/cards"
 import CardAudioPlayer from "./CardAudioPlayer"
 import CardTrackList from "./CardTrackList"
+import ImagesModal from "./ImagesModal"
 import './CardDetails.css'
+import { useModal } from "../../context/Modal"
 
 export default function CardDetails() {
+    const {setModalContent, closeModal } = useModal()
     const card = useSelector(state => state.cards.currentCard)
     const dispatch = useDispatch()
     let { cardId } = useParams()
@@ -33,21 +36,24 @@ export default function CardDetails() {
         }
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
 
-    useEffect(()=> {
-         if (card && card.Tracks) {
-                setTrackList(card.Tracks)
-                setAudioUrl(card.Tracks[0].filePath)
-                setTrackTitle(card.Tracks[0].title)
-                setTracksLoaded(true)
-            }
-    })
+    useEffect(() => {
+        if (card && card.Tracks) {
+            setTrackList(card.Tracks)
+            setAudioUrl(card.Tracks[0].filePath)
+            setTrackTitle(card.Tracks[0].title)
+            setTracksLoaded(true)
+        }
+    }, [card])
 
     if (userLoaded) return (
         <div id="background-for-app-in-card-details">
 
             <div id="card-details-container">
                 <section id="card-banner">
-                    <img src={card.Banner.url} />
+                    <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal}/>)}>
+                        <img src={card.Banner.url} />
+                        <i className="pencil-icon">✏️</i>
+                    </div>
                 </section>
                 <section id="card-user-info">
                     <div id="name-and-title">
@@ -56,7 +62,6 @@ export default function CardDetails() {
                             cssId={'job-title'}
                             value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
                             column={'customJobTitle'}
-                            cardId={cardId}
                         />
                     </div>
                     <div id="contact-info">
@@ -71,14 +76,12 @@ export default function CardDetails() {
                             cssId={'card-title'}
                             value={card.title ? card.title : 'Your Playlist Title...'}
                             column={'title'}
-                            cardId={cardId}
                         />
-                        {/* <p id="card-title">{card.title}</p> */}
+
                         <EditableField
                             cssId={'card-description'}
                             value={card.description ? card.description : 'Your Playlist Description...'}
                             column={'description'}
-                            cardId={cardId}
                         />
                     </div>
                     <div>
@@ -89,18 +92,27 @@ export default function CardDetails() {
                     <div id="card-download-option"></div>
                 </section>
                 <section id="card-bio">
-                    <div id="card-headshot-container"><img src={card.Headshot.url} /></div>
-                    {/* <textarea></textarea> */}
-                    <div id="card-bio-text">
-                        {displayInfo?.bio.split('\n').map((paragraph, i) => (
-                            <p key={i}>{paragraph}</p>
-                        ))}
+                    <div id="card-headshot-container">
+                        <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal}/>)}>
+                            <img src={card.Headshot.url} />
+                            <i className="pencil-icon">✏️</i>
+                        </div>
                     </div>
+
+                    <EditableField
+                        cssId={`card-bio-text`}
+                        value={card.customBio ? card.customBio : displayInfo.bio}
+                        column={'customBio'}
+                        type="textarea"
+                    />
                 </section>
                 <section id="external-links">
                     <div id="card-contact-info">
                         <p>{externalLinks[0].url}</p>
                     </div>
+                </section>
+                <section id="card-details-preview">
+
                 </section>
             </div>
         </div>
@@ -108,35 +120,74 @@ export default function CardDetails() {
 }
 
 
-function EditableField({ value, cssId, column, cardId, type = 'p' }) {
+
+//EDITABLE FIELD COMPONENT
+
+function EditableField({ value, cssId, column, type = 'p' }) {
     const dispatch = useDispatch()
+    const cardId = useSelector(state => state.cards.currentCard.id)
     const [editEnabled, setEditEnabled] = useState(false)
     const [editValue, setEditValue] = useState(value)
 
     const handleSave = () => {
+        console.log('save')
         dispatch(thunkUpdateCard(cardId, column, editValue))
         setEditEnabled(false)
     }
 
     //reset the value on the input field to the one clicked
-    useEffect(()=> {
+    useEffect(() => {
         setEditValue(value)
-    }, [editEnabled])
+    }, [editEnabled, value])
 
-    return editEnabled ?
+    //switch return and behaviour depending on the type (p, textarea)
+    if (type === 'p') return editEnabled ?
         (
             <input
+                className="editable-field-input"
                 value={editValue}
                 autoFocus
                 onChange={(e) => setEditValue(e.target.value)}
-                // onBlur={handleSave}
+                onBlur={() => setEditEnabled(false)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSave()
                 }}
             />
         )
         :
-        ( 
-           <p id={`${cssId}`} onClick={() => setEditEnabled(true)}>{value}</p>
+        (
+            <div className="editable-field-container">
+                <p id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
+                    {value}
+                </p>
+                <i className="pencil-icon-on-field">✏️</i>
+            </div>
+
         )
+
+    if (type === 'textarea') return editEnabled ?
+        (
+            <>
+                <textarea
+                    className="editable-field-textarea"
+                    style={{ width: '100%' }}
+                    value={editValue}
+                    autoFocus
+                    onChange={(e) => setEditValue(e.target.value)}
+                />
+                <button onClick={handleSave}>Confirm</button>
+                <button onClick={() => setEditEnabled(false)}>Cancel</button>
+
+            </>
+        ) : (
+            <>
+                <div id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
+                    {value.split('\n').map((paragraph, i) => (
+                        <p key={i}>{paragraph}</p>
+                    ))}
+                </div>
+                <i className="pencil-icon-on-field">✏️</i>
+            </>
+        )
+
 }

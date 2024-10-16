@@ -1,7 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack } = require('../../db/models');
-const cardheadshot = require('../../db/models/cardheadshot');
+const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot } = require('../../db/models');
 const router = express.Router();
 
 
@@ -112,10 +111,10 @@ router.put(
     '/:cardId',
     requireAuth,
     async (req, res, next) => {
-        const {column, editValue} = req.body
+        const { column, editValue } = req.body
         const cardId = req.params.cardId
         const card = await Card.findByPk(cardId)
-        if(!card[column]) {
+        if (!card[column]) {
             const error = new Error()
             error.title = 'Column not found'
             error.message = 'Column name was incorrect or does not exist in the card table'
@@ -133,5 +132,47 @@ router.put(
     }
 )
 
+//UPDATE CARD IMAGES
+router.put('/:cardId/images',
+    requireAuth,
+    async (req, res, next) => {
+        const { imgType, imgId } = req.body
+        if (imgType === 'banner') {
+            await CardBanner.update(
+                {
+                    imgId: imgId
+                },
+                {
+                    where: { cardId: req.params.cardId }
+                }
+            )
+            const newImage = await Image.findByPk(imgId)
+            return res.status(201).json({newImage, imgType:'banner'})
+        }
+        if (imgType === 'headshot') {
+            const newHeadshot = await CardHeadshot.update(
+                {
+                    imgId: imgId
+                },
+                {
+                    where: { cardId: req.params.cardId }
+                }
+            )
+            const newImage = await Image.findByPk(imgId)
+            return res.status(201).json({newImage, imgType:'headshot'})
+        }
+    }
+)
+
 
 module.exports = router
+// return CardTrack.update(
+//     {
+//         trackOrder: index + 1
+//     },
+//     {
+//         where: {
+//             cardId: req.params.cardId,
+//             trackId: track.id
+//         }
+//     })

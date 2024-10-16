@@ -1,3 +1,33 @@
+
+/* MODAL CSS */
+#modal-content{
+   width: min-content;
+   overflow: scroll;
+}
+#images-modal-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 60vw;
+    height: 100%;
+    /* max-height: 500px; */
+}
+.images-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #222;
+    margin: 0;
+    overflow: scroll;
+}
+
+#images-modal-title{
+    width: fit-content
+}
+
+/* END MODAL CSS */
+
 #images-container {
     display: flex;
     flex-direction: column;
@@ -14,10 +44,10 @@
 /* Container for the image grid */
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-    gap: 20px; /* Space between items */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
     padding: 20px;
-    background-color: #222; /* Optional: dark background */
+    background-color: #222;
     width: 80%;
     margin: 0 auto;
     margin-right: 10em;
@@ -25,7 +55,7 @@
 
 /* Individual image items */
 .image-item {
-    background-color: #333; /* Card background color */
+    background-color: #333;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
@@ -48,7 +78,7 @@
     max-width: 100%;
     white-space: wrap;
     text-align: left;
-    
+
 }
 
 #checkbox-options-container{
@@ -76,5 +106,5 @@
 
 /* Optional: Styling for hover effect */
 .image-item:hover {
-    background-color: #444; /* Slightly lighter background on hover */
+    background-color: #444;
 }

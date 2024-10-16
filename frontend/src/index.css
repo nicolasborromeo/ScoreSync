@@ -12,15 +12,28 @@
     --icon-secondary: #EB3678;
     /* --icon-secondary: #c800c8; */
     --transition-speed: 600ms;
+
 }
-.hidden {display: none;}
-.body{
+
+#root {
+    margin: 0;
+    padding:0;
+    width: 100%;
+    height: 100%;
+}
+
+body, html{
     color: black;
     background-color: white;
     margin: 0;
     padding:0;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
+    overflow-x: hidden;
 }
+
+.hidden {display: none;}
 
 body::-webkit-scrollbar{
     width: 0.25rem;

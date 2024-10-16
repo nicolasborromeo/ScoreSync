@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 const SET_USER_CARDS = "cards/setUserCards"
 const SET_CURRENT_CARD = "cards/setCurrentCard"
 const UPDATE_CARD = "cards/updateCard"
+const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 
 
 const setUserCards = (userCards) => {
@@ -23,6 +24,13 @@ const updateCard = (updatedCard) => {
     return {
         type: UPDATE_CARD,
         updatedCard
+    }
+}
+
+const updateCardImage = (newImage, imgType) => {
+    return {
+        type: UPDATE_CARD_IMAGE,
+        newImage, imgType
     }
 }
 
@@ -66,10 +74,24 @@ export const thunkUpdateCard = (cardId, column, editValue) => async dispatch => 
     })
     if (response.ok) {
         const data = await response.json()
-        console.log('DATAAAAAAAA:', data)
         dispatch(updateCard(data))
     }
 }
+
+export const thunkUpdateCardImage = (cardId, imgType, imgId) => async dispatch => {
+
+    const response = await csrfFetch(`/api/cards/${cardId}/images`, {
+        method: "PUT",
+        body: JSON.stringify({ imgType, imgId })
+    })
+    if (response.ok) {
+        const data = await response.json()
+        const { newImage, imgType } = data
+        console.log('newimage, imgtype thunk: ', newImage, imgType)
+        dispatch(updateCardImage(newImage, imgType))
+    }
+}
+
 
 
 const initialState = { userCards: [] }
@@ -83,12 +105,27 @@ const cardsReducer = (state = initialState, action) => {
             return { ...state, currentCard: action.card }
         }
         case UPDATE_CARD: {
-            const {updatedCard} = action
-            let newState ={...state}
-            let newCurrentCard = {...newState.currentCard, ...updatedCard}
+            const { updatedCard } = action
+            let newState = { ...state }
+            let newCurrentCard = { ...newState.currentCard, ...updatedCard }
             delete newState.currentCard
             newState.currentCard = newCurrentCard
             return newState
+        }
+        case UPDATE_CARD_IMAGE: {
+            const { imgType, newImage } = action
+            if (imgType === 'banner') {
+                let newState = { ...state }
+                delete newState.currentCard.Banner
+                newState.currentCard.Banner = newImage
+                return newState
+            }
+            if (imgType === 'headshot') {
+                let newState = { ...state }
+                delete newState.currentCard.Headshot
+                newState.currentCard.Headshot = newImage
+                return newState
+            }
         }
         default:
             return state
