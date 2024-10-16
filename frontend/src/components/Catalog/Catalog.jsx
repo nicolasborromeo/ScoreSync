@@ -71,7 +71,6 @@ export default function Catalog() {
     }
 
     const toggleShowPlayer = () => {
-        console.log('toggle')
         if (showPlayer) {
             setShowPlayer(false)
             setActiveTrackId(null)

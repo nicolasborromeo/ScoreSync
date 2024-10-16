@@ -2,6 +2,8 @@ import { csrfFetch } from './csrf';
 
 const SET_USER_CARDS = "cards/setUserCards"
 const SET_CURRENT_CARD = "cards/setCurrentCard"
+const UPDATE_CARD = "cards/updateCard"
+
 
 const setUserCards = (userCards) => {
     return {
@@ -17,6 +19,14 @@ const setCurrentCard = (card) => {
     }
 }
 
+const updateCard = (updatedCard) => {
+    return {
+        type: UPDATE_CARD,
+        updatedCard
+    }
+}
+
+
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
     const userCards = await response.json()
@@ -28,44 +38,58 @@ export const thunkGetCurrentCard = (cardId) => async dispatch => {
     const response = await csrfFetch(`/api/cards/${cardId}`)
     if (response.ok) {
         const card = await response.json()
-        console.log('---------card after getting from thunk:', card)
         dispatch(setCurrentCard(card))
         return card
     }
 }
 
-const initialState = {userCards: []}
+export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async () => {
+    const response = await csrfFetch(`/api/cards/tracklist/${cardId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ tracklist })
+    })
+
+    if (!response.ok) {
+        const error = await response.json()
+        console.error(error)
+    }
+}
+
+export const thunkUpdateCard = (cardId, column, editValue) => async dispatch => {
+    const body = {
+        column: column,
+        editValue: editValue
+    }
+    const response = await csrfFetch(`/api/cards/${cardId}`, {
+        method: "PUT",
+        body: JSON.stringify(body)
+    })
+    if (response.ok) {
+        const data = await response.json()
+        console.log('DATAAAAAAAA:', data)
+        dispatch(updateCard(data))
+    }
+}
+
+
+const initialState = { userCards: [] }
 
 const cardsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER_CARDS:{
-            return {...state, userCards: action.payload.userCards}
+        case SET_USER_CARDS: {
+            return { ...state, userCards: action.payload.userCards }
         }
         case SET_CURRENT_CARD: {
-            return {...state, currentCard: action.card}
+            return { ...state, currentCard: action.card }
         }
-        // case RECEIVE_TRACKS:
-        //     return {...state, userTracks: [...state.userTracks, ...action.newlyUploadedTracks]};
-        // case DELETE_TRACK: {
-        //     let newState = {...state}
-        //     let newTracksArray = newState.userTracks.filter(track => track.id !== action.trackId)
-        //     delete newState.userTracks
-        //     newState.userTracks = newTracksArray
-        //     return newState
-        // }
-        // case UPDATE_TRACK_TITLE:{
-        //     let newState = {...state}
-        //     let newTracksArray = newState.userTracks.map(track => {
-        //         if(track.id === action.payload.trackId) {
-        //             track.title = action.payload.title
-        //             return track
-        //         }
-        //         return track
-        //     })
-        //     delete newState.userTracks
-        //     newState.userTracks = newTracksArray
-        //     return newState
-        // }
+        case UPDATE_CARD: {
+            const {updatedCard} = action
+            let newState ={...state}
+            let newCurrentCard = {...newState.currentCard, ...updatedCard}
+            delete newState.currentCard
+            newState.currentCard = newCurrentCard
+            return newState
+        }
         default:
             return state
     }

@@ -17,11 +17,13 @@ module.exports = {
       {
         userId: 4,
         title: 'Nico Borromeo - On The Up',
+        duration: 140,
         filePath: `${AWS_BUCKET_URL}/nicoborro/1728504844517Nico+Borromeo_On+The+Up.wav`,
       },
       {
         userId: 4,
         title: 'Nico Borromeo - Ayrad Kingdom',
+        duration: 174,
         filePath: `${AWS_BUCKET_URL}/nicoborro/1728504920063Nic+Borromeo_Ayrad+Kingdom.wav`,
       },
       {
