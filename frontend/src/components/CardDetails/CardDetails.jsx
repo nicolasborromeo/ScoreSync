@@ -5,6 +5,7 @@ import { thunkGetCurrentCard, thunkUpdateCard } from "../../store/cards"
 import CardAudioPlayer from "./CardAudioPlayer"
 import CardTrackList from "./CardTrackList"
 import ImagesModal from "./ImagesModal"
+import Catalog from '../Catalog'
 import './CardDetails.css'
 import { useModal } from "../../context/Modal"
 
@@ -37,7 +38,7 @@ export default function CardDetails() {
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
 
     useEffect(() => {
-        if (card && card.Tracks) {
+        if (card && card.Tracks.length) {
             setTrackList(card.Tracks)
             setAudioUrl(card.Tracks[0].filePath)
             setTrackTitle(card.Tracks[0].title)
@@ -85,9 +86,11 @@ export default function CardDetails() {
                         />
                     </div>
                     <div>
-                        <p>Now playing: {trackTitle}</p>
+                        {card.Tracks.length? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
                         <CardAudioPlayer audioUrl={audioUrl} />
                         <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
+                        <button onClick={()=> setModalContent(<Catalog />)}>Add Tracks</button>
+
                     </div>
                     <div id="card-download-option"></div>
                 </section>

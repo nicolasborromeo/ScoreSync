@@ -1,8 +1,10 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { FaPlay } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
-import { useState } from 'react'
-import { thunkUpdateCardTracklistOrder } from '../../store/cards';
+import { thunkUpdateCardTracklistOrder, thunkRemoveCardTrack } from '../../store/cards';
+
+import { RiDeleteBin6Line } from "react-icons/ri";
+
 
 export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle }) {
     const dispatch = useDispatch()
@@ -30,30 +32,43 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
         setAudioUrl(url)
     }
 
+    //Thunk Actions
+    const handleRemoveCardTrack = (trackId) => {
+        dispatch(thunkRemoveCardTrack(cardId, trackId))
+    }
+
+    const handleAddCardTracks = () => {
+
+    }
+
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="tracks">
-                {(provided) => (
-                    <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}>
-                        {trackList?.map((track, i) => (
-                            <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>
-                                {(provided) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
-                                        <span> <FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></span>
-                                        <span>{track.title}</span>
-                                        <span>{track.duration}</span>
-                                    </div>
-                                )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+        <div id="tracklist-container">
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="tracks">
+                    {(provided) => (
+                        <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}>
+                            {trackList?.map((track, i) => (
+                                <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>
+                                    {(provided) => (
+                                        <div
+                                            className="card-track-row"
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                        >
+                                            <span> <FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></span>
+                                            <span>{track.title}</span>
+                                            <span>{track.duration}</span>
+                                            <span > <RiDeleteBin6Line style={{ cursor: 'pointer' }} onClick={() =>handleRemoveCardTrack(track.id)}/></span>
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+        </div>
     );
 }

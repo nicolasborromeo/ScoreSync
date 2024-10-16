@@ -147,7 +147,7 @@ router.put('/:cardId/images',
                 }
             )
             const newImage = await Image.findByPk(imgId)
-            return res.status(201).json({newImage, imgType:'banner'})
+            return res.status(201).json({ newImage, imgType: 'banner' })
         }
         if (imgType === 'headshot') {
             const newHeadshot = await CardHeadshot.update(
@@ -159,20 +159,30 @@ router.put('/:cardId/images',
                 }
             )
             const newImage = await Image.findByPk(imgId)
-            return res.status(201).json({newImage, imgType:'headshot'})
+            return res.status(201).json({ newImage, imgType: 'headshot' })
+        }
+    }
+);
+
+//REMOVE TRACK FROM CARD TRACKLIST
+router.delete(
+    '/:cardId/:trackId',
+    requireAuth,
+    async (req, res) => {
+        const { cardId, trackId } = req.params;
+        const deleted = await CardTrack.destroy({
+            where: {
+                cardId,
+                trackId
+            },
+        });
+        if (deleted) {
+            return res.status(200).json({ message: 'Track removed from card successfully', trackId });
+        } else {
+            return res.status(404).json({ message: 'Track not found' });
         }
     }
 )
 
 
 module.exports = router
-// return CardTrack.update(
-//     {
-//         trackOrder: index + 1
-//     },
-//     {
-//         where: {
-//             cardId: req.params.cardId,
-//             trackId: track.id
-//         }
-//     })

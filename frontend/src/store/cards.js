@@ -4,7 +4,8 @@ const SET_USER_CARDS = "cards/setUserCards"
 const SET_CURRENT_CARD = "cards/setCurrentCard"
 const UPDATE_CARD = "cards/updateCard"
 const UPDATE_CARD_IMAGE = "cards/updateCardImage"
-
+const REMOVE_CARD_TRACK = "cards/removeCardTrack"
+// const ADD_CARD_TRACKS = "cards/addCardTracks"
 
 const setUserCards = (userCards) => {
     return {
@@ -31,6 +32,13 @@ const updateCardImage = (newImage, imgType) => {
     return {
         type: UPDATE_CARD_IMAGE,
         newImage, imgType
+    }
+}
+
+const removeCardTrack = (trackId) => {
+    return {
+        type: REMOVE_CARD_TRACK,
+        trackId
     }
 }
 
@@ -92,6 +100,13 @@ export const thunkUpdateCardImage = (cardId, imgType, imgId) => async dispatch =
     }
 }
 
+export const thunkRemoveCardTrack = (cardId, trackId) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${cardId}/${trackId}`, {
+        method: "DELETE"
+    })
+    const data = await response.json()
+    dispatch(removeCardTrack(data.trackId))
+}
 
 
 const initialState = { userCards: [] }
@@ -114,18 +129,24 @@ const cardsReducer = (state = initialState, action) => {
         }
         case UPDATE_CARD_IMAGE: {
             const { imgType, newImage } = action
+            let newState = { ...state }
             if (imgType === 'banner') {
-                let newState = { ...state }
                 delete newState.currentCard.Banner
                 newState.currentCard.Banner = newImage
-                return newState
             }
             if (imgType === 'headshot') {
-                let newState = { ...state }
                 delete newState.currentCard.Headshot
                 newState.currentCard.Headshot = newImage
-                return newState
             }
+            return newState
+        }
+        case REMOVE_CARD_TRACK: {
+            const {trackId} = action
+            let newState = { ...state }
+            let newTracklist = newState.currentCard.Tracks.filter(track => track.id !== trackId)
+            delete newState.currentCard.Tracks
+            newState.currentCard.Tracks = newTracklist
+            return newState
         }
         default:
             return state
