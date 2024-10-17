@@ -14,6 +14,9 @@
     --transition-speed: 600ms;
 
 }
+* {
+    box-sizing: border-box;
+}
 
 #root {
     margin: 0;

@@ -5,7 +5,7 @@ const SET_CURRENT_CARD = "cards/setCurrentCard"
 const UPDATE_CARD = "cards/updateCard"
 const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 const REMOVE_CARD_TRACK = "cards/removeCardTrack"
-// const ADD_CARD_TRACKS = "cards/addCardTracks"
+const ADD_TRACKS_TO_CARD = "cards/addTracksToCard"
 
 const setUserCards = (userCards) => {
     return {
@@ -42,6 +42,13 @@ const removeCardTrack = (trackId) => {
     }
 }
 
+const addTracksToCard = (selectedTracks) => {
+    return {
+        type: ADD_TRACKS_TO_CARD,
+        selectedTracks
+    }
+}
+
 
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
@@ -64,7 +71,6 @@ export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async () => 
         method: 'PUT',
         body: JSON.stringify({ tracklist })
     })
-
     if (!response.ok) {
         const error = await response.json()
         console.error(error)
@@ -95,7 +101,6 @@ export const thunkUpdateCardImage = (cardId, imgType, imgId) => async dispatch =
     if (response.ok) {
         const data = await response.json()
         const { newImage, imgType } = data
-        console.log('newimage, imgtype thunk: ', newImage, imgType)
         dispatch(updateCardImage(newImage, imgType))
     }
 }
@@ -106,6 +111,18 @@ export const thunkRemoveCardTrack = (cardId, trackId) => async dispatch => {
     })
     const data = await response.json()
     dispatch(removeCardTrack(data.trackId))
+}
+
+export const thunkAddTracksToCard = (cardId, selectedTracks) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${cardId}/tracklist`, {
+        method: "POST",
+        body: JSON.stringify({ selectedTracks })
+    })
+    if (response.ok) {
+        // const data = await response.json()
+        console.log('selectedTacks in THUNK: ', selectedTracks)
+        dispatch(addTracksToCard(selectedTracks))
+    }
 }
 
 
@@ -141,11 +158,22 @@ const cardsReducer = (state = initialState, action) => {
             return newState
         }
         case REMOVE_CARD_TRACK: {
-            const {trackId} = action
+            const { trackId } = action
             let newState = { ...state }
-            let newTracklist = newState.currentCard.Tracks.filter(track => track.id !== trackId)
+            let newTracklist = newState.currentCard.Tracks.filter(track => track.id !==  Number(trackId))
             delete newState.currentCard.Tracks
             newState.currentCard.Tracks = newTracklist
+            return newState
+        }
+        case ADD_TRACKS_TO_CARD: {
+            const { selectedTracks } = action
+            const tracksArray = Object.values(selectedTracks)
+            let newState = { ...state,
+                currentCard: {
+                    ...state.currentCard,
+                    Tracks: [...state.currentCard.Tracks, ...tracksArray]
+                }
+             }
             return newState
         }
         default:

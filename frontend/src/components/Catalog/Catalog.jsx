@@ -126,7 +126,6 @@ export default function Catalog() {
                     </tbody>
                 }
 
-
                 {
                 !catalog.length
                 &&
@@ -183,15 +182,14 @@ export default function Catalog() {
     )
 }
 
+//Upload Button
 function TrackUploadButton({ handleUploadTracks }) {
     const hiddenInputRef = useRef(null)
-
     const handleClick = () => {
         if (hiddenInputRef.current) {
             hiddenInputRef.current.click();
         }
     }
-
     return (
         <div>
             <input
@@ -202,16 +200,15 @@ function TrackUploadButton({ handleUploadTracks }) {
                 ref={hiddenInputRef}
                 style={{ display: 'none' }}
             />
-
             <button onClick={handleClick} className="upload-tracks-icon">
                 UPLOAD TRACKS
                 <FaCloudUploadAlt size={30} className="colored" />
             </button>
         </div>
     )
-
 }
 
+//Track Row Menu
 function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteTrack }) {
     const { setModalContent, closeModal } = useModal()
 
@@ -236,6 +233,7 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
     )
 }
 
+//Rename Track Modal
 function RenameModal({ trackId, trackTitle, closeModal }) {
     const [title, setTitle] = useState(trackTitle)
     const [disabled, setDisabled] = useState()
@@ -252,7 +250,6 @@ function RenameModal({ trackId, trackTitle, closeModal }) {
     const handleUpdateTitle = async (trackId) => {
         if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
     }
-
     return (
         <div id="rename-track-modal-content">
             <h4>Rename Track</h4>

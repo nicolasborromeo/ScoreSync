@@ -11,6 +11,7 @@ module.exports = {
       },
       cardId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Cards',
           key:'id'
@@ -19,6 +20,7 @@ module.exports = {
       },
       trackId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Tracks',
           key: 'id'

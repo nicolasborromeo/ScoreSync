@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   CardTrack.init({
     cardId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'Cards',
         key:'id'
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     trackId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'Tracks',
         key: 'id'

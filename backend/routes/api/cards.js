@@ -106,7 +106,7 @@ router.put(
     }
 )
 
-//UPDATE CUSTOM CARD ELEMENTS
+//UPDATE CARD'S CUSTOM/EDITABLE FIELDS
 router.put(
     '/:cardId',
     requireAuth,
@@ -114,7 +114,8 @@ router.put(
         const { column, editValue } = req.body
         const cardId = req.params.cardId
         const card = await Card.findByPk(cardId)
-        if (!card[column]) {
+
+        if (!Card.rawAttributes.hasOwnProperty(column)) {
             const error = new Error()
             error.title = 'Column not found'
             error.message = 'Column name was incorrect or does not exist in the card table'
@@ -180,6 +181,27 @@ router.delete(
             return res.status(200).json({ message: 'Track removed from card successfully', trackId });
         } else {
             return res.status(404).json({ message: 'Track not found' });
+        }
+    }
+)
+
+//ADD TRACKS TO CARD TRACKLIST
+router.post(
+    '/:cardId/tracklist',
+    requireAuth,
+    async (req, res) => {
+        const cardId  = Number(req.params.cardId)
+        const { selectedTracks } = req.body
+        const tracksArray = Object.values(selectedTracks)
+        const promises = tracksArray.map(track => {
+            let trackId = Number(track.id)
+            return CardTrack.create({trackId, cardId})
+        })
+        try {
+            await Promise.all(promises)
+            return res.status(201).json({message: 'Your tracks have been added succesfully'})
+        } catch (error) {
+            return res.json(error)
         }
     }
 )

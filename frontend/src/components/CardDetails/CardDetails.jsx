@@ -5,9 +5,12 @@ import { thunkGetCurrentCard, thunkUpdateCard } from "../../store/cards"
 import CardAudioPlayer from "./CardAudioPlayer"
 import CardTrackList from "./CardTrackList"
 import ImagesModal from "./ImagesModal"
-import Catalog from '../Catalog'
 import './CardDetails.css'
 import { useModal } from "../../context/Modal"
+import TracksModal from "./TracksModal"
+import { BsPlusSquareDotted } from "react-icons/bs";
+
+
 
 export default function CardDetails() {
     const {setModalContent, closeModal } = useModal()
@@ -44,7 +47,7 @@ export default function CardDetails() {
             setTrackTitle(card.Tracks[0].title)
             setTracksLoaded(true)
         }
-    }, [card])
+    }, [card, trackList])
 
     if (userLoaded) return (
         <div id="background-for-app-in-card-details">
@@ -87,9 +90,12 @@ export default function CardDetails() {
                     </div>
                     <div>
                         {card.Tracks.length? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
+
                         <CardAudioPlayer audioUrl={audioUrl} />
+
                         <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
-                        <button onClick={()=> setModalContent(<Catalog />)}>Add Tracks</button>
+
+                        <button className="add-tracks-button" onClick={()=> setModalContent(<TracksModal cardId={cardId}/>)}>ADD TRACKS <BsPlusSquareDotted size={30}/></button>
 
                     </div>
                     <div id="card-download-option"></div>
@@ -133,7 +139,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
     const [editValue, setEditValue] = useState(value)
 
     const handleSave = () => {
-        console.log('save')
+        console.log('COLuMND IN HANLDE SAVE', column)
         dispatch(thunkUpdateCard(cardId, column, editValue))
         setEditEnabled(false)
     }
