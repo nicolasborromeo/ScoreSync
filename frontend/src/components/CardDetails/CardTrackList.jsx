@@ -18,7 +18,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
             setTrackList([])
             setAudioUrl('')
         }
-    }, [setTrackList, trackListSelector])
+    }, [setTrackList, trackListSelector, setAudioUrl])
 
     //Re-Ordering function
     const onDragEnd = (result) => {

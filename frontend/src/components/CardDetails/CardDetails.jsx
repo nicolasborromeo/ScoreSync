@@ -21,7 +21,6 @@ export default function CardDetails() {
     const [externalLinks, setExternalLinks] = useState({})
     const [trackList, setTrackList] = useState([])
     const [userLoaded, setUserLoaded] = useState(false)
-    const [tracksLoaded, setTracksLoaded] = useState(false)
     const [audioUrl, setAudioUrl] = useState('')
     const [trackTitle, setTrackTitle] = useState()
 
@@ -45,7 +44,6 @@ export default function CardDetails() {
             setTrackList(card.Tracks)
             setAudioUrl(card.Tracks[0].filePath)
             setTrackTitle(card.Tracks[0].title)
-            setTracksLoaded(true)
         }
     }, [card, trackList])
 
@@ -121,7 +119,7 @@ export default function CardDetails() {
                     </div>
                 </section>
                 <section id="card-details-preview">
-
+                    <button>PREVIEW & PUBLISH</button>
                 </section>
             </div>
         </div>
