@@ -110,7 +110,7 @@ export default function Catalog() {
                 &&
                 Array.isArray(catalog)
                 &&
-                    <tbody>
+                    <tbody id="tracks-tbody">
                         {stateUpdated
                         &&
                         catalog.map(
