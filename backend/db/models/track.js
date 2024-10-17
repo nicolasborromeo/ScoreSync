@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       Track.belongsTo(models.User, {foreignKey: 'userId', onDelete: 'CASCADE'})
+      Track.belongsToMany(models.Card, {through: models.CardTrack , foreignKey:'trackId', otherKey:'cardId', onDelete:'CASCADE'})
     }
   }
   Track.init({

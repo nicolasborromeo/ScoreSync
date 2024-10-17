@@ -1,18 +1,76 @@
-#background-for-app-in-card-details{
-    background-color:var(--bg-secondary)!important;
+#background-for-app-in-card-details {
+    background-color: var(--bg-secondary) !important;
     height: 100%;
+    width: 100%;
     padding: 1rem;
-    color: white
+    color: white;
+    position: fixed;
+    overflow: scroll;
 }
-#card-details-container{
-  margin: 0 10em 5em;
+
+#card-details-container {
+    margin: 0 20em 5em;
 }
-#card-banner img{
+
+
+#card-banner img {
     width: 100% !important;
     max-height: 300px;
     object-fit: cover;
     margin-bottom: 1rem;
 }
+
+
+/* Image Effect for suggesting editing */
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.image-container:hover {
+    filter: grayscale(100%);
+    cursor: pointer;
+}
+
+.image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-container .pencil-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: brightness(2);
+}
+
+.image-container:hover::after {
+    opacity: 1;
+}
+
+.image-container:hover .pencil-icon {
+    opacity: 1;
+}
+
+/* end image effect for suggestin editing */
 
 #card-user-info,
 #card-audioplayer {
@@ -20,7 +78,7 @@
 }
 
 #users-name,
-#job-title{
+#job-title {
     margin: 0;
     padding: 0;
 }
@@ -28,20 +86,115 @@
 #contact-info {
     margin: 1em 0;
 }
-#contact-info p{
+
+#contact-info p {
     margin: 0;
     padding: 1px;
 }
 
-#card-headshot-container img{
-max-width: 300px;
+#card-headshot-container img {
+    max-width: 300px;
 }
 
 
-#card-bio{
+#card-bio {
     display: flex;
 }
 
 #card-description {
-    font-style:italic;
+    font-style: italic;
+}
+
+/* TRACKS SECTION */
+
+#tracklist-container {
+    margin: 10px auto;
+}
+
+.card-track-row {
+    padding: 5px;
+    display: flex;
+    gap: 10px
+}
+
+#card-detail-no-tracks-warning {
+    display: flex;
+    font-weight: bold;
+    color: gray
+}
+
+/* EDITABLE FIELDS */
+
+.editable-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pencil-icon-on-field {
+    display: none;
+    margin-left: 5px;
+}
+
+.editable-field-container:hover .pencil-icon-on-field {
+    display: inline;
+}
+
+.editable-field {
+    transition: all 100ms ease;
+    width: fit-content;
+}
+
+.editable-field:hover {
+    cursor: pointer;
+}
+
+.editable-field-input,
+.editable-field-textarea {
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+
+/* TRACKS MODAL */
+#trackmodal-content {
+    display: flex;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    box-shadow: 1px 1px 4px 3px gray;
+    gap: 2rem;
+    padding: 1rem;
+    height: 70vh;
+}
+
+#tracksmodal-track-row {
+    display: flex;
+    white-space: nowrap;
+}
+
+.add-tracks-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    margin: 10px auto;
+    filter: grayscale(30%) opacity(0.7);
+    transition: color, filter, background 400ms ease;
+    padding: 6px 16px;
+}
+
+.add-tracks-button:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    filter: grayscale(0%) opacity(1)
+}
+
+#tracksmodal-track-list {
+    height: 70%;
+    overflow-y: scroll !important;
+    background-color: var(--bg-secondary);
+    box-shadow: inset 0px 0px 4px 4px black;
 }

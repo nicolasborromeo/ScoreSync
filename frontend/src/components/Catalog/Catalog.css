@@ -41,7 +41,21 @@
     font-size: 1em;
     text-align: left;
     border-radius: 0px 4px 0px 4px;
+    table-layout: fixed; /* Ensure proper table layout */
     overflow: hidden;
+}
+
+.tracks-table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tracks-table tbody {
+    display: block; /* Make tbody scrollable */
+    max-height: 300px; /* Set a fixed height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    width: 100%;
 }
 
 .tracks-table thead tr {
@@ -53,15 +67,18 @@
 .tracks-table th,
 .tracks-table td {
     padding: 12px 15px;
+    text-align: left;
 }
 
 .tracks-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     transition: background-color, color 0.4s ease;
 }
 
 .tracks-table tbody tr:nth-of-type(even) {
     background-color: #32323d;
-
 }
 
 .tracks-table tbody tr:hover {
@@ -73,7 +90,33 @@
     background-color: var(--icon-secondary) !important;
     filter: opacity(1) brightness(0.9);
     color: black !important;
+}
 
+/* table columns resizing */
+.tracks-table td:nth-child(1),
+.tracks-table th:nth-child(1) {
+    width: 5%; /* Prevent wrapping for track title */
+}
+.tracks-table td:nth-child(2),
+.tracks-table th:nth-child(2) {
+    white-space: nowrap; /* Prevent wrapping for track title */
+    width: 50%;
+    overflow: hidden;
+}
+.tracks-table td:nth-child(3),
+.tracks-table th:nth-child(3) {
+    white-space: nowrap; /* Prevent wrapping for track title */
+    width: 10%;
+}
+.tracks-table td:nth-child(4),
+.tracks-table th:nth-child(4) {
+    white-space: nowrap; /* Prevent wrapping for track title */
+    width: 10%;
+}
+.tracks-table td:nth-child(5),
+.tracks-table th:nth-child(5) {
+    white-space: nowrap; /* Prevent wrapping for track title */
+    width: 5%;
 }
 
 

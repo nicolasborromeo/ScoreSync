@@ -5,6 +5,7 @@ const RECEIVE_TRACKS = "tracks/receiveTracks"
 const DELETE_TRACK = 'tracks/deleteTrack'
 const UPDATE_TRACK_TITLE = 'tracks/updateTrackTitle'
 
+
 const setUserTacks = (userTracks) => {
     return {
         type: SET_USER_TRACKS,
@@ -35,6 +36,7 @@ const updateTrackTitle = (trackId, title) => {
         }
     }
 }
+
 
 export const thunkGetUserTracks = () => async (dispatch) => {
     const response = await csrfFetch("/api/tracks/current")

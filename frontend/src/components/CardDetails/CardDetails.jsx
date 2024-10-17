@@ -1,42 +1,72 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { thunkGetCurrentCard } from "../../store/cards"
+import { thunkGetCurrentCard, thunkUpdateCard } from "../../store/cards"
+import CardAudioPlayer from "./CardAudioPlayer"
+import CardTrackList from "./CardTrackList"
+import ImagesModal from "./ImagesModal"
 import './CardDetails.css'
+import { useModal } from "../../context/Modal"
+import TracksModal from "./TracksModal"
+import { BsPlusSquareDotted } from "react-icons/bs";
+
+
 
 export default function CardDetails() {
+    const {setModalContent, closeModal } = useModal()
+    const card = useSelector(state => state.cards.currentCard)
     const dispatch = useDispatch()
     let { cardId } = useParams()
-    const [card, setCard] = useState({})
     const [displayInfo, setDisplayInfo] = useState({})
     const [externalLinks, setExternalLinks] = useState({})
-    const [loaded, setLoaded] = useState(false)
+    const [trackList, setTrackList] = useState([])
+    const [userLoaded, setUserLoaded] = useState(false)
+    const [tracksLoaded, setTracksLoaded] = useState(false)
+    const [audioUrl, setAudioUrl] = useState('')
+    const [trackTitle, setTrackTitle] = useState()
+
 
     useEffect(() => {
-        dispatch(thunkGetCurrentCard(cardId)).then((data) => setCard(data))
-    }, [dispatch, setCard, cardId])
+        dispatch(thunkGetCurrentCard(cardId))
+    }, [dispatch, cardId])
 
     useEffect(() => {
-        if (card.User) {
+        if (card && card.User) {
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
-            setLoaded(true)
+            setUserLoaded(true)
         } else {
             console.log('NO USER', card)
         }
-    }, [dispatch, card, setDisplayInfo, setExternalLinks, loaded])
+    }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
 
-    if (loaded) return (
+    useEffect(() => {
+        if (card && card.Tracks.length) {
+            setTrackList(card.Tracks)
+            setAudioUrl(card.Tracks[0].filePath)
+            setTrackTitle(card.Tracks[0].title)
+            setTracksLoaded(true)
+        }
+    }, [card, trackList])
+
+    if (userLoaded) return (
         <div id="background-for-app-in-card-details">
 
             <div id="card-details-container">
                 <section id="card-banner">
-                    <img src={card.Banner.url} />
+                    <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal}/>)}>
+                        <img src={card.Banner.url} />
+                        <i className="pencil-icon">✏️</i>
+                    </div>
                 </section>
                 <section id="card-user-info">
                     <div id="name-and-title">
                         <h2 id="users-name">{displayInfo.name}</h2>
-                        <p id="job-title">{card.customJobTitle}</p>
+                        <EditableField
+                            cssId={'job-title'}
+                            value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
+                            column={'customJobTitle'}
+                        />
                     </div>
                     <div id="contact-info">
                         <p id="email">{displayInfo.email}</p>
@@ -46,33 +76,127 @@ export default function CardDetails() {
                 </section>
                 <section id="card-audioplayer">
                     <div>
-                        <h4 id="card-title">{card.title}</h4>
-                        <p id="card-description">{card.description}</p>
+                        <EditableField
+                            cssId={'card-title'}
+                            value={card.title ? card.title : 'Your Playlist Title...'}
+                            column={'title'}
+                        />
+
+                        <EditableField
+                            cssId={'card-description'}
+                            value={card.description ? card.description : 'Your Playlist Description...'}
+                            column={'description'}
+                        />
                     </div>
                     <div>
-                        <div id="card-waveform"></div>
-                        <div id="card-playlist"></div>
+                        {card.Tracks.length? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
+
+                        <CardAudioPlayer audioUrl={audioUrl} />
+
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
+
+                        <button className="add-tracks-button" onClick={()=> setModalContent(<TracksModal cardId={cardId}/>)}>ADD TRACKS <BsPlusSquareDotted size={30}/></button>
+
                     </div>
                     <div id="card-download-option"></div>
                 </section>
                 <section id="card-bio">
-                    <div id="card-headshot-container"><img src={card.Headshot.url} /></div>
-                    <div id="card-bio-text">
-                        {displayInfo?.bio.split('\n').map((paragraph, i) => (
-                            <p key={i}>{paragraph}</p>
-                        ))}
-
+                    <div id="card-headshot-container">
+                        <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal}/>)}>
+                            <img src={card.Headshot.url} />
+                            <i className="pencil-icon">✏️</i>
+                        </div>
                     </div>
+
+                    <EditableField
+                        cssId={`card-bio-text`}
+                        value={card.customBio ? card.customBio : displayInfo.bio}
+                        column={'customBio'}
+                        type="textarea"
+                    />
                 </section>
                 <section id="external-links">
                     <div id="card-contact-info">
                         <p>{externalLinks[0].url}</p>
                     </div>
                 </section>
+                <section id="card-details-preview">
 
+                </section>
             </div>
         </div>
-
-
     )
+}
+
+
+
+//EDITABLE FIELD COMPONENT
+
+function EditableField({ value, cssId, column, type = 'p' }) {
+    const dispatch = useDispatch()
+    const cardId = useSelector(state => state.cards.currentCard.id)
+    const [editEnabled, setEditEnabled] = useState(false)
+    const [editValue, setEditValue] = useState(value)
+
+    const handleSave = () => {
+        console.log('COLuMND IN HANLDE SAVE', column)
+        dispatch(thunkUpdateCard(cardId, column, editValue))
+        setEditEnabled(false)
+    }
+
+    //reset the value on the input field to the one clicked
+    useEffect(() => {
+        setEditValue(value)
+    }, [editEnabled, value])
+
+    //switch return and behaviour depending on the type (p, textarea)
+    if (type === 'p') return editEnabled ?
+        (
+            <input
+                className="editable-field-input"
+                value={editValue}
+                autoFocus
+                onChange={(e) => setEditValue(e.target.value)}
+                onBlur={() => setEditEnabled(false)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSave()
+                }}
+            />
+        )
+        :
+        (
+            <div className="editable-field-container">
+                <p id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
+                    {value}
+                </p>
+                <i className="pencil-icon-on-field">✏️</i>
+            </div>
+
+        )
+
+    if (type === 'textarea') return editEnabled ?
+        (
+            <>
+                <textarea
+                    className="editable-field-textarea"
+                    style={{ width: '100%' }}
+                    value={editValue}
+                    autoFocus
+                    onChange={(e) => setEditValue(e.target.value)}
+                />
+                <button onClick={handleSave}>Confirm</button>
+                <button onClick={() => setEditEnabled(false)}>Cancel</button>
+
+            </>
+        ) : (
+            <>
+                <div id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
+                    {value.split('\n').map((paragraph, i) => (
+                        <p key={i}>{paragraph}</p>
+                    ))}
+                </div>
+                <i className="pencil-icon-on-field">✏️</i>
+            </>
+        )
+
 }
