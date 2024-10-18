@@ -9,7 +9,7 @@ import './CardDetails.css'
 import { useModal } from "../../context/Modal"
 import TracksModal from "./TracksModal"
 import { BsPlusSquareDotted } from "react-icons/bs";
-
+import { isEmpty } from "../../utils/utils"
 
 
 export default function CardDetails() {
@@ -53,7 +53,7 @@ export default function CardDetails() {
             <div id="card-details-container">
                 <section id="card-banner">
                     <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal}/>)}>
-                        <img src={card.Banner.url} />
+                        <img src={card.Banner.url || `/defaultBanner.jpg`} />
                         <i className="pencil-icon">✏️</i>
                     </div>
                 </section>
@@ -101,7 +101,7 @@ export default function CardDetails() {
                 <section id="card-bio">
                     <div id="card-headshot-container">
                         <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal}/>)}>
-                            <img src={card.Headshot.url} />
+                            <img src={card.Headshot.url || '/defaultHeadshot.jpg'} />
                             <i className="pencil-icon">✏️</i>
                         </div>
                     </div>
@@ -137,8 +137,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
     const [editValue, setEditValue] = useState(value)
 
     const handleSave = () => {
-        console.log('COLuMND IN HANLDE SAVE', column)
-        dispatch(thunkUpdateCard(cardId, column, editValue))
+        if(!isEmpty(editValue)) dispatch(thunkUpdateCard(cardId, column, editValue))
         setEditEnabled(false)
     }
 
@@ -167,7 +166,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
                 <p id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
                     {value}
                 </p>
-                <i className="pencil-icon-on-field">✏️</i>
+                <i onClick={() => setEditEnabled(true)} className="pencil-icon-on-field">✏️</i>
             </div>
 
         )
