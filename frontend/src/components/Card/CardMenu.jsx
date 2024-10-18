@@ -10,7 +10,6 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
     const { setModalContent, closeModal } = useModal()
 
     const handleDeleteCard = (cardId) => {
-        console.log('cardid',cardId)
         dispatch(thunkDeleteCard(cardId)).then(()=> setShowMenu(false))
     }
 
@@ -21,7 +20,7 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle} closeModal={closeModal}/>)}
+                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle} cardId={cardId} closeModal={closeModal}/>)}
             >
                 <RxCursorText />Rename
             </div>

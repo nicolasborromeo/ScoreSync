@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
-import { thunkCreateNewCard } from "../../store/cards"
+import { thunkCreateNewCard, thunkRenameCard} from "../../store/cards"
 
-export default function CardTitleModal ({navigate, action, cardTitle = ''}) {
+export default function CardTitleModal ({navigate, action, cardTitle = '', cardId}) {
     const {closeModal } = useModal()
     const [newTitle, setNewTitle] = useState(cardTitle)
     const [disabled, setDisabled] = useState(true)
@@ -26,7 +26,7 @@ export default function CardTitleModal ({navigate, action, cardTitle = ''}) {
     }
 
     const handleRenameCard = () => {
-        //TODO RENAME TITLE
+        dispatch(thunkRenameCard(cardId, newTitle)).then(()=> closeModal())
     }
 
 

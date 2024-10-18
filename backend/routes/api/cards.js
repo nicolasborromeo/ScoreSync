@@ -5,6 +5,16 @@ const router = express.Router();
 const {v4: uuidV4} = require('uuid')
 const { APP_BASE_URL } = process.env;
 
+// 404 Error generator
+const notFoundError = () => {
+    let err = new Error('Not Found')
+        err.title = 'Card not found'
+        err.status = 404
+        err.message = "Card couldn't be found"
+        err.errors = { Card: 'Card not found' }
+    return err
+}
+
 router.get(
     '/current',
     requireAuth,
@@ -234,7 +244,6 @@ router.delete(
     requireAuth,
     async (req, res) => {
         const {cardId} = req.params
-        console.log('=================ID in ROUTE: ', cardId)
         const deleted = await Card.destroy({where: {id: cardId}})
         if (deleted) {
             return res.status(200).json({ message: 'Card removed from card successfully',  cardId});
@@ -244,6 +253,26 @@ router.delete(
     }
 )
 
+//RENAME CARD
+router.put(
+    '/:cardId/rename',
+    requireAuth,
+    async (req, res, next) => {
+        const cardId = req.params.cardId
+        const {title} = req.body
+        const card = await Card.findByPk(cardId)
+        if(!card) {
+            return next(notFoundError)
+        }
+        try {
+            await card.update({title:title})
+            res.status(201).json({message:'Card title updated succesfully'})
+        } catch (error) {
+            res.status(500).json({message: 'There was an error while updating the title: ', error})
+            return next(error)
+        }
+    }
+)
 
 //GET PREVIEW CARD
 router.get(
