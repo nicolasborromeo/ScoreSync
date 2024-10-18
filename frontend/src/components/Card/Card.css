@@ -79,18 +79,107 @@
     color: var(--text-secondary);
 }
 
-/* .cards-table tbody .active-card {
-    background-color: var(--icon-secondary) !important;
-    filter: opacity(1) brightness(0.9);
-    color: black !important;
-} */
 
 .cards-table tbody .card-link{
-    /* text-decoration: none; */
     color: var(--text-secondary);
-    /* font-size: 0.8rem; */
 }
 
-.cards-table tbody #navlink-to-card-details {
+#add-card-button{
+    display: flex;
+    margin: 0 auto !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
 
+#add-card-button:hover{
+    filter: brightness(1.2);
+    background-color: var(--bg-primary);
+    color: var(--icon-secondary)
+}
+
+
+/* CREATE CARD MODAL */
+
+/* RENAME TRACK MODAL */
+#create-card-modal-content{
+    height: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: 25px;
+    width: auto;
+    box-shadow: inset 2px 1px 10px 1px gray;
+    border-radius: 9px;
+    /* border: 1px solid var(--icon-secondary); */
+}
+
+#create-card-modal-content h4{
+    font-weight: 200;
+    margin: 0;
+    padding: 10px;
+}
+
+#create-card-modal-content input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    outline: none;
+}
+
+#create-card-modal-content legend{
+    color: var(--text-primary);
+    font-size: 0.7rem;
+}
+
+#create-card-modal-content fieldset {
+    border: 1px solid var(--text-primary);
+}
+
+#create-card-modal-content fieldset:focus-within {
+    border: 1px solid var(--icon-secondary);
+}
+
+#create-card-modal-content fieldset:focus-within legend {
+    color: var(--icon-secondary);
+}
+
+
+.cancel-create-buttons {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#create-card-modal-cancel-button {
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    padding: 7px 13px;
+    color: var(--text-secondary);
+}
+
+#create-card-modal-cancel-button:hover {
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: #343440;
+}
+
+#create-button {
+    border-radius: 4px;
+    padding: 7px 13px;
+    border: none;
+    background-color: var(--text-secondary);
+    filter: grayscale(20%) brightness(0.9);
+    transition: filter 200ms ease;
+    box-shadow: 2px 1px 3px 1px;
+    color: black;
+}
+
+#create-button:hover {
+    filter: grayscale(0%) brightness(1);
+    cursor: pointer;
 }

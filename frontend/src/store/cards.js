@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const SET_USER_CARDS = "cards/setUserCards"
 const SET_CURRENT_CARD = "cards/setCurrentCard"
+const DELETE_CARD = "card/deleteCard"
 const UPDATE_CARD = "cards/updateCard"
 const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 const REMOVE_CARD_TRACK = "cards/removeCardTrack"
@@ -46,6 +47,13 @@ const addTracksToCard = (selectedTracks) => {
     return {
         type: ADD_TRACKS_TO_CARD,
         selectedTracks
+    }
+}
+
+const deleteCard = (cardId) => {
+    return {
+        type: DELETE_CARD,
+        cardId
     }
 }
 
@@ -119,12 +127,29 @@ export const thunkAddTracksToCard = (cardId, selectedTracks) => async dispatch =
         body: JSON.stringify({ selectedTracks })
     })
     if (response.ok) {
-        // const data = await response.json()
-        console.log('selectedTacks in THUNK: ', selectedTracks)
         dispatch(addTracksToCard(selectedTracks))
     }
 }
 
+export const thunkCreateNewCard = (title) => async dispatch => {
+    const response = await csrfFetch(`/api/cards`, {
+        method: "POST",
+        body: JSON.stringify({ title })
+    })
+    if (response.ok) {
+        const data = await response.json()
+        return data
+    }
+}
+
+export const thunkDeleteCard = (cardId) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${cardId}`, {
+        method: 'DELETE'
+    })
+    if (response.ok) {
+        dispatch(deleteCard(cardId))
+    }
+}
 
 const initialState = { userCards: [] }
 
@@ -160,7 +185,7 @@ const cardsReducer = (state = initialState, action) => {
         case REMOVE_CARD_TRACK: {
             const { trackId } = action
             let newState = { ...state }
-            let newTracklist = newState.currentCard.Tracks.filter(track => track.id !==  Number(trackId))
+            let newTracklist = newState.currentCard.Tracks.filter(track => track.id !== Number(trackId))
             delete newState.currentCard.Tracks
             newState.currentCard.Tracks = newTracklist
             return newState
@@ -168,13 +193,21 @@ const cardsReducer = (state = initialState, action) => {
         case ADD_TRACKS_TO_CARD: {
             const { selectedTracks } = action
             const tracksArray = Object.values(selectedTracks)
-            let newState = { ...state,
+            let newState = {
+                ...state,
                 currentCard: {
                     ...state.currentCard,
                     Tracks: [...state.currentCard.Tracks, ...tracksArray]
                 }
-             }
+            }
             return newState
+        }
+        case DELETE_CARD: {
+            const { cardId } = action
+            return {
+                ...state,
+                userCards: state.userCards.filter(card=> card.id !== Number(cardId))
+            }
         }
         default:
             return state

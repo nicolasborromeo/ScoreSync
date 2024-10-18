@@ -2,8 +2,8 @@ const express = require('express');
 const { requireAuth } = require('../../utils/auth');
 const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot } = require('../../db/models');
 const router = express.Router();
-
-
+const {v4: uuidV4} = require('uuid')
+const { APP_BASE_URL } = process.env;
 
 router.get(
     '/current',
@@ -11,7 +11,6 @@ router.get(
     async (req, res) => {
         const { user } = req;
         const userCards = await Card.findAll({ where: { userId: user.id } });
-
         return res.status(200).json({ userCards: userCards });
     },
 );
@@ -205,6 +204,60 @@ router.post(
         }
     }
 )
+
+//CREATE NEW EMPTY CARD
+router.post(
+    '/',
+    requireAuth,
+    async (req, res) => {
+        const { user } = req;
+        const privateToken = uuidV4()
+        const {title} = req.body
+        try {
+            const newCard = await Card.create({
+                userId: user.id,
+                title:title,
+                privateToken: privateToken,
+                previewUrl: `${APP_BASE_URL}/cards/${privateToken}`
+            })
+            res.status(201).json(newCard)
+        } catch (error) {
+            res.status(500).json({message: 'An error ocurred while creating a new Card', error})
+        }
+
+    }
+)
+
+//DELETE CARD
+router.delete(
+    '/:cardId',
+    requireAuth,
+    async (req, res) => {
+        const {cardId} = req.params
+        console.log('=================ID in ROUTE: ', cardId)
+        const deleted = await Card.destroy({where: {id: cardId}})
+        if (deleted) {
+            return res.status(200).json({ message: 'Card removed from card successfully',  cardId});
+        } else {
+            return res.status(404).json({ message: 'Card not found' });
+        }
+    }
+)
+
+
+//GET PREVIEW CARD
+router.get(
+    '/:privateToken',
+    requireAuth,
+    async (req, res) => {
+    const { privateToken } = req.params;
+    const card = await Card.findOne({ where: { privateToken } });
+
+    if (!card) {
+      return res.status(404).send('Card not found');
+    }
+    res.json(card);
+  });
 
 
 module.exports = router
