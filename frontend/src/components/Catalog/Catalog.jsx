@@ -143,9 +143,11 @@ export default function Catalog() {
                 {
                 uploading
                 &&
-                    <td colSpan="5" style={{ textAlign: 'center', borderBottom: '1px solid #eeeeee' }}>
-                        <AiOutlineLoading className='loading-icon' /> Uploading...
-                    </td>
+
+                    <div className="catalog-loading-icon">
+                        <AiOutlineLoading className='loading-icon' /> <span>Loading...</span>
+                    </div>
+
 
                 }
 

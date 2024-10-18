@@ -7,6 +7,7 @@ const UPDATE_CARD = "cards/updateCard"
 const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 const REMOVE_CARD_TRACK = "cards/removeCardTrack"
 const ADD_TRACKS_TO_CARD = "cards/addTracksToCard"
+const RENAME_CARD = "cards/renameCard"
 
 const setUserCards = (userCards) => {
     return {
@@ -57,6 +58,14 @@ const deleteCard = (cardId) => {
     }
 }
 
+const renameCard = (cardId, title) => {
+    return {
+        type: RENAME_CARD,
+        payload: {
+            cardId, title
+        }
+    }
+}
 
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
@@ -151,6 +160,16 @@ export const thunkDeleteCard = (cardId) => async dispatch => {
     }
 }
 
+export const thunkRenameCard = (cardId, title) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${cardId}/rename`, {
+        method: "PUT",
+        body: JSON.stringify({title})
+    })
+    if (response.ok) {
+        dispatch(renameCard(cardId, title))
+    }
+}
+
 const initialState = { userCards: [] }
 
 const cardsReducer = (state = initialState, action) => {
@@ -207,6 +226,18 @@ const cardsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userCards: state.userCards.filter(card=> card.id !== Number(cardId))
+            }
+        }
+        case RENAME_CARD: {
+            const {cardId, title} = action.payload
+            return {
+                ...state,
+                userCards: state.userCards.map(card=> {
+                    if(card.id === cardId) {
+                        card.title = title
+                    }
+                    return card
+                })
             }
         }
         default:

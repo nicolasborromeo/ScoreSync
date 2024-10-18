@@ -52,9 +52,9 @@
 }
 
 .tracks-table tbody {
-    display: block; /* Make tbody scrollable */
-    max-height: 300px; /* Set a fixed height for scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
+    display: block;
+    max-height: 45vh;
+    overflow-y: scroll;
     width: 100%;
 }
 
@@ -95,35 +95,65 @@
 /* table columns resizing */
 .tracks-table td:nth-child(1),
 .tracks-table th:nth-child(1) {
-    width: 5%; /* Prevent wrapping for track title */
+    width: 5%;
 }
 .tracks-table td:nth-child(2),
 .tracks-table th:nth-child(2) {
-    white-space: nowrap; /* Prevent wrapping for track title */
+    white-space: nowrap;
     width: 50%;
     overflow: hidden;
 }
 .tracks-table td:nth-child(3),
 .tracks-table th:nth-child(3) {
-    white-space: nowrap; /* Prevent wrapping for track title */
+    white-space: nowrap;
     width: 10%;
 }
 .tracks-table td:nth-child(4),
 .tracks-table th:nth-child(4) {
-    white-space: nowrap; /* Prevent wrapping for track title */
+    white-space: nowrap;
     width: 10%;
 }
 .tracks-table td:nth-child(5),
 .tracks-table th:nth-child(5) {
-    white-space: nowrap; /* Prevent wrapping for track title */
+    white-space: nowrap;
     width: 5%;
 }
 
-
+/* LOADING */
+.catalog-loading-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    gap: 1rem;
+}
+.catalog-loading-icon span{
+    font-size: 1.1rem;
+}
 .loading-icon {
     width: 40px;
     height: 40px;
     animation: rotate 1s linear infinite
+}
+
+/* SCROLLBAR */
+/* Custom scrollbar styles */
+.tracks-table tbody::-webkit-scrollbar {
+    width: 3px; /* Adjust width of scrollbar */
+}
+
+.tracks-table tbody::-webkit-scrollbar-thumb {
+    background-color: rgb(146, 133, 133); /* Color of the scrollbar */
+    /* border-radius: 10px;  */
+}
+
+.tracks-table tbody::-webkit-scrollbar-track {
+    background: transparent; /* Background of the scrollbar track */
+}
+
+/* Ensure scrollbar is visible */
+.tracks-table tbody::-webkit-scrollbar:horizontal {
+    height: 8px;
 }
 
 @keyframes rotate {
