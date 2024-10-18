@@ -131,7 +131,7 @@ export const thunkAddTracksToCard = (cardId, selectedTracks) => async dispatch =
     }
 }
 
-export const thunkCreateNewCard = (title) => async dispatch => {
+export const thunkCreateNewCard = (title) => async () => {
     const response = await csrfFetch(`/api/cards`, {
         method: "POST",
         body: JSON.stringify({ title })
