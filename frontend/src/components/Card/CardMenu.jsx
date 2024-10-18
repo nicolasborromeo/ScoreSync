@@ -21,7 +21,7 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle}/>)}
+                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle} closeModal={closeModal}/>)}
             >
                 <RxCursorText />Rename
             </div>
