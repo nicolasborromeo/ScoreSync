@@ -5,6 +5,7 @@ import { thunkGetCurrentCard, thunkUpdateCard } from "../../store/cards"
 import CardAudioPlayer from "./CardAudioPlayer"
 import CardTrackList from "./CardTrackList"
 import ImagesModal from "./ImagesModal"
+import ToolBox from "../ToolBox"
 import './CardDetails.css'
 import { useModal } from "../../context/Modal"
 import TracksModal from "./TracksModal"
@@ -13,10 +14,11 @@ import { isEmpty } from "../../utils/utils"
 
 
 export default function CardDetails() {
-    const {setModalContent, closeModal } = useModal()
-    const card = useSelector(state => state.cards.currentCard)
     const dispatch = useDispatch()
     let { cardId } = useParams()
+    const { setModalContent, closeModal } = useModal()
+    const card = useSelector(state => state.cards.currentCard)
+
     const [displayInfo, setDisplayInfo] = useState({})
     const [externalLinks, setExternalLinks] = useState({})
     const [trackList, setTrackList] = useState([])
@@ -24,11 +26,11 @@ export default function CardDetails() {
     const [audioUrl, setAudioUrl] = useState('')
     const [trackTitle, setTrackTitle] = useState()
 
-
+    //getting the current card:
     useEffect(() => {
         dispatch(thunkGetCurrentCard(cardId))
     }, [dispatch, cardId])
-
+    //setting up users data:
     useEffect(() => {
         if (card && card.User) {
             setDisplayInfo(card.User.UserDisplayInfo)
@@ -38,7 +40,7 @@ export default function CardDetails() {
             console.log('NO USER', card)
         }
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
-
+    //setting up tracks data:
     useEffect(() => {
         if (card && card.Tracks.length) {
             setTrackList(card.Tracks)
@@ -47,17 +49,29 @@ export default function CardDetails() {
         }
     }, [card, trackList])
 
+    const handlePreview = () => {
+        //Redirect to preview page
+    }
+
+    //State variables for card colors:
+    const [primaryBackground, setPrimaryBackground] = useState('#141418')
+    const [secondaryBackground, setSecondaryBackground] = useState(null)
+    const [primaryTextColor, setPrimaryTextColor] = useState()
+    const [secondaryTextColor, setSecondaryTextColor] = useState()
+    const [waveformColor, setWaveformColor] = useState()
+
+
     if (userLoaded) return (
-        <div id="background-for-app-in-card-details">
+        <div id="background-for-app-in-card-details" style={{ backgroundColor: primaryBackground }}>
 
             <div id="card-details-container">
                 <section id="card-banner">
-                    <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal}/>)}>
+                    <div className="image-container" onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal} />)}>
                         <img src={card.Banner.url || `/defaultBanner.jpg`} />
                         <i className="pencil-icon">✏️</i>
                     </div>
                 </section>
-                <section id="card-user-info">
+                <section id="card-user-info" >
                     <div id="name-and-title">
                         <h2 id="users-name">{displayInfo.name}</h2>
                         <EditableField
@@ -87,41 +101,59 @@ export default function CardDetails() {
                         />
                     </div>
                     <div>
-                        {card.Tracks.length? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
+                        {card.Tracks.length ? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
 
                         <CardAudioPlayer audioUrl={audioUrl} />
 
                         <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
 
-                        <button className="add-tracks-button" onClick={()=> setModalContent(<TracksModal cardId={cardId}/>)}>ADD TRACKS <BsPlusSquareDotted size={30}/></button>
+                        <button className="add-tracks-button" onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>ADD TRACKS <BsPlusSquareDotted size={30} /></button>
 
                     </div>
                     <div id="card-download-option"></div>
                 </section>
-                <section id="card-bio">
-                    <div id="card-headshot-container">
-                        <div className="image-container" onClick={()=> setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal}/>)}>
-                            <img src={card.Headshot.url || '/defaultHeadshot.jpg'} />
-                            <i className="pencil-icon">✏️</i>
+                <section style={{ backgroundColor: secondaryBackground }}>
+                    <div id="card-bio">
+                        <div id="card-headshot-container">
+                            <div className="image-container" onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal} />)}>
+                                <img src={card.Headshot.url || '/defaultHeadshot.jpg'} />
+                                <i className="pencil-icon">✏️</i>
+                            </div>
                         </div>
-                    </div>
 
-                    <EditableField
-                        cssId={`card-bio-text`}
-                        value={card.customBio ? card.customBio : displayInfo.bio}
-                        column={'customBio'}
-                        type="textarea"
-                    />
-                </section>
-                <section id="external-links">
+                        <EditableField
+                            cssId={`card-bio-text`}
+                            value={card.customBio ? card.customBio : displayInfo.bio}
+                            column={'customBio'}
+                            type="textarea"
+                        />
+                    </div>
                     <div id="card-contact-info">
                         <p>{externalLinks[0].url}</p>
                     </div>
+
+                    <button onClick={handlePreview}>PREVIEW & PUBLISH</button>
                 </section>
-                <section id="card-details-preview">
-                    <button>PREVIEW & PUBLISH</button>
-                </section>
+
             </div>
+
+            <ToolBox
+                primaryBackground={primaryBackground}
+                setPrimaryBackground={setPrimaryBackground}
+
+                secondaryBackground={secondaryBackground}
+                setSecondaryBackground={setSecondaryBackground}
+
+                primaryTextColor={primaryTextColor}
+                setPrimaryTextColor={setPrimaryTextColor}
+
+                secondaryTextColor={secondaryTextColor}
+                setSecondaryTextColor={setSecondaryTextColor}
+
+                waveformColor={waveformColor}
+                setWaveformColor={setWaveformColor}
+
+            />
         </div>
     )
 }
@@ -137,7 +169,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
     const [editValue, setEditValue] = useState(value)
 
     const handleSave = () => {
-        if(!isEmpty(editValue)) dispatch(thunkUpdateCard(cardId, column, editValue))
+        if (!isEmpty(editValue)) dispatch(thunkUpdateCard(cardId, column, editValue))
         setEditEnabled(false)
     }
 
@@ -176,7 +208,6 @@ function EditableField({ value, cssId, column, type = 'p' }) {
             <>
                 <textarea
                     className="editable-field-textarea"
-                    style={{ width: '100%' }}
                     value={editValue}
                     autoFocus
                     onChange={(e) => setEditValue(e.target.value)}
@@ -192,7 +223,6 @@ function EditableField({ value, cssId, column, type = 'p' }) {
                         <p key={i}>{paragraph}</p>
                     ))}
                 </div>
-                <i className="pencil-icon-on-field">✏️</i>
             </>
         )
 

@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard";
 import Images from './components/Images'
 import Card from "./components/Card";
 import CardDetails from "./components/CardDetails"
+import PublicCard from './components/PublicCard'
 
 function Layout() {
 
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SignUpPage />,
+  },
+  {
+    path: '/preview/:privateToken',
+    element: <PublicCard preview={true}/>,
+  },
+  {
+    path: '/:privateToken',
+    element: <PublicCard preview={false}/>,
   },
   {
     element: <Layout />,
