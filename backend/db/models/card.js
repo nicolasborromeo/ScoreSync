@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       Card.belongsToMany(models.Image, {through: models.CardHeadshot, as:'Headshot', foreignKey: 'cardId',
         otherKey: 'imgId', onDelete:'CASCADE'})
       Card.belongsToMany(models.Track, {through: models.CardTrack , foreignKey:'cardId', otherKey:'trackId', onDelete:'CASCADE'})
+      Card.hasOne(models.CardColor, {foreignKey:'cardId', onDelete:'CASCADE'})
     }
   }
   Card.init({

@@ -170,6 +170,16 @@ export const thunkRenameCard = (cardId, title) => async dispatch => {
     }
 }
 
+export const thunkSaveCardColors = (cardId, colors) => async dispatch => {
+    const response = await csrfFetch(`/api/cardcolors/${cardId}`, {
+        method: "PUT",
+        body: JSON.stringify({colors})
+    })
+    // if(response.ok) {
+    //     dispatch(updateCardColors(colors))
+    // }
+}
+
 const initialState = { userCards: [] }
 
 const cardsReducer = (state = initialState, action) => {

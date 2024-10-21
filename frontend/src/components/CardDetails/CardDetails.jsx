@@ -18,7 +18,6 @@ export default function CardDetails() {
     let { cardId } = useParams()
     const { setModalContent, closeModal } = useModal()
     const card = useSelector(state => state.cards.currentCard)
-
     const [displayInfo, setDisplayInfo] = useState({})
     const [externalLinks, setExternalLinks] = useState({})
     const [trackList, setTrackList] = useState([])
@@ -56,13 +55,37 @@ export default function CardDetails() {
     //State variables for card colors:
     const [primaryBackground, setPrimaryBackground] = useState('#141418')
     const [secondaryBackground, setSecondaryBackground] = useState(null)
-    const [primaryTextColor, setPrimaryTextColor] = useState()
-    const [secondaryTextColor, setSecondaryTextColor] = useState()
-    const [waveformColor, setWaveformColor] = useState()
+    const [primaryTextColor, setPrimaryTextColor] = useState('white')
+    const [secondaryTextColor, setSecondaryTextColor] = useState('lightgray')
+    const [waveformColor, setWaveformColor] = useState('#eb3578')
+    const [secondaryEnabled, setSecondaryEnabled] = useState(true)
+
+
+    useEffect(() => {
+        if (card?.CardColor) {
+            const {
+                primaryBackground,
+                secondaryBackground,
+                primaryTextColor,
+                secondaryTextColor,
+                waveformColor,
+            } = card.CardColor;
+
+            if (primaryBackground) setPrimaryBackground(primaryBackground);
+            if (secondaryBackground) setSecondaryBackground(secondaryBackground);
+            if (primaryTextColor) setPrimaryTextColor(primaryTextColor);
+            if (secondaryTextColor) setSecondaryTextColor(secondaryTextColor);
+            if (waveformColor) setWaveformColor(waveformColor);
+    }}, [card])
 
 
     if (userLoaded) return (
-        <div id="background-for-app-in-card-details" style={{ backgroundColor: primaryBackground }}>
+        <div id="background-for-app-in-card-details" style={
+            secondaryEnabled?
+            {background: `linear-gradient(${primaryBackground} , ${secondaryBackground})`}
+            :
+            {backgroundColor: primaryBackground}
+        }>
 
             <div id="card-details-container">
                 <section id="card-banner">
@@ -71,8 +94,12 @@ export default function CardDetails() {
                         <i className="pencil-icon">✏️</i>
                     </div>
                 </section>
+
                 <section id="card-user-info" >
-                    <div id="name-and-title">
+
+                    {/* name and jobtitle */}
+
+                    <div id="name-and-title" style={{color:primaryTextColor}}>
                         <h2 id="users-name">{displayInfo.name}</h2>
                         <EditableField
                             cssId={'job-title'}
@@ -80,14 +107,20 @@ export default function CardDetails() {
                             column={'customJobTitle'}
                         />
                     </div>
-                    <div id="contact-info">
+
+                    {/* contact info email phone website */}
+
+                    <div id="contact-info" style={{color:secondaryTextColor}}>
                         <p id="email">{displayInfo.email}</p>
                         <p id="phone">{displayInfo.phone}</p>
                         <p id="website">{displayInfo.website?.split('//')[1]}</p>
                     </div>
                 </section>
-                <section id="card-audioplayer">
-                    <div>
+
+                     {/* audioplayer */}
+
+                <section id="card-audioplayer" >
+                    <div style={{color:primaryTextColor}}>
                         <EditableField
                             cssId={'card-title'}
                             value={card.title ? card.title : 'Your Playlist Title...'}
@@ -100,19 +133,23 @@ export default function CardDetails() {
                             column={'description'}
                         />
                     </div>
-                    <div>
-                        {card.Tracks.length ? (<p>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
+                    <div style={{color:primaryTextColor}} >
+                        {card.Tracks.length ? (<p style={{color: waveformColor}}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
 
-                        <CardAudioPlayer audioUrl={audioUrl} />
+                        <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor}/>
+                        <div >
+                        <CardTrackList  trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
+                        </div>
 
-                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
-
-                        <button className="add-tracks-button" onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>ADD TRACKS <BsPlusSquareDotted size={30} /></button>
+                        <button className="add-tracks-button" style={{backgroundColor:secondaryTextColor, color:secondaryBackground}}onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>ADD TRACKS <BsPlusSquareDotted size={30} /></button>
 
                     </div>
                     <div id="card-download-option"></div>
                 </section>
-                <section style={{ backgroundColor: secondaryBackground }}>
+
+                {/* bio and links */}
+
+                <section style={{color:primaryTextColor }}>
                     <div id="card-bio">
                         <div id="card-headshot-container">
                             <div className="image-container" onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal} />)}>
@@ -153,6 +190,10 @@ export default function CardDetails() {
                 waveformColor={waveformColor}
                 setWaveformColor={setWaveformColor}
 
+                secondaryEnabled={secondaryEnabled}
+                setSecondaryEnabled={setSecondaryEnabled}
+
+                cardId={cardId}
             />
         </div>
     )

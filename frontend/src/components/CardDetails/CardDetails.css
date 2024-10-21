@@ -1,39 +1,29 @@
 #background-for-app-in-card-details {
-    /* background-color: var(--bg-secondary) !important; */
     height: 100vh;
     width: 100vw;
-    /* padding: 1rem; */
     color: white;
     position: fixed;
     overflow: scroll;
     display: flex;
+    /* background-attachment: fixed !important; */
+    background-size: 100% 100% !important;
+    background-position: center !important;
 }
 
 #card-details-container {
     min-width: 100%;
 }
 
-#card-details-container section{
+#card-details-container section {
     margin: 0 auto;
     padding: 0 calc(100vw - 90vw);
-    /* padding-bottom: 15rem !important; */
-    /* width: calc(100vw - 5rem); */
     width: 100%;
 }
 
-#toolbox-container{
-    position: absolute;
-    z-index: 1;
-    width: 20em;
-    height: max-content;
-    margin: 0 auto;
-    border: 1px solid var(--text-primary);
-    background-color: var(--bg-primary);
-}
 
 #card-banner img {
     width: 100% !important;
-    max-height: 300px;
+    max-height: 400px;
     object-fit: cover;
     margin-bottom: 1rem;
 }
@@ -90,10 +80,10 @@
 
 /* end image effect for suggestin editing */
 
-#card-user-info,
+/* #card-user-info,
 #card-audioplayer {
     border-bottom: 1px solid lightgray;
-}
+} */
 
 #users-name,
 #job-title {
@@ -110,6 +100,16 @@
     padding: 1px;
 }
 
+#card-title {
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+#card-description {
+    font-style: italic;
+}
+
 #card-headshot-container img {
     max-width: 300px;
 }
@@ -119,9 +119,7 @@
     display: flex;
 }
 
-#card-description {
-    font-style: italic;
-}
+
 
 /* TRACKS SECTION */
 
@@ -166,7 +164,7 @@
 
 .editable-field:hover {
     cursor: pointer;
-    filter:opacity(0.4)
+    filter: opacity(0.4)
 }
 
 .editable-field-input,
@@ -222,4 +220,83 @@
     overflow-y: scroll !important;
     background-color: var(--bg-secondary);
     box-shadow: inset 0px 0px 4px 4px black;
+}
+
+
+/* TOOL BOX */
+
+#toolbox-container {
+    position: absolute;
+    z-index: 1;
+    width: min-content;
+    height: max-content;
+    margin: 0 auto;
+    border: 1px solid var(--text-primary);
+    background-color: var(--bg-primary);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+#toolbox-container #toolbox-top-bar {
+    width: 100%;
+    background-color: gray;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+#toolbox-container #toolbox-top-bar span{
+   padding: 0 4px;
+}
+
+#toolbox-container #toolbox-top-bar span:hover {
+    background-color: rgb(66, 66, 66);
+    cursor: pointer;
+}
+
+#toolbox-container div {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 0.8rem;
+}
+
+#toolbox-container input,
+#toolbox-container button {
+    scale: 0.7;
+}
+
+#toolbox-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end !important;
+    align-items: flex-end;
+    min-width: 100%;
+    padding: 0.5em !important;
+}
+
+#toolbox-minimized-button {
+    position: fixed;
+    bottom: 20px;
+    left: 100px;
+    background-color: var(--bg-primary);
+    filter: brightness(1.4);
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 9999;
+    transition: background-color, transform, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+#toolbox-minimized-button:hover{
+    cursor: pointer;
+    /* filter: brightness(2); */
+    /* box-shadow: 0px 3px 3px 1px black; */
+    background-color: var(--bg-primary); /* Change to a primary color or a darker shade */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 3px 6px rgba(0, 0, 0, 0.55); /* Hover state with more opacity */
+    transform: translateY(-3px); /* Lift the button slightly */
 }

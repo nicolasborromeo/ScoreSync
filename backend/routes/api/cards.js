@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot } = require('../../db/models');
+const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot, CardColor } = require('../../db/models');
 const router = express.Router();
 const {v4: uuidV4} = require('uuid')
 const { APP_BASE_URL } = process.env;
@@ -49,6 +49,12 @@ router.get(
                 {
                     model: Track,
                     attributes: ['id', 'duration', 'filePath', 'title'],
+                },
+                {
+                    model: CardColor,
+                    attributes: {
+                        exclude: ['id', 'cardId', 'updatedAt', 'createdAt']
+                    }
                 }
             ]
         })
