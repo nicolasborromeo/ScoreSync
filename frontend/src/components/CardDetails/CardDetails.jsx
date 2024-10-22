@@ -208,12 +208,14 @@ export default function CardDetails() {
 
                     </div>
                     <div id="card-download-option"></div>
-                <div id="add-tracks-button-container">
-                    <button className="add-tracks-button"
-                        onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
-                        ADD TRACKS<MdOutlinePlaylistAdd size={25} />
-                    </button>
-                </div>
+
+                    <div id="add-tracks-button-container">
+                        <button className="add-tracks-button"
+                            onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
+                            ADD TRACKS<MdOutlinePlaylistAdd size={25} />
+                        </button>
+                    </div>
+
                 </section>
 
 

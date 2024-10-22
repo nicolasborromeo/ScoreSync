@@ -270,7 +270,7 @@ img {
 
  #card-headshot-container {
     max-width: 20vw;
-    max-height: 15vw;
+    max-height: 16vw;
     border-radius: 16px;
     height: 100%;
     overflow: hidden;
@@ -294,6 +294,10 @@ img {
     gap: 2em;
     align-items: center;
 }
+#card-bio-text{
+    line-height: 1.4em;
+}
+
 
 #preview-publish-button {
     display: block;
