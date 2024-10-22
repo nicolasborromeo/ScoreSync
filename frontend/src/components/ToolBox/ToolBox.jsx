@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RiDragMoveFill } from "react-icons/ri";
-import { TbTools } from "react-icons/tb";
+import { GiPalette } from "react-icons/gi";
 
-import { thunkSaveCardColors } from "../../store/cards";
+import { thunkSaveCardStyles } from "../../store/cards";
 
 
 
@@ -22,17 +21,22 @@ export default function ToolBox({
     setWaveformColor,
     secondaryEnabled,
     setSecondaryEnabled,
-    cardId
+    cardId,
+    fontFamily,
+    setFontFamily,
+    fontSize,
+    setFontSize
 }) {
 
     const dispatch = useDispatch()
+    const card = useSelector(state => state.cards.currentCard)
     //Draggable functions and state:
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({ x: 200, y: 200 });
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
 
     const style = {
-        position: 'absolute',
+        position: 'fixed',
         left: position.x,
         top: position.y,
     };
@@ -76,45 +80,76 @@ export default function ToolBox({
 
     //Tools function and state:
     const [originalSecondaryBackground, setOriginalSecondaryBackground] = useState(secondaryBackground)
-    const [minimized, setMinimized] = useState(true)
+    const [minimized, setMinimized] = useState(false)
 
+    //resetting the colros and fonts when clicking on new card
+    useEffect(() => {
+        if (cardId) {
+            setPrimaryBackground(card?.CardColor?.primaryBackground);
+            setSecondaryBackground(card?.CardColor?.secondaryBackground);
+            setPrimaryTextColor(card?.CardColor?.primaryTextColor);
+            setSecondaryTextColor(card?.CardColor?.secondaryTextColor);
+            setWaveformColor(card?.CardColor?.waveformColor);
+
+            setOriginalSecondaryBackground(card?.CardColor?.secondaryBackground);
+            setSecondaryEnabled(true);
+
+            setFontFamily(card?.CardFont?.fontFamily)
+            setFontSize(card?.CardFont?.fontSize)
+        }
+    }, [cardId, card]);
+
+    //logic to enable/disable secondary background
     useEffect(() => {
         if (secondaryEnabled) {
-            setSecondaryBackground(originalSecondaryBackground)
+            setSecondaryBackground(originalSecondaryBackground);
         } else {
-            setSecondaryBackground(primaryBackground)
+            setSecondaryBackground(primaryBackground);
         }
-    }, [secondaryEnabled, originalSecondaryBackground, primaryBackground])
+    }, [secondaryEnabled, originalSecondaryBackground, primaryBackground]);
 
     //thunks API calls
-    const handleSaveCardColors = () => {
+    const handleSaveCardStyles = () => {
         const colors = {
             primaryBackground,
-            secondaryBackground,
+            secondaryBackground: secondaryEnabled ? secondaryBackground : primaryBackground,
             primaryTextColor,
             secondaryTextColor,
             waveformColor
         }
-        dispatch(thunkSaveCardColors(cardId, colors)).then(()=> {
-            window.alert('You color scheme has been saved')
+        const font = {
+            fontFamily, fontSize
+        }
+        setMinimized(true)
+        dispatch(thunkSaveCardStyles(cardId, colors, font))
+        .then(() => {
+            window.alert('Theme saved')
         })
     }
     const toggleMinimize = () => {
-        setMinimized((prev)=> !prev)
+        setMinimized((prev) => !prev)
+    }
+
+    const openToolBox = (e) => {
+        setPosition({
+            x: e.pageX ,
+            y: e.pageY - 350
+        })
+        setMinimized(false)
     }
 
     //RETURN
-    if(minimized) return (
+    if (minimized) return (
         <div id="toolbox-minimized-button">
-            <TbTools
-            onClick={toggleMinimize}
-            size={30}
+            <GiPalette
+                onClick={openToolBox}
+                size={30}
             />
         </div>
     )
-    if(!minimized) return (
+    if (!minimized) return (
         <div id="toolbox-container" style={style}>
-            <div id="toolbox-top-bar" onMouseDown={handleMouseDown}  style={{ cursor: isDragging ? 'grabbing' : 'all-scroll' }}>
+            <div id="toolbox-top-bar" onMouseDown={handleMouseDown} style={{ cursor: isDragging ? 'grabbing' : 'all-scroll' }}>
                 <span onClick={toggleMinimize}>-</span>
 
             </div>
@@ -123,30 +158,30 @@ export default function ToolBox({
                     type="color"
                     value={primaryBackground}
                     onChange={(e) => setPrimaryBackground(e.target.value)}
-                    />
+                />
                 <p>Primary Background</p>
             </div>
             <div>
                 <input type="color"
                     value={secondaryEnabled ? secondaryBackground : primaryBackground}
                     onChange={(e) => {
-                        setSecondaryBackground(e.target.value)
-                        setOriginalSecondaryBackground(e.target.value)
+                        setSecondaryBackground(e.target.value);
+                        setOriginalSecondaryBackground(e.target.value);
                     }}
-                    />
+                />
                 <p>Secondary Background</p>
                 <input
                     type="checkbox"
                     defaultChecked={true}
                     onChange={() => setSecondaryEnabled((prev) => !prev)}
-                    />
+                />
             </div>
             <div>
                 <input
                     type="color"
                     value={primaryTextColor}
                     onChange={(e) => setPrimaryTextColor(e.target.value)}
-                    />
+                />
                 <p>Primary Text Color</p>
             </div>
             <div>
@@ -154,7 +189,7 @@ export default function ToolBox({
                     type="color"
                     value={secondaryTextColor}
                     onChange={(e) => setSecondaryTextColor(e.target.value)}
-                    />
+                />
                 <p>Secondary Text Color</p>
             </div>
             <div>
@@ -162,12 +197,36 @@ export default function ToolBox({
                     type="color"
                     value={waveformColor}
                     onChange={(e) => setWaveformColor(e.target.value)}
-                    />
+                />
                 <p>Waveform Color</p>
             </div>
+
+            {/* fonts */}
+            <div className="separator">Font Style</div>
+            <div id="toolbox-font-container">
+                <select id="font-selector" value={fontFamily} onChange={(e)=> setFontFamily(e.target.value)}>
+                    <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Default</option>
+                    <option value="Montserrat">Montserrat</option>
+                    <option value="Raleway">Raleway</option>
+                    <option value="Lora">Lora</option>
+                    <option value="Playfair Display">Playfair Display</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Futura">Futura</option>
+                    <option value="Avenir">Avenir</option>
+                    <option value="Bebas Neue">Bebas Neue</option>
+                    <option value="Oswald">Oswald</option>
+                    <option value="Josefin Sans">Josefin Sans</option>
+                    <option value="Proxima Nova">Proxima Nova</option>
+                    <option value="Merriweather">Merriweather</option>
+                    <option value="Cabin">Cabin</option>
+                    <option value="Fjalla One">Fjalla One</option>
+                </select>
+                <input type="number" value={fontSize} onChange={(e)=> setFontSize(e.target.value)}/>
+            </div>
+
             <div id="toolbox-button-container">
                 <button
-                onClick={handleSaveCardColors}
+                    onClick={handleSaveCardStyles}
                 >Save
                 </button>
             </div>

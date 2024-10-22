@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('CardColors', {
+    await queryInterface.createTable('CardFonts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,30 +19,18 @@ module.exports = {
       cardId: {
         type: Sequelize.INTEGER,
         references: {
-          model:'Cards',
-          key:'id'
+          model: 'Cards',
+          key: 'id'
         },
-        onDelete: 'CASCADE'
+        onDelete:'CASCADE'
       },
-      primaryBackground: {
-        type: Sequelize.STRING,
-        defaultValue: '#141418',
+      fontSize: {
+        type: Sequelize.INTEGER,
+        defaultValue: 16
       },
-      secondaryBackground: {
+      fontFamily: {
         type: Sequelize.STRING,
-        defaultValue: '#141418',
-      },
-      primaryTextColor: {
-        type: Sequelize.STRING,
-        defaultValue: '#ececec'
-      },
-      secondaryTextColor: {
-        type: Sequelize.STRING,
-        defaultValue: '#b6b6b6'
-      },
-      waveformColor: {
-        type: Sequelize.STRING,
-        defaultValue: '#EB3678'
+        defaultValue: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"
       },
       createdAt: {
         allowNull: false,
@@ -57,7 +45,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'CardColors'
+    options.tableName = 'CardFonts'
     await queryInterface.dropTable(options);
   }
 };

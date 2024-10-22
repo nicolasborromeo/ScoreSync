@@ -4,11 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class CardColor extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       CardColor.belongsTo(models.Card, {foreignKey:'cardId', onDelete:'CASCADE'})
     }
@@ -20,22 +16,28 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model:'Cards',
         key:'id'
-      }
+      },
+      onDelete:'CASCADE'
     },
     primaryBackground: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '#141418',
     },
     secondaryBackground: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '#141418',
     },
     primaryTextColor: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '#ececec'
     },
     secondaryTextColor: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '#b6b6b6',
     },
     waveformColor: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '#EB3678'
     }
   }, {
     sequelize,

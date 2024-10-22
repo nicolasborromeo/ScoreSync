@@ -10,9 +10,7 @@
     --bg-colorful: #522258;
     --icon-primary: #f78204;
     --icon-secondary: #EB3678;
-    /* --icon-secondary: #c800c8; */
     --transition-speed: 600ms;
-
 }
 * {
     box-sizing: border-box;

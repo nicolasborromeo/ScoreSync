@@ -1,6 +1,6 @@
 'use strict';
 
-const { CardColor } = require('../models')
+const { CardFont } = require('../models')
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -10,15 +10,10 @@ if (process.env.NODE_ENV === 'production') {
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    CardColor.bulkCreate([
+  async up (queryInterface, Sequelize) {
+    CardFont.bulkCreate([
       {
         cardId: 1,
-        primaryBackground: '#abbed6',
-        secondaryBackground: '#a37ab4',
-        primaryTextColor: '#f1b1c1',
-        secondaryTextColor: '#9ae5db',
-        waveformColor: '#5b828a'
       },
       {
         cardId: 2
@@ -32,8 +27,8 @@ module.exports = {
     ], { validate: true })
   },
 
-  async down(queryInterface, Sequelize) {
-    options.tableName = 'CardColors'
+  async down (queryInterface, Sequelize) {
+    options.tableName = 'CardFonts'
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       cardId:{

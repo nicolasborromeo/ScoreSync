@@ -1,0 +1,45 @@
+/* TRACKS MODAL */
+#trackmodal-content {
+    display: flex;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    box-shadow: 1px 1px 4px 3px gray;
+    gap: 2rem;
+    padding: 3rem;
+    height: min-content;
+    min-height: min-content !important;
+}
+
+#tracksmodal-track-row {
+    display: flex;
+    white-space: nowrap;
+    min-width: min-content;
+    width: 50vw;
+}
+
+.add-tracks-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    margin: 10px auto;
+    filter: grayscale(30%) opacity(0.7);
+    transition: color, filter, background 400ms ease;
+    padding: 6px 16px;
+
+}
+
+.add-tracks-button:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    filter: grayscale(0%) opacity(1)
+}
+
+#tracksmodal-track-list {
+    height: 70%;
+    overflow-y: scroll !important;
+    background-color: var(--bg-secondary);
+    box-shadow: inset 0px 0px 4px 4px black;
+}

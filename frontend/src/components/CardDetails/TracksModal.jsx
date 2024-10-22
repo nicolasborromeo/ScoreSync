@@ -4,7 +4,7 @@ import { thunkGetUserTracks } from "../../store/tracks"
 import { thunkAddTracksToCard } from "../../store/cards"
 import { useModal } from "../../context/Modal"
 import TrackUploadButton from "../Catalog/TrackUploadButton"
-
+import './TracksModal.css'
 import { BsPlusSquareDotted } from "react-icons/bs";
 
 

@@ -8,6 +8,8 @@ const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 const REMOVE_CARD_TRACK = "cards/removeCardTrack"
 const ADD_TRACKS_TO_CARD = "cards/addTracksToCard"
 const RENAME_CARD = "cards/renameCard"
+const UPDATE_CARD_STYLES = "cards/updateCardStyles"
+const UPDATE_TRACKLIST_ORDER = "cards/updateTracklistOrder"
 
 const setUserCards = (userCards) => {
     return {
@@ -67,6 +69,20 @@ const renameCard = (cardId, title) => {
     }
 }
 
+const updateCardStyles = (colors, font) => {
+    return {
+        type: UPDATE_CARD_STYLES,
+        colors, font
+    }
+}
+
+const updateTracklistOrder = (tracklist) => {
+    return {
+        type: UPDATE_TRACKLIST_ORDER,
+        tracklist
+    }
+}
+
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
     const userCards = await response.json()
@@ -83,11 +99,14 @@ export const thunkGetCurrentCard = (cardId) => async dispatch => {
     }
 }
 
-export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async () => {
+export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async dispatch => {
     const response = await csrfFetch(`/api/cards/tracklist/${cardId}`, {
         method: 'PUT',
         body: JSON.stringify({ tracklist })
     })
+    // if(response.ok) {
+    //     dispatch(updateTracklistOrder(tracklist))
+    // }
     if (!response.ok) {
         const error = await response.json()
         console.error(error)
@@ -140,13 +159,14 @@ export const thunkAddTracksToCard = (cardId, selectedTracks) => async dispatch =
     }
 }
 
-export const thunkCreateNewCard = (title) => async () => {
+export const thunkCreateNewCard = (title) => async dispatch => {
     const response = await csrfFetch(`/api/cards`, {
         method: "POST",
         body: JSON.stringify({ title })
     })
     if (response.ok) {
         const data = await response.json()
+        dispatch(setCurrentCard(data))
         return data
     }
 }
@@ -170,14 +190,22 @@ export const thunkRenameCard = (cardId, title) => async dispatch => {
     }
 }
 
-export const thunkSaveCardColors = (cardId, colors) => async dispatch => {
-    const response = await csrfFetch(`/api/cardcolors/${cardId}`, {
+export const thunkSaveCardStyles = (cardId, colors, font) => async dispatch => {
+    const response = await csrfFetch(`/api/cardstyles/${cardId}`, {
         method: "PUT",
-        body: JSON.stringify({colors})
+        body: JSON.stringify({colors, font})
     })
-    // if(response.ok) {
-    //     dispatch(updateCardColors(colors))
-    // }
+    if(response.ok) {
+        dispatch(updateCardStyles(colors, font))
+    }
+}
+
+export const thunkGetPreviewCard = (privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/preview/${privateToken}`)
+    if(response.ok) {
+        const cardData = await response.json()
+        dispatch(setCurrentCard(cardData))
+    }
 }
 
 const initialState = { userCards: [] }
@@ -248,6 +276,27 @@ const cardsReducer = (state = initialState, action) => {
                     }
                     return card
                 })
+            }
+        }
+        case UPDATE_CARD_STYLES: {
+            const {colors, font} = action
+            return {
+                ...state,
+                currentCard: {
+                    ...state.currentCard,
+                    CardColor: colors,
+                    CardFont: font
+                }
+            }
+        }
+        case UPDATE_TRACKLIST_ORDER: {
+            const {tracklist} = action
+            return {
+                ...state,
+                currentCard: {
+                    ...state.currentCard,
+                    Tracks: [...tracklist]
+                }
             }
         }
         default:

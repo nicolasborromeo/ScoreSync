@@ -5,7 +5,6 @@
     position: fixed;
     overflow: scroll;
     display: flex;
-    /* background-attachment: fixed !important; */
     background-size: 100% 100% !important;
     background-position: center !important;
 }
@@ -14,18 +13,24 @@
     min-width: 100%;
 }
 
-#card-details-container section {
+#card-details-container section:not(:first-child)  {
     margin: 0 auto;
     padding: 0 calc(100vw - 90vw);
     width: 100%;
 }
 
+img {
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+}
 
 #card-banner img {
     width: 100% !important;
-    max-height: 400px;
+    /* max-height: 400px; */
     object-fit: cover;
     margin-bottom: 1rem;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
 }
 
 
@@ -53,7 +58,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 400px;
     background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -92,22 +97,34 @@
 }
 
 #contact-info {
-    margin: 1em 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1em;
+    align-items: center;
 }
 
-#contact-info p {
+
+#card-user-info #contact-info a {
     margin: 0;
     padding: 1px;
+    text-decoration: none;
+}
+#card-user-info #contact-info p{
+    vertical-align: center;
+    font-size: 2em;
+    line-height: 5px;
 }
 
 #card-title {
-    font-size: 2rem;
+    font-size: 1.6em;
     margin: 0;
     padding: 0;
 }
 
 #card-description {
     font-style: italic;
+    opacity: 0.4;
 }
 
 #card-headshot-container img {
@@ -180,54 +197,12 @@
 }
 
 
-/* TRACKS MODAL */
-#trackmodal-content {
-    display: flex;
-    background-color: var(--bg-primary);
-    color: var(--text-secondary);
-    box-shadow: 1px 1px 4px 3px gray;
-    gap: 2rem;
-    padding: 1rem;
-    height: 70vh;
-}
-
-#tracksmodal-track-row {
-    display: flex;
-    white-space: nowrap;
-}
-
-.add-tracks-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    margin: 10px auto;
-    filter: grayscale(30%) opacity(0.7);
-    transition: color, filter, background 400ms ease;
-    padding: 6px 16px;
-}
-
-.add-tracks-button:hover {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    filter: grayscale(0%) opacity(1)
-}
-
-#tracksmodal-track-list {
-    height: 70%;
-    overflow-y: scroll !important;
-    background-color: var(--bg-secondary);
-    box-shadow: inset 0px 0px 4px 4px black;
-}
-
 
 /* TOOL BOX */
 
 #toolbox-container {
     position: absolute;
-    z-index: 1;
+    z-index: 1000;
     width: min-content;
     height: max-content;
     margin: 0 auto;
@@ -294,9 +269,21 @@
 
 #toolbox-minimized-button:hover{
     cursor: pointer;
-    /* filter: brightness(2); */
-    /* box-shadow: 0px 3px 3px 1px black; */
-    background-color: var(--bg-primary); /* Change to a primary color or a darker shade */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 3px 6px rgba(0, 0, 0, 0.55); /* Hover state with more opacity */
-    transform: translateY(-3px); /* Lift the button slightly */
+    background-color: var(--bg-primary);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 3px 6px rgba(0, 0, 0, 0.55);
+    transform: translateY(-3px);
+}
+
+
+/* HIDDEN */
+.hidden {
+    display: none;
+}
+
+.hidden:hover {
+    display: block;
+}
+
+#hidebanner {
+    position: relative;
 }

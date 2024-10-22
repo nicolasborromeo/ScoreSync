@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { FaPlay } from "react-icons/fa6";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { thunkUpdateCardTracklistOrder, thunkRemoveCardTrack } from '../../store/cards';
 import {formatSecsToMins} from '../../utils/utils'
 
@@ -10,15 +10,14 @@ import { useEffect } from 'react';
 
 export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle }) {
     const dispatch = useDispatch()
-    const trackListSelector = useSelector(state => state.cards.currentCard.Tracks)
 
     //handle empty tracklist
     useEffect(() => {
-        if (!trackListSelector.length) {
+        if (!trackList.length) {
             setTrackList([])
             setAudioUrl('')
         }
-    }, [setTrackList, trackListSelector, setAudioUrl])
+    }, [setTrackList, trackList.length, setAudioUrl])
 
     //Re-Ordering function
     const onDragEnd = (result) => {
@@ -54,7 +53,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                 <Droppable droppableId="tracks">
                     {(provided) => (
                         <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}>
-                            {trackListSelector?.map((track, i) => (
+                            {trackList?.map((track, i) => (
                                 <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>
                                     {(provided) => (
                                         <div
