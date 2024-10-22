@@ -237,6 +237,10 @@ const cardsReducer = (state = initialState, action) => {
                 delete newState.currentCard.Headshot
                 newState.currentCard.Headshot = newImage
             }
+            if (imgType === 'profile') {
+                delete newState.currentCard.ProfilePic
+                newState.currentCard.ProfilePic = newImage
+            }
             return newState
         }
         case REMOVE_CARD_TRACK: {

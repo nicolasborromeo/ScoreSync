@@ -15,7 +15,7 @@
 
 #card-details-container section:not(:first-child)  {
     margin: 0 auto;
-    padding: 0 calc(100vw - 90vw);
+    padding: 0 calc(100vw - 85vw);
     width: 100%;
 }
 
@@ -26,18 +26,19 @@ img {
 
 #card-banner img {
     width: 100% !important;
-    /* max-height: 400px; */
+    max-height: 500px;
     object-fit: cover;
     margin-bottom: 1rem;
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
+
 }
 
 
 /* Image Effect for suggesting editing */
 .image-container {
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .image-container img {
@@ -52,13 +53,16 @@ img {
     cursor: pointer;
 }
 
+
 .image-container::after {
+    margin: 0;
+    padding: 0;
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 400px;
+    height: 100%;
     background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -81,27 +85,78 @@ img {
 
 .image-container:hover .pencil-icon {
     opacity: 1;
+    z-index: 100;
 }
 
 /* end image effect for suggestin editing */
 
-/* #card-user-info,
-#card-audioplayer {
-    border-bottom: 1px solid lightgray;
-} */
 
-#users-name,
-#job-title {
-    margin: 0;
+
+#card-profilepic-container{
+    margin-right: 2em;
+}
+
+#card-user-info {
+    display: flex;
+    height: 8em;
+    position: relative;
+    bottom: 40px;
+}
+
+#card-user-info img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    bottom: 30px;
+    z-index: 99;
+    box-shadow: 0 4px 6px rgba(0, 0, 0,1);
+}
+
+#top-info-container {
     padding: 0;
+    margin: 0;
+    position: relative;
+    bottom: 10px;
+}
+#name-title-links-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+#name-title-links-container a {
+    font-size: 1.8em;
+    margin: 0 2px;
+    cursor: pointer;
+    position: relative;
+    bottom: 3px;
+}
+
+#job-title,
+#contact-info {
+    margin: 0;
+}
+
+#users-name {
+    margin-bottom: 2px;
+    padding: 0;
+}
+#job-title {
+    margin-bottom: 1em;
+    padding: 0px;
+
 }
 
 #contact-info {
-    margin: 0;
-    padding: 0;
     display: flex;
-    gap: 1em;
+    gap: 0.5em;
     align-items: center;
+    padding: 0;
+    margin-top: 10px;
+    line-height: 1em;
+    height: 1em !important;
+    white-space: nowrap;
 }
 
 
@@ -110,6 +165,7 @@ img {
     padding: 1px;
     text-decoration: none;
 }
+
 #card-user-info #contact-info p{
     vertical-align: center;
     font-size: 2em;
@@ -117,43 +173,144 @@ img {
 }
 
 #card-title {
-    font-size: 1.6em;
-    margin: 0;
-    padding: 0;
+    font-style: italic;
+    font-size: 1em;
+    /* margin-top: 2em; */
+    padding: 0 !important;
+    margin: 0 !important;
+
 }
 
 #card-description {
-    font-style: italic;
-    opacity: 0.4;
+    margin-top: 0.3em;
+    padding: 0;
+    text-align: left;
+}
+#card-title,
+#card-description {
+    width: 50vw;
+}
+#now-playing {
+    font-size: 0.7em;
 }
 
-#card-headshot-container img {
-    max-width: 300px;
-}
+/* AUDOPLAYER */
 
-
-#card-bio {
+.card-player-controls {
     display: flex;
+    justify-content: flex-start;
+    gap:10px;
+    align-items: center;
+    padding-top: 15px;
+}
+#card-details-waveform-container{
+    display: flex;
+    align-items: center;
+}
+#card-waveform {
+    width: 100%;
 }
 
-
-
-/* TRACKS SECTION */
 
 #tracklist-container {
-    margin: 10px auto;
+    margin: 15px auto;
 }
 
 .card-track-row {
-    padding: 5px;
+    padding: 0.8em;
     display: flex;
-    gap: 10px
+    flex-wrap: nowrap;
+    /* border-bottom: 0.1px dotted; */
+    justify-content: space-between;
+}
+
+.track-row-play-and-title-container,
+.track-row-duration-delete-container{
+    display: flex;
+    gap: 1em;
 }
 
 #card-detail-no-tracks-warning {
     display: flex;
     font-weight: bold;
     color: gray
+}
+
+#trackrow-play-button:hover,
+#card-player-playpause:hover {
+    filter: brightness(3);
+    cursor:pointer;
+}
+
+#card-audioplayer{
+    margin-top: 4em !important;
+}
+
+#add-tracks-button-container{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start;
+    /* width: fit-content; */
+}
+.add-tracks-button {
+    /* display: block; */
+    background-color: var(--bg-primary) !important;
+    color: white !important;
+    border-radius: 20px !important;
+    font-weight: bold;
+    width: fit-content;
+    margin: 0;
+    justify-self: flex-start;
+}
+
+
+
+/* HEADSHOT & BIO */
+
+
+ #card-headshot-container {
+    max-width: 20vw;
+    max-height: 15vw;
+    border-radius: 16px;
+    height: 100%;
+    overflow: hidden;
+}
+
+#card-headshot-container .image-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#card-headshot-container img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+#card-bio {
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+
+#preview-publish-button {
+    display: block;
+    border: 1px solid gray;
+    padding: 10px 15px;
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary);
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 3em auto !important;
+}
+
+/* footer */
+#card-details-footer{
+    height: 200px !important;
+    /* background-color: gray; */
 }
 
 /* EDITABLE FIELDS */
@@ -189,13 +346,40 @@ img {
     border: none;
     background: transparent;
     color: white;
+    width: 100%;
 }
+
+
 
 .editable-field-textarea {
-    min-width: 70%;
+    width: 45vw;
     min-height: 200px;
+    position: relative;
+    top:2em;
+    margin-bottom: 3em;
+    font-family: inherit;
+    font-size: 1em;
+}
+#editable-textarea-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5em;
 }
 
+#editable-textarea-buttons button{
+    border: 1px solid gray;
+    padding: 5px 10px;
+    background-color: var(--bg-primary) !important;
+    /* color: white !important; */
+    color: var(--text-primary);
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#editable-textarea-buttons button:hover{
+    filter: brightness(1.5);
+}
 
 
 /* TOOL BOX */

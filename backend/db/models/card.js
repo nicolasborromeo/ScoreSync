@@ -4,12 +4,14 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Card extends Model {
-    
+
     static associate(models) {
       Card.belongsTo(models.User, {foreignKey: 'userId', onDelete: 'CASCADE'})
       Card.belongsToMany(models.Image, {through: models.CardBanner, as: 'Banner', foreignKey: 'cardId',
         otherKey: 'imgId', onDelete:'CASCADE'})
       Card.belongsToMany(models.Image, {through: models.CardHeadshot, as:'Headshot', foreignKey: 'cardId',
+        otherKey: 'imgId', onDelete:'CASCADE'})
+      Card.belongsToMany(models.Image, {through: models.CardProfilePic, as:'ProfilePic', foreignKey: 'cardId',
         otherKey: 'imgId', onDelete:'CASCADE'})
       Card.belongsToMany(models.Track, {through: models.CardTrack , foreignKey:'cardId', otherKey:'trackId', onDelete:'CASCADE'})
       Card.hasOne(models.CardColor, {foreignKey:'cardId', onDelete:'CASCADE'})

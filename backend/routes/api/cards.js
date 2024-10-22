@@ -1,6 +1,6 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
-const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot, CardColor, CardFont } = require('../../db/models');
+const { Card, User, ExternalLink, UserDisplayInfo, Image, Track, CardTrack, CardBanner, CardHeadshot, CardColor, CardFont, CardProfilePic } = require('../../db/models');
 const router = express.Router();
 const { v4: uuidV4 } = require('uuid');
 const e = require('express');
@@ -40,12 +40,16 @@ router.get(
                     ]
                 },
                 {
-                    model: Image, // Include images associated via CardBanner
-                    as: 'Banner' // Ensure this matches the alias used in the association
+                    model: Image,
+                    as: 'Banner'
                 },
                 {
-                    model: Image, // Include images associated via CardHeadshot
-                    as: 'Headshot' // Ensure this matches the alias used in the association
+                    model: Image,
+                    as: 'Headshot'
+                },
+                {
+                    model: Image,
+                    as: 'ProfilePic'
                 },
                 {
                     model: Track,
@@ -79,6 +83,7 @@ router.get(
             card = card.toJSON()
             card.Banner = card.Banner ? { ...card.Banner[0] } : 'No Image associated Yet'
             card.Headshot = card.Headshot ? { ...card.Headshot[0] } : 'No Image associated Yet'
+            card.ProfilePic = card.ProfilePic ? { ...card.ProfilePic[0] } : 'No Image associated Yet'
             let formattedTracks = card.Tracks.map(track => {
                 track.order = track.CardTrack.trackOrder
                 delete track.CardTrack
@@ -162,7 +167,38 @@ router.put('/:cardId/images',
         const { imgType, imgId } = req.body
         const { cardId } = req.params
 
+        if (imgType === 'profile') {
+            const cardProfilePic = await CardProfilePic.findOne(
+                {
+                    where: {
+                        cardId: cardId
+                    }
+                }
+            )
 
+            if (!cardProfilePic) {
+                await CardProfilePic.create(
+                    {
+                        imgId,
+                        cardId
+                    }
+                )
+
+            } else {
+                await CardProfilePic.update(
+                    {
+                        imgId: imgId
+                    },
+                    {
+                        where: {
+                            cardId: cardId
+                        }
+                    }
+                )
+            }
+            const newImage = await Image.findByPk(imgId)
+            return res.status(201).json({ newImage, imgType: 'profile' })
+        }
         if (imgType === 'banner') {
             const cardBanner = await CardBanner.findOne(
                 {
@@ -348,12 +384,16 @@ router.get(
                     ]
                 },
                 {
-                    model: Image, // Include images associated via CardBanner
-                    as: 'Banner' // Ensure this matches the alias used in the association
+                    model: Image,
+                    as: 'Banner'
                 },
                 {
-                    model: Image, // Include images associated via CardHeadshot
-                    as: 'Headshot' // Ensure this matches the alias used in the association
+                    model: Image,
+                    as: 'Headshot'
+                },
+                {
+                    model: Image,
+                    as: 'ProfilePic'
                 },
                 {
                     model: Track,

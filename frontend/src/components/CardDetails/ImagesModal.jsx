@@ -5,7 +5,7 @@ import { thunkGetUserImages } from '../../store/images';
 import { thunkUpdateCardImage } from '../../store/cards';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import '../Images/Images.css'
-
+import ImageUploadButton from '../ImageUploadButton';
 
 export default function ImagesModal({cardId, type, closeModal}) {
     const user = useSelector(state => state.session.user)
@@ -48,6 +48,7 @@ export default function ImagesModal({cardId, type, closeModal}) {
 
                     </>
                 }
+            <ImageUploadButton />
         </div>
     )
 }

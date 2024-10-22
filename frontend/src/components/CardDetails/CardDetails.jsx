@@ -10,8 +10,13 @@ import CardTrackList from "./CardTrackList"
 import ImagesModal from "./ImagesModal"
 import ToolBox from "../ToolBox"
 import TracksModal from "./TracksModal"
+import ExternalLinkBar from './ExternalLinkBar'
 
 import { BsPlusSquareDotted } from "react-icons/bs";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
+
+import { CiEdit } from "react-icons/ci";
+
 
 import { isEmpty } from "../../utils/utils"
 
@@ -71,19 +76,28 @@ export default function CardDetails() {
     const [fontSize, setFontSize] = useState(16)
 
 
-    if (userLoaded && tracksLoaded) return (
-        <div id="background-for-app-in-card-details" style={
-            secondaryEnabled ?
-                { background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }
-                :
-                { backgroundColor: primaryBackground }
-        }>
+    if (userLoaded
+        &&
+        tracksLoaded
+    ) return (
 
-            <div id="card-details-container" style={{ fontFamily: fontFamily, fontSize: `${fontSize}px` }}>
+        <div
+            id="background-for-app-in-card-details"
+            style={
+                secondaryEnabled ?
+                    { background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }
+                    :
+                    { backgroundColor: primaryBackground }
+            }>
+
+            <div id="card-details-container"
+                style={{ fontFamily: fontFamily, fontSize: `${fontSize}px` }}>
+
                 <section id="card-banner">
-                    <div className='image-container' onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal} />)}>
+                    <div className='image-container'
+                        onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal} />)}>
                         <img src={card.Banner.url || `/defaultBanner.jpg`} />
-                        <i className="pencil-icon">✏️</i>
+                        <i className="pencil-icon"><CiEdit /></i>
                     </div>
                 </section>
                 {/*
@@ -92,53 +106,87 @@ export default function CardDetails() {
 
                 <section id="card-user-info" >
 
-                    {/* name and jobtitle */}
-
-                    <div id="name-and-title" style={{ color: primaryTextColor }}>
-                        <h2 id="users-name">{displayInfo.name}</h2>
-                        <div>
-                            <EditableField
-                                cssId={'job-title'}
-                                value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
-                                column={'customJobTitle'}
-                            />
+                    <div id="card-profilepic-container">
+                        <div className='image-container'
+                            onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'profile'} closeModal={closeModal} />)}
+                        >
+                            <img style={{ border: `4px ridge ${waveformColor}` }} src={card?.ProfilePic?.url || `/defaultProfile.webp`} />
+                            <i className="pencil-icon"><CiEdit /></i>
                         </div>
                     </div>
 
-                    {/* contact info email phone website */}
 
-                    <div id="contact-info" style={{color: waveformColor}}>
-                        {displayInfo?.website &&
-                            <Link
-                                to={`${displayInfo.website}`}
-                                target="_blank"
-                                rel="noopener noreferrer external"
-                                style={{ color: waveformColor, textDecoration: 'none' }} // Here, we remove textDecoration
-                                className="contact-link"
-                                id="website"
-                            >
-                                {displayInfo.website?.split('//')[1]}
-                            </Link>}
-                        <p>·</p>
-                        {displayInfo?.email &&
-                            <a
-                                href={`mailto:${displayInfo.email}`}
-                                style={{ color: waveformColor, textDecoration: 'none' }}
-                                id="email"
-                                className="contact-link"
-                            >
-                                {displayInfo.email}
-                            </a>}
-                        <p>·</p>
-                        {displayInfo?.phone &&
-                            <Link
-                                href={`tel:${displayInfo.phone}`}
-                                style={{ color: waveformColor, textDecoration: 'none' }}
-                                id="phone"
-                                className="contact-link"
-                            >
-                                {displayInfo.phone}
-                            </Link>}
+                    {/* name and jobtitle */}
+                    <div id="top-info-container">
+                        <div id="name-title-links-container">
+                            <div id="name-and-title" style={{ color: primaryTextColor }}>
+                                <h2 id="users-name">{displayInfo.name}</h2>
+                                <div>
+                                    <EditableField
+                                        cssId={'job-title'}
+                                        value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
+                                        column={'customJobTitle'}
+                                    />
+                                </div>
+                            </div>
+                            <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />
+                        </div>
+
+                        {/* contact info email phone website */}
+
+                        <div style={{ color: primaryTextColor }}>
+                            <div>
+                                <EditableField
+                                    cssId={'card-title'}
+                                    value={card.title ? `${card.title}:` : 'Your Playlist Title...'}
+                                    column={'title'}
+                                />
+                            </div>
+
+                            <div>
+                                <EditableField
+                                    cssId={'card-description'}
+                                    value={card.description ? card.description : 'Your Playlist Description...'}
+                                    column={'description'}
+                                />
+                            </div>
+                        </div>
+
+                        <div id="contact-info" style={{ color: waveformColor }}>
+                            {displayInfo?.website &&
+                                <Link
+                                    to={`${displayInfo.website}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer external"
+                                    style={{ color: waveformColor, textDecoration: 'none' }} // Here, we remove textDecoration
+                                    className="contact-link"
+                                    id="website"
+                                >
+                                    {displayInfo.website?.split('//')[1]}
+                                </Link>}
+                            <p>·</p>
+                            {displayInfo?.email &&
+                                <a
+                                    href={`mailto:${displayInfo.email}`}
+                                    style={{ color: waveformColor, textDecoration: 'none' }}
+                                    id="email"
+                                    className="contact-link"
+                                >
+                                    {displayInfo.email}
+                                </a>}
+                            <p>·</p>
+                            {displayInfo?.phone &&
+                                <Link
+                                    href={`tel:${displayInfo.phone}`}
+                                    style={{ color: waveformColor, textDecoration: 'none' }}
+                                    id="phone"
+                                    className="contact-link"
+                                >
+                                    {displayInfo.phone}
+                                </Link>}
+                        </div>
+
+
                     </div>
                 </section>
 
@@ -148,40 +196,27 @@ export default function CardDetails() {
                 <BiSolidHide size={40} onClick={() => handleHidden('cardDescription')} /> */}
 
                 <section id="card-audioplayer" >
-
-                    <div style={{ color: primaryTextColor }}>
-
-                        <div>
-                            <EditableField
-                                cssId={'card-title'}
-                                value={card.title ? card.title : 'Your Playlist Title...'}
-                                column={'title'}
-                            />
-                        </div>
-
-                        <div>
-                            <EditableField
-                                cssId={'card-description'}
-                                value={card.description ? card.description : 'Your Playlist Description...'}
-                                column={'description'}
-                            />
-                        </div>
-
-
-                    </div>
                     <div style={{ color: waveformColor }} >
-                        {card.Tracks.length ? (<p style={{ color: primaryTextColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
+                        {/* {card.Tracks.length ? (<p id="now-playing" style={{ color: primaryTextColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)} */}
 
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
                         <div>
-                            <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
+                            <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} waveformColor={waveformColor} />
                         </div>
 
-                        <button className="add-tracks-button" style={{ backgroundColor: secondaryTextColor, color: secondaryBackground }} onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>ADD TRACKS <BsPlusSquareDotted size={30} /></button>
+
 
                     </div>
                     <div id="card-download-option"></div>
+                <div id="add-tracks-button-container">
+                    <button className="add-tracks-button"
+                        onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
+                        ADD TRACKS<MdOutlinePlaylistAdd size={25} />
+                    </button>
+                </div>
                 </section>
+
+
 
                 {/* bio and links */}
 
@@ -193,7 +228,7 @@ export default function CardDetails() {
                         <div id="card-headshot-container">
                             <div className="image-container" onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'headshot'} closeModal={closeModal} />)}>
                                 <img src={card.Headshot.url || '/defaultHeadshot.jpg'} />
-                                <i className="pencil-icon">✏️</i>
+                                <i className="pencil-icon"><CiEdit /></i>
                             </div>
                         </div>
 
@@ -205,11 +240,10 @@ export default function CardDetails() {
                         />
                     </div>
 
-                    <div id="card-contact-info" style={{ display: 'none' }}>
-                        <p>{externalLinks[0].url}</p>
+                    <div id="preview-button-container">
+                        <button id="preview-publish-button" onClick={handlePreview}>PREVIEW & PUBLISH</button>
                     </div>
-
-                    <button onClick={handlePreview}>PREVIEW & PUBLISH</button>
+                    <div id="card-details-footer"></div>
                 </section>
 
             </div>
@@ -295,25 +329,27 @@ function EditableField({ value, cssId, column, type = 'p' }) {
                 <p id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
                     {value}
                 </p>
-                <i onClick={() => setEditEnabled(true)} className="pencil-icon-on-field">✏️</i>
+                <i onClick={() => setEditEnabled(true)} className="pencil-icon-on-field"><CiEdit /></i>
             </div>
 
         )
 
     if (type === 'textarea') return editEnabled ?
         (
-            <>
+            <div>
                 <textarea
                     className="editable-field-textarea"
                     value={editValue}
                     autoFocus
                     onChange={(e) => setEditValue(e.target.value)}
                 />
-                <button onClick={handleSave}>Confirm</button>
-                <button onClick={() => setEditEnabled(false)}>Cancel</button>
-                <button disabled={!defaultBioEnabled} onClick={handleUseDefault}>Use Default</button>
+                <div id="editable-textarea-buttons">
+                    <button onClick={handleSave}>Confirm</button>
+                    <button onClick={() => setEditEnabled(false)}>Cancel</button>
+                    <button disabled={!defaultBioEnabled} onClick={handleUseDefault}>Use Default</button>
+                </div>
 
-            </>
+            </div>
         ) : (
             <>
                 <div id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
