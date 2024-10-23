@@ -268,7 +268,6 @@ img {
 
 /* HEADSHOT & BIO */
 
-
  #card-headshot-container {
     max-width: 20vw;
     max-height: 30vw;
@@ -282,22 +281,34 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 #card-headshot-container img {
     height: 100%;
-    width: auto;
+    width: 45vw;
+    max-height: 50vh;
     object-fit: cover;
 }
 
 #card-bio {
     display: flex;
     gap: 2em;
-    align-items: center;
+    align-items: flex-start;
+
 }
 #card-bio-text{
     line-height: 1.4em;
 }
+#card-bio h2,
+#card-bio h3 {
+    font-weight: 100;
+}
+
+#card-bio #biography-title {
+    margin: 0;
+}
+
 
 
 #preview-publish-button {
@@ -317,9 +328,19 @@ img {
     flex-direction: column!important;
 }
 
-#card-bio h2,
-#card-bio h3 {
-    font-weight: 100;
+#footer-externallinks-container {
+    display: flex;
+    justify-content: center;
+    margin: 0.7em auto;
+    font-size: 2em;
+}
+
+.external-link-icon {
+    margin: 0 4px !important;
+}
+#contact-info-container {
+    width: max-content;
+    white-space: nowrap;
 }
 
 /* footer */

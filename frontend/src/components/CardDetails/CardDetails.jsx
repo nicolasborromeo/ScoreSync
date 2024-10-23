@@ -101,9 +101,7 @@ export default function CardDetails() {
                         <i className="pencil-icon"><CiEdit /></i>
                     </div>
                 </section>
-                {/*
-                   <BiSolidHide size={40} id="hidebanner" onClick={() => handleHidden('banner')} />
-                    <BiSolidHide size={40} onClick={() => handleHidden('jobTitle')} /> */}
+
 
                 <section id="card-user-info" >
 
@@ -198,27 +196,23 @@ export default function CardDetails() {
 
                 {/* audioplayer */}
 
-                {/* <BiSolidHide size={40} onClick={() => handleHidden('cardTitle')} />
-                <BiSolidHide size={40} onClick={() => handleHidden('cardDescription')} /> */}
-
                 <section id="card-audioplayer" >
-                    <div style={{ color: waveformColor }} >
+                    <div
+                        id="audioplayer-and-tracklist-container"
+                        style={{ color: waveformColor }}
+                    >
                         {/* {card.Tracks.length ? (<p id="now-playing" style={{ color: primaryTextColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)} */}
-
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <div>
-                            <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} waveformColor={waveformColor} />
-                        </div>
-
-
-
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} waveformColor={waveformColor} />
                     </div>
-                    <div id="card-download-option"></div>
 
-                    <div id="add-tracks-button-container">
-                        <button className="add-tracks-button"
+                    <div
+                        id="add-tracks-button-container">
+                        <button
+                            className="add-tracks-button"
                             onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
-                            ADD TRACKS<MdOutlinePlaylistAdd size={25} />
+                            ADD TRACKS
+                            <MdOutlinePlaylistAdd size={25} />
                         </button>
                     </div>
 
@@ -246,15 +240,24 @@ export default function CardDetails() {
                                 type="textarea"
                                 primaryTextColor={primaryTextColor}
                             />
-
-                            <ContactInfo displayInfo={displayInfo} waveformColor={waveformColor}/>
+                            <div id="contact-info-container">
+                                <ContactInfo displayInfo={displayInfo} waveformColor={waveformColor} />
+                            </div>
 
                         </div>
                     </div>
 
+                    {/* <div id="footer-externallinks-container">
+                        <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />
+                    </div> */}
+
                     <div id="preview-button-container">
-                        <button id="preview-publish-button" onClick={handlePreview}>PREVIEW & PUBLISH</button>
+                        <button id="preview-publish-button"
+                            onClick={handlePreview}>
+                            PREVIEW & PUBLISH
+                        </button>
                     </div>
+
                     <div id="card-details-footer"></div>
                 </section>
 

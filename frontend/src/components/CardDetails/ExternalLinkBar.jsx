@@ -21,9 +21,11 @@ export default function ExternalLinkBar({ externalLinks, waveformColor }) {
 
 
 const ExternalLink = ({ url, waveformColor }) => {
-    console.log('url', url)
+
     if (url.includes('imdb')) {
-        return <Link to={url}
+        return <Link
+                to={url}
+                className="external-link-icon"
                 target="_blank"
                 rel="noopener noreferrer external">
                     <FaImdb color={waveformColor}/>
@@ -31,6 +33,7 @@ const ExternalLink = ({ url, waveformColor }) => {
     } else if (url.includes('instagram')) {
         return <Link
                 to={url}
+                className="external-link-icon"
                 target="_blank"
                 rel="noopener noreferrer external"
                  >
@@ -39,6 +42,7 @@ const ExternalLink = ({ url, waveformColor }) => {
     } else if (url.includes('facebook')) {
         return <Link
                 to={url}
+                className="external-link-icon"
                 target="_blank"
                 rel="noopener noreferrer external"
                 >
@@ -47,6 +51,7 @@ const ExternalLink = ({ url, waveformColor }) => {
     } else if (url.includes('linkedin')) {
         return <Link
                     to={url}
+                    className="external-link-icon"
                     target="_blank"
                     rel="noopener noreferrer external"
                 >
@@ -55,6 +60,7 @@ const ExternalLink = ({ url, waveformColor }) => {
     } else if (url.includes('x')) {
         return <Link
                     to={url}
+                    className="external-link-icon"
                     target="_blank"
                     rel="noopener noreferrer external"
                 >

@@ -70,10 +70,10 @@
 
 #toolbox-font-container p {
     margin: 0;
-    padding: 0;
+    padding: 4px 0;
     width: 100%;
     position: relative;
-    left: 3px;
+    left: 5px;
     /* text-align: left; */
 }
 #toolbox-font-container input {

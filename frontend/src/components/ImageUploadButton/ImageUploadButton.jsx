@@ -30,7 +30,7 @@ export default function ImageUploadButton() {
         <div>
             <input
                 type="file"
-                accept=".jpg,.png"
+                accept=".jpg,.png,.webp"
                 multiple
                 onChange={handleUploadImages}
                 ref={hiddenInputRef}
