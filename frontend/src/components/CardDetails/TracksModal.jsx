@@ -5,7 +5,9 @@ import { thunkAddTracksToCard } from "../../store/cards"
 import { useModal } from "../../context/Modal"
 import TrackUploadButton from "../Catalog/TrackUploadButton"
 import './TracksModal.css'
-import { BsPlusSquareDotted } from "react-icons/bs";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
+import { CiSearch } from "react-icons/ci";
+import { GoTag } from "react-icons/go";
 
 
 
@@ -55,30 +57,45 @@ export default function TracksModal({ cardId }) {
     if (loadedTracks) return (
         <div id="trackmodal-content">
             <div id="tracksmodal-search-column">
-                <span>Search</span>
-                <input type="search"/>
+                <span><CiSearch />Search Tracks:</span>
+                <input type="search" />
+                <span><GoTag />Tags:</span>
+                <select>
+                    <option>Suspense</option>
+                    <option>Comedy</option>
+                    <option>Epic</option>
+                    <option>Dark</option>
+                    <option>Emotional</option>
+                    <option>Drama</option>
+                </select>
             </div>
+
+            <div>
             <div id="tracksmodal-tracks-colum">
                 <p>Select the tracks you want to add or upload new ones:</p>
                 <div id="tracksmodal-track-list">
-                {
-                    catalog?.map(track => (
-                        <div key={track.id} id="tracksmodal-track-row">
-                            <input type="checkbox" onChange={(e) => handleSelectedTrack(e, track)} />
-                            <p>{track.title}</p>
-                        </div>
-                    ))
-                }
+                    {
+                        catalog?.map(track => (
+                            <div key={track.id} id="tracksmodal-track-row">
+                                <input type="checkbox" onChange={(e) => handleSelectedTrack(e, track)} />
+                                <p>{track.title}</p>
+                            </div>
+                        ))
+                    }
                 </div>
+            </div>
+            <div id="track-modal-buttons-container">
                 <button
                     className="add-tracks-button"
                     onClick={handleAddTracks}
                     disabled={disabled}
                 >
-                    ADD { multipleTracks ? 'TRACKS' : 'TRACK'}
-                    <BsPlusSquareDotted size={30}/>
+                    ADD {multipleTracks ? 'TRACKS' : 'TRACK'}
+                    <MdOutlinePlaylistAdd size={25} />
                 </button>
+
                 <TrackUploadButton />
+            </div>
             </div>
         </div>
     )

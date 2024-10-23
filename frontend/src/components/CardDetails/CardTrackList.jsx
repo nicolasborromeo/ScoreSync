@@ -8,8 +8,15 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect } from 'react';
 
 
-export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle, waveformColor }) {
+export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle, waveformColor, primaryTextColor }) {
     const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        if (trackList) {
+            setTrackList(trackList)
+        }
+    }, [trackList, setTrackList])
 
     //handle empty tracklist
     useEffect(() => {
@@ -44,6 +51,8 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
     //Thunk Actions
     const handleRemoveCardTrack = (trackId) => {
         dispatch(thunkRemoveCardTrack(cardId, trackId))
+        const updatedTrackList = trackList.filter(track => track.id !== trackId);
+        setTrackList(updatedTrackList); 
     }
 
 
@@ -54,7 +63,11 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                 <Droppable droppableId="tracks">
                     {(provided) => (
                         <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}
-                            style={{border:`1px solid ${waveformColor}44`, borderRadius:'15px', overflow:'scroll'}}
+                            style={{
+                                // color: primaryTextColor,
+                                border:`1px solid ${waveformColor}44`,
+                                borderRadius:'15px',
+                                overflow:'scroll'}}
                         >
                             {trackList?.map((track, i) => (
                                 <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>

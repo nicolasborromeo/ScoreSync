@@ -11,6 +11,7 @@ import ImagesModal from "./ImagesModal"
 import ToolBox from "../ToolBox"
 import TracksModal from "./TracksModal"
 import ExternalLinkBar from './ExternalLinkBar'
+import ContactInfo from './ContactInfo'
 
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
@@ -126,13 +127,13 @@ export default function CardDetails() {
                                         cssId={'job-title'}
                                         value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
                                         column={'customJobTitle'}
+                                        primaryTextColor={primaryTextColor}
                                     />
                                 </div>
                             </div>
                             <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />
                         </div>
 
-                        {/* contact info email phone website */}
 
                         <div style={{ color: primaryTextColor }}>
                             <div>
@@ -140,6 +141,7 @@ export default function CardDetails() {
                                     cssId={'card-title'}
                                     value={card.title ? `${card.title}:` : 'Your Playlist Title...'}
                                     column={'title'}
+                                    primaryTextColor={primaryTextColor}
                                 />
                             </div>
 
@@ -148,9 +150,13 @@ export default function CardDetails() {
                                     cssId={'card-description'}
                                     value={card.description ? card.description : 'Your Playlist Description...'}
                                     column={'description'}
+                                    primaryTextColor={primaryTextColor}
                                 />
                             </div>
                         </div>
+
+
+                        {/* contact info email phone website */}
 
                         <div id="contact-info" style={{ color: waveformColor }}>
                             {displayInfo?.website &&
@@ -222,8 +228,6 @@ export default function CardDetails() {
 
                 {/* bio and links */}
 
-                {/* <BiSolidHide size={40} onClick={() => handleHidden('bio')} /> */}
-
                 <section style={{ color: primaryTextColor }}>
 
                     <div id="card-bio">
@@ -233,13 +237,19 @@ export default function CardDetails() {
                                 <i className="pencil-icon"><CiEdit /></i>
                             </div>
                         </div>
+                        <div id="bio-container">
+                            <h2 id="biography-title">Biography</h2>
+                            <EditableField
+                                cssId={`card-bio-text`}
+                                value={card.customBio ? card.customBio : displayInfo.bio}
+                                column={'customBio'}
+                                type="textarea"
+                                primaryTextColor={primaryTextColor}
+                            />
 
-                        <EditableField
-                            cssId={`card-bio-text`}
-                            value={card.customBio ? card.customBio : displayInfo.bio}
-                            column={'customBio'}
-                            type="textarea"
-                        />
+                            <ContactInfo displayInfo={displayInfo} waveformColor={waveformColor}/>
+
+                        </div>
                     </div>
 
                     <div id="preview-button-container">
@@ -287,13 +297,14 @@ export default function CardDetails() {
 
 //EDITABLE FIELD COMPONENT
 
-function EditableField({ value, cssId, column, type = 'p' }) {
+function EditableField({ value, cssId, column, type = 'p', primaryTextColor }) {
     const dispatch = useDispatch()
     const cardId = useSelector(state => state.cards.currentCard.id)
-    const defaultBio = useSelector(state => state.cards.currentCard.User.UserDisplayInfo.bio)
+    const defaultBio = useSelector(state => state.cards?.currentCard?.User?.UserDisplayInfo?.bio)
     const [editEnabled, setEditEnabled] = useState(false)
     const [editValue, setEditValue] = useState(value)
     const [defaultBioEnabled, setDefaultBioEnabled] = useState(false)
+
     const handleSave = () => {
         if (!isEmpty(editValue)) dispatch(thunkUpdateCard(cardId, column, editValue))
         setEditEnabled(false)
@@ -316,6 +327,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
         (
             <input
                 className="editable-field-input"
+                style={{ color: primaryTextColor }}
                 value={editValue}
                 autoFocus
                 onChange={(e) => setEditValue(e.target.value)}
@@ -341,6 +353,7 @@ function EditableField({ value, cssId, column, type = 'p' }) {
             <div>
                 <textarea
                     className="editable-field-textarea"
+                    style={{ color: primaryTextColor }}
                     value={editValue}
                     autoFocus
                     onChange={(e) => setEditValue(e.target.value)}

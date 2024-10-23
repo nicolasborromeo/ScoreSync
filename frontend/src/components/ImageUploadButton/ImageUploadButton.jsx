@@ -37,7 +37,7 @@ export default function ImageUploadButton() {
                 style={{ display: 'none' }}
             />
 
-            <button onClick={handleClick} className="upload-tracks-icon">
+            <button onClick={handleClick} className="add-tracks-button">
                 UPLOAD IMAGES
                 <FaCloudUploadAlt size={30} className="colored" />
             </button>

@@ -1,3 +1,4 @@
+import './ToolBox.css'
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -80,7 +81,7 @@ export default function ToolBox({
 
     //Tools function and state:
     const [originalSecondaryBackground, setOriginalSecondaryBackground] = useState(secondaryBackground)
-    const [minimized, setMinimized] = useState(false)
+    const [minimized, setMinimized] = useState(true)
 
     //resetting the colros and fonts when clicking on new card
     useEffect(() => {
@@ -122,17 +123,33 @@ export default function ToolBox({
         }
         setMinimized(true)
         dispatch(thunkSaveCardStyles(cardId, colors, font))
-        .then(() => {
-            window.alert('Theme saved')
-        })
+            .then(() => {
+                window.alert('Theme saved')
+            })
     }
+
+    const handleRevertStyle = () => {
+        setPrimaryBackground(card?.CardColor?.primaryBackground);
+        setSecondaryBackground(card?.CardColor?.secondaryBackground);
+        setPrimaryTextColor(card?.CardColor?.primaryTextColor);
+        setSecondaryTextColor(card?.CardColor?.secondaryTextColor);
+        setWaveformColor(card?.CardColor?.waveformColor);
+
+        setOriginalSecondaryBackground(card?.CardColor?.secondaryBackground);
+        setSecondaryEnabled(true);
+
+        setFontFamily(card?.CardFont?.fontFamily)
+        setFontSize(card?.CardFont?.fontSize)
+        setMinimized(true)
+    }
+
     const toggleMinimize = () => {
         setMinimized((prev) => !prev)
     }
 
     const openToolBox = (e) => {
         setPosition({
-            x: e.pageX ,
+            x: e.pageX,
             y: e.pageY - 350
         })
         setMinimized(false)
@@ -153,6 +170,7 @@ export default function ToolBox({
                 <span onClick={toggleMinimize}>-</span>
 
             </div>
+
             <div>
                 <input
                     type="color"
@@ -202,32 +220,41 @@ export default function ToolBox({
             </div>
 
             {/* fonts */}
-            <div className="separator">Font Style</div>
+            <div className="separator"></div>
             <div id="toolbox-font-container">
-                <select id="font-selector" value={fontFamily} onChange={(e)=> setFontFamily(e.target.value)}>
-                    <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Default</option>
-                    <option value="Montserrat">Montserrat</option>
-                    <option value="Raleway">Raleway</option>
-                    <option value="Lora">Lora</option>
-                    <option value="Playfair Display">Playfair Display</option>
-                    <option value="Poppins">Poppins</option>
-                    <option value="Futura">Futura</option>
-                    <option value="Avenir">Avenir</option>
-                    <option value="Bebas Neue">Bebas Neue</option>
-                    <option value="Oswald">Oswald</option>
-                    <option value="Josefin Sans">Josefin Sans</option>
-                    <option value="Proxima Nova">Proxima Nova</option>
-                    <option value="Merriweather">Merriweather</option>
-                    <option value="Cabin">Cabin</option>
-                    <option value="Fjalla One">Fjalla One</option>
-                </select>
-                <input type="number" value={fontSize} onChange={(e)=> setFontSize(e.target.value)}/>
+                <p>Font Style</p>
+                <div>
+                    <select id="font-selector" value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+                        <option value="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">Default</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Raleway">Raleway</option>
+                        <option value="Lora">Lora</option>
+                        <option value="Playfair Display">Playfair Display</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Futura">Futura</option>
+                        <option value="Avenir">Avenir</option>
+                        <option value="Bebas Neue">Bebas Neue</option>
+                        <option value="Oswald">Oswald</option>
+                        <option value="Josefin Sans">Josefin Sans</option>
+                        <option value="Proxima Nova">Proxima Nova</option>
+                        <option value="Merriweather">Merriweather</option>
+                        <option value="Cabin">Cabin</option>
+                        <option value="Fjalla One">Fjalla One</option>
+                    </select>
+                    <input type="number" value={fontSize} onChange={(e) => setFontSize(e.target.value)} />
+                </div>
             </div>
-
+            <div className="separator"></div>
             <div id="toolbox-button-container">
                 <button
+                    className='add-tracks-button'
                     onClick={handleSaveCardStyles}
                 >Save
+                </button>
+                <button
+                    className='add-tracks-button'
+                    onClick={handleRevertStyle}
+                >Cancel
                 </button>
             </div>
         </div>
