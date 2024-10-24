@@ -1,26 +1,53 @@
 const express = require('express');
 const { requireAuth } = require('../../utils/auth');
 const { ExternalLink } = require('../../db/models');
+const { handleValidationErrors } = require('../../utils/validation')
+const { check, body, query } = require('express-validator')
 
 const router = express.Router();
 
-router.post('/current',
+router.get(
+    '/',
     requireAuth,
-    async (req, res) => {
+    async (req, res, next) => {
+        const { user } = req;
+        try {
+            const usersLinks = await ExternalLink.findAll({ where: { userId: user.id } });
+            return res.status(200).json(usersLinks)
+        } catch (error) {
+            res.json(error)
+            return next(error)
+        }
+    }
+)
 
+const validateUrl = [
+    body('url')
+        .exists()
+        .notEmpty()
+        .withMessage("url is required")
+        .matches(/^(http:\/\/|https:\/\/)/i)
+        .withMessage("URL must start with 'http://' or 'https://' ")
+        .isURL()
+        .withMessage("Please enter a valid URL")
+        .custom(async (url, { req }) => {
+            const { user } = req;
+            const usersLinks = await ExternalLink.findAll({ where: { userId: user.id } });
+            const linkExists = usersLinks.some(link => link.url === url);
+            if (linkExists) {
+                return Promise.reject('The link you are trying to add has already been added');
+            }
+        })
+        .withMessage('The link already exists'),
+    handleValidationErrors
+]
+
+router.post('/',
+    requireAuth,
+    validateUrl,
+    async (req, res, next) => {
         const { user } = req;
         const { url } = req.body;
-
-        if (!url) {
-            return res.status(400).json({ error: 'Url is required' });
-        }
-
-        const usersLinks = await ExternalLink.findAll({ where: { userId: user.id } });
-
-        const linkExists = usersLinks.some(link => link.url === url);
-        if (linkExists) {
-            return res.status(400).json({ error: 'The link you are trying to add has already been added' });
-        }
 
         const newExternalLink = await ExternalLink.create({ userId: user.id, ...req.body });
 
@@ -34,7 +61,7 @@ router.delete('/:linkId',
 
         const linkId = req.params.linkId
 
-        await ExternalLink.destroy({where: {id : linkId}})
+        await ExternalLink.destroy({ where: { id: linkId } })
 
         res.status(200).json({ message: 'Successfully deleted' })
     }

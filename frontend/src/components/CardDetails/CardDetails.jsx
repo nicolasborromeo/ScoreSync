@@ -48,7 +48,7 @@ export default function CardDetails() {
             setExternalLinks(card.User.ExternalLinks)
             setUserLoaded(true)
         } else {
-            console.log('NO USER', card)
+            return
         }
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
 
@@ -129,11 +129,11 @@ export default function CardDetails() {
                                     />
                                 </div>
                             </div>
-                            <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />
+                            {externalLinks && <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />}
                         </div>
 
 
-                        <div style={{ color: primaryTextColor }}>
+                        <div style={{ color: primaryTextColor }} id="card-title-and-description-container">
                             <div>
                                 <EditableField
                                     cssId={'card-title'}
@@ -158,27 +158,33 @@ export default function CardDetails() {
 
                         <div id="contact-info" style={{ color: waveformColor }}>
                             {displayInfo?.website &&
-                                <Link
-                                    to={`${displayInfo.website}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer external"
-                                    style={{ color: waveformColor, textDecoration: 'none' }} // Here, we remove textDecoration
-                                    className="contact-link"
-                                    id="website"
-                                >
-                                    {displayInfo.website?.split('//')[1]}
-                                </Link>}
-                            <p>·</p>
+                                <>
+                                    <Link
+                                        to={`${displayInfo.website}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer external"
+                                        style={{ color: waveformColor, textDecoration: 'none' }} // Here, we remove textDecoration
+                                        className="contact-link"
+                                        id="website"
+                                    >
+                                        {displayInfo.website?.split('//')[1]}
+                                    </Link>
+                                    <p>·</p>
+                                </>
+                            }
                             {displayInfo?.email &&
-                                <a
-                                    href={`mailto:${displayInfo.email}`}
-                                    style={{ color: waveformColor, textDecoration: 'none' }}
-                                    id="email"
-                                    className="contact-link"
-                                >
-                                    {displayInfo.email}
-                                </a>}
-                            <p>·</p>
+                                <>
+                                    <Link
+                                        href={`mailto:${displayInfo.email}`}
+                                        style={{ color: waveformColor, textDecoration: 'none' }}
+                                        id="email"
+                                        className="contact-link"
+                                    >
+                                        {displayInfo.email}
+                                    </Link>
+                                    <p>·</p>
+                                </>
+                            }
                             {displayInfo?.phone &&
                                 <Link
                                     href={`tel:${displayInfo.phone}`}
@@ -235,7 +241,7 @@ export default function CardDetails() {
                             <h2 id="biography-title">Biography</h2>
                             <EditableField
                                 cssId={`card-bio-text`}
-                                value={card.customBio ? card.customBio : displayInfo.bio}
+                                value={card.custoBio ? card.customBio : displayInfo.bo || '...'}
                                 column={'customBio'}
                                 type="textarea"
                                 primaryTextColor={primaryTextColor}
@@ -258,7 +264,9 @@ export default function CardDetails() {
                         </button>
                     </div>
 
-                    <div id="card-details-footer"></div>
+                    <div id="card-details-footer">
+                        Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
+                    </div>
                 </section>
 
             </div>

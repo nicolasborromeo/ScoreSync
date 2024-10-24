@@ -32,6 +32,7 @@ function Layout() {
       <Navigation isLoaded={isLoaded} />
       <div className="main">
         {isLoaded && <Outlet />}
+        <Footer />
       </div>
     </div>
 
@@ -49,11 +50,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/preview/:privateToken',
-    element: <PublicCard preview={true}/>,
+    element: <PublicCard preview={true} />,
   },
   {
     path: '/:privateToken',
-    element: <PublicCard preview={false}/>,
+    element: <PublicCard preview={false} />,
   },
   {
     element: <Layout />,
@@ -88,7 +89,24 @@ const router = createBrowserRouter([
 
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+
+    </>
+  )
+
+}
+
+
+const Footer = () => {
+  return (
+    <div className="footer">
+      <p>
+      Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
+      </p>
+    </div>
+  )
 }
 
 export default App;

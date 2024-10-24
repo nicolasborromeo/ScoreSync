@@ -20,7 +20,7 @@ export default function ExternalLinkBar({ externalLinks, waveformColor }) {
 
 
 
-const ExternalLink = ({ url, waveformColor }) => {
+export const ExternalLink = ({ url, waveformColor }) => {
 
     if (url.includes('imdb')) {
         return <Link
@@ -67,5 +67,5 @@ const ExternalLink = ({ url, waveformColor }) => {
                         <FaXTwitter color={waveformColor} />
                 </Link>;
     }
-    return <p>PPPPP</p>;
+
 };

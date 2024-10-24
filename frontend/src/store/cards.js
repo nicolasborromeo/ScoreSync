@@ -208,6 +208,12 @@ export const thunkGetPreviewCard = (privateToken) => async dispatch => {
     }
 }
 
+export const thunkCheckUserDisplayInfo = () => async () => {
+    const response = await csrfFetch(`/api/displayinfo/current`)
+    const data = await response.json()
+    return data
+}
+
 const initialState = { userCards: [] }
 
 const cardsReducer = (state = initialState, action) => {

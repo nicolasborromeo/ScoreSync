@@ -172,6 +172,9 @@ img {
     font-size: 2em;
     line-height: 5px;
 }
+#card-title-and-description-container{
+    width: 50vw;
+}
 
 #card-title {
     font-style: italic;
@@ -179,6 +182,8 @@ img {
     /* margin-top: 2em; */
     padding: 0 !important;
     margin: 0 !important;
+    white-space: nowrap;
+    width: min-content !important;
 
 }
 
@@ -187,10 +192,10 @@ img {
     padding: 0;
     text-align: left;
 }
-#card-title,
+/* #card-title,
 #card-description {
-    width: 50vw;
-}
+
+} */
 #now-playing {
     font-size: 0.7em;
 }
@@ -347,6 +352,10 @@ img {
 #card-details-footer{
     height: 50px !important;
     /* background-color: gray; */
+    display: flex;
+    justify-content: center;
+    font-size: 0.6em;
+    color: gray;
 }
 
 /* EDITABLE FIELDS */
@@ -354,7 +363,7 @@ img {
 .editable-field-container {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: center !important;
 }
 
 .pencil-icon-on-field {

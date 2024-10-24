@@ -8,6 +8,7 @@
     padding: 1.5rem;
     height: min-content;
     min-height: min-content !important;
+    min-width: max-content;
 }
 
 #tracksmodal-search-column span {

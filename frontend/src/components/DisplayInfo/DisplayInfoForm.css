@@ -1,0 +1,82 @@
+
+#display-information-container{
+    width: 80vw;
+    margin-left: 8em;
+    /* background-color: rgb(60, 57, 57); */
+    background-color: #393841;
+    padding: 1em;
+    border-radius: 4px;
+    box-shadow: (0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px
+}
+
+
+
+
+#display-information-container h2 {
+    margin: 0;
+    /* color: var(--text-secondary) */
+}
+
+
+#display-information-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+}
+
+#display-information-container form div {
+    padding: 10px;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    border-radius: 8px;
+}
+
+#display-information-container form div input {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-secondary);
+    font-size: 1em;
+}
+
+#display-information-container form div textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-secondary);
+    font-size: 1em;
+    height: max-content;
+    font-family: inherit;
+}
+
+#bio-fieldset {
+    height: 100%;
+}
+
+#display-information-container form div fieldset legend {
+    transition: color, 0.3s ease;
+}
+
+#display-information-container form div fieldset {
+    border: 2px solid gray; 
+    border-radius: 10px;
+    transition: border-color 0.4s ease; 
+    margin-bottom: 8px;
+
+}
+
+#display-information-container form div fieldset:focus-within {
+    border-color: var(--icon-secondary); 
+}
+#display-information-container form div fieldset:hover {
+    border-color: var(--text-secondary); 
+    color: var(--text-secondary)
+}
+
+
+#display-information-container form div fieldset:focus-within legend {
+    color: var(--icon-secondary);
+}

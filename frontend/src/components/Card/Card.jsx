@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatUploaded } from "../../utils/utils";
-import { thunkGetUserCards } from '../../store/cards'
+import { thunkCheckUserDisplayInfo, thunkGetUserCards } from '../../store/cards'
 import { useModal } from '../../context/Modal';
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
@@ -14,7 +14,6 @@ import { IoMdSettings } from "react-icons/io";
 import { GoLink } from "react-icons/go";
 import { IoMdCloudDone } from "react-icons/io";
 import { MdOutlineCloudOff } from "react-icons/md";
-
 import { CiCirclePlus } from "react-icons/ci";
 // import { BsPlusSquareDotted } from "react-icons/bs";
 //
@@ -63,6 +62,14 @@ export default function Card() {
         })
     }, [user, dispatch])
 
+    const handleCreateCard = async () => {
+        const usersInfo = await dispatch(thunkCheckUserDisplayInfo())
+        if(usersInfo.name) {
+            setModalContent(<CardTitleModal navigate={navigate} action={'create'}/>)
+        } else {
+            setModalContent(<p style={{color: 'red', textAlign:'center'}}>You need to complete your Display Information on the Dashboard first</p>)
+        }
+    }
 
     return (
         <div id="cards-container">
@@ -109,11 +116,18 @@ export default function Card() {
                     </tbody>
                 }
             </table>
+            {
+                !cards.length
+                &&
+                    <>
+                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
+                    </>
+            }
             <div >
                 <CiCirclePlus
                     id="add-card-button"
                     size={60}
-                    onClick={() => setModalContent(<CardTitleModal navigate={navigate} action={'create'}/>)}
+                    onClick={handleCreateCard}
                 />
             </div>
 
