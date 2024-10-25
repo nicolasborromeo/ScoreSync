@@ -35,12 +35,12 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     });
 
     // Function to handle volume change
-    const handleVolumeChange = (event) => {
-        const volume = event.target.value;
-        if (wavesurfer) {
-            wavesurfer.setVolume(volume);
-        }
-    };
+    // const handleVolumeChange = (event) => {
+    //     const volume = event.target.value;
+    //     if (wavesurfer) {
+    //         wavesurfer.setVolume(volume);
+    //     }
+    // };
 
     useEffect(() => {
         if (wavesurfer) {

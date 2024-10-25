@@ -1,5 +1,5 @@
 import CircularProgress from './CircularProgress'
-import { FaMusic, FaFileAlt, FaImages, FaCompactDisc } from 'react-icons/fa';
+import { FaMusic, FaFileAlt, FaImages } from 'react-icons/fa';
 import { thunkGetUserImages} from '../../store/images';
 import {thunkGetUserCards } from '../../store/cards'
 import {thunkGetUserTracks } from '../../store/tracks'
@@ -48,9 +48,9 @@ export default function DashboardGrid() {
 
 
     }, [tracks, images, cards])
-    const cardPercentage = (activeCards / cardCount) * 100;
+    // const cardPercentage = (activeCards / cardCount) * 100;
 
-    return (
+    if(stateUpdated) return (
         <div className="dashboard-grid">
             <div className="dashboard-card" onClick={()=> navigate('/cards')}>
                 <CircularProgress a={activeCards} b={cardCount} />

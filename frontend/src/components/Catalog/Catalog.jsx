@@ -133,7 +133,7 @@ export default function Catalog() {
                         <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
                     </>
                 }
-
+{/*
                 {
                 uploading
                 &&
@@ -143,11 +143,11 @@ export default function Catalog() {
                     </div>
 
 
-                }
+                } */}
 
             </table>
 
-            <TrackUploadButton handleUploadTracks={handleUploadTracks} />
+            <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
 
             {/* AUDIOPLAYER */}
            {
@@ -179,14 +179,19 @@ export default function Catalog() {
 }
 
 //Upload Button
-function TrackUploadButton({ handleUploadTracks }) {
+function TrackUploadButton({ handleUploadTracks, uploading }) {
     const hiddenInputRef = useRef(null)
     const handleClick = () => {
         if (hiddenInputRef.current) {
             hiddenInputRef.current.click();
         }
     }
-    return (
+    if(uploading) return (
+        <div style={{ textAlign: 'center', margin: '1em', display:'flex', justifyContent:'center', alignItems:'center', gap:'1em' }}>
+            <AiOutlineLoading className='loading-icon' /> Uploading...
+        </div>
+    )
+    if(!uploading) return (
         <div>
             <input
                 type="file"

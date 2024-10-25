@@ -278,6 +278,7 @@ img {
 
  #card-headshot-container {
     max-width: 20vw;
+    min-width: 20vw;
     max-height: 30vw;
     border-radius: 16px;
     height: 100%;

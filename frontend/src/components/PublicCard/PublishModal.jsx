@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import './PublishModal.css'
 
-export default function PublishModal({ publicUrl, closeModal, navigate }) {
+export default function PublishModal({ publicUrl, closeModal }) {
     const [copied, setCopied] = useState(false)
 
     const handleCopyToClipboard = async () => {

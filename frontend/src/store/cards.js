@@ -77,12 +77,12 @@ const updateCardStyles = (colors, font) => {
     }
 }
 
-const updateTracklistOrder = (tracklist) => {
-    return {
-        type: UPDATE_TRACKLIST_ORDER,
-        tracklist
-    }
-}
+// const updateTracklistOrder = (tracklist) => {
+//     return {
+//         type: UPDATE_TRACKLIST_ORDER,
+//         tracklist
+//     }
+// }
 
 const unpublishCard = (cardId) => {
     return {
@@ -108,7 +108,7 @@ export const thunkGetCurrentCard = (cardId) => async dispatch => {
     }
 }
 
-export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async dispatch => {
+export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async () => {
     const response = await csrfFetch(`/api/cards/tracklist/${cardId}`, {
         method: 'PUT',
         body: JSON.stringify({ tracklist })
@@ -127,7 +127,7 @@ export const thunkUpdateCard = (cardId, column, editValue) => async dispatch => 
         column: column,
         editValue: editValue
     }
-    const response = await csrfFetch(`/api/cards/${cardId}`, {
+    const response = await csrfFetch(`/api/cards/card/${cardId}`, {
         method: "PUT",
         body: JSON.stringify(body)
     })
@@ -224,7 +224,7 @@ export const thunkCheckUserDisplayInfo = () => async () => {
     return data
 }
 
-export const thunkPublishCard = (cardId, privateToken) => async dispatch => {
+export const thunkPublishCard = (cardId, privateToken) => async () => {
     const response = await csrfFetch(`/api/cards/publish/${cardId}`, {
         method: 'PUT',
         body: JSON.stringify({privateToken})

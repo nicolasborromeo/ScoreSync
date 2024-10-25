@@ -15,12 +15,12 @@ module.exports = {
     Card.bulkCreate([
       {
         userId: 4,
-        title: "Summer Vibes",
-        description: "A collection of tracks that capture the essence of summer.",
+        title: "Bleeding Fingers",
+        description: "A collection of tracks created for Hans Zimmer's composer agency, the two-time Emmy-winning, ten-time Emmy-nominated, and BAFTA-nominated Bleeding Fingers Music.",
         isLight: true,
         isActive: true,
-        customBio: "Music Enthusiast",
-        customJobTitle: "DJ",
+        customBio: null,
+        customJobTitle: "Freelance Composer",
         previewUrl: `${DATABASE_URL}/cards/preview/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
         publicUrl: `${DATABASE_URL}/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
         privateToken: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",

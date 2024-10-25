@@ -16,7 +16,7 @@ export default function DisplayInfoForm() {
 
     useEffect(() => {
         dispatch(thunkGetUsersDisplayInfo()).then(() => setFetched(true))
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if (displayInfo && fetched) {
@@ -41,7 +41,7 @@ export default function DisplayInfoForm() {
         <div id="display-information-container">
             <h2>Display Information</h2>
             <div className="text-and-button">
-                <p>Below are your personal details that will appear by default in all the cards. Any changes made here will affect all other cards (existing and future), unless you've modified the field directly in the card. The modifiable fields are: Job Title and Biographhy.</p>
+                <p>Below are your personal details that will appear by default in all the cards. Any changes made here will affect all other cards (existing and future), unless you&apos;ve modified the field directly in the card. The modifiable fields are: Job Title and Biographhy.</p>
                 <button className="dashboard-button" onClick={handleSaveDisplayInfo}>Save</button>
             </div>
 

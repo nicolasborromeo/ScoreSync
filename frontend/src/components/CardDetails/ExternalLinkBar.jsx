@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux"
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaImdb } from "react-icons/fa6";
