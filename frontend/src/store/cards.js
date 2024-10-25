@@ -205,6 +205,7 @@ export const thunkGetPreviewCard = (privateToken) => async dispatch => {
     if(response.ok) {
         const cardData = await response.json()
         dispatch(setCurrentCard(cardData))
+        return(cardData)
     }
 }
 

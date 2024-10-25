@@ -24,7 +24,7 @@ img {
     image-rendering: crisp-edges;
 }
 #card-banner .public-image-container{
-    
+
 }
 
 #card-banner img {
@@ -327,15 +327,18 @@ img {
 
 
 #preview-publish-button {
-    display: block;
+    display: flex;
     border: 1px solid gray;
-    padding: 10px 15px;
+    padding: 11px 15px;
     background-color: var(--bg-primary) !important;
     color: var(--text-primary);
     border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
     margin: 3em auto !important;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
 }
 
 #contact-info-component {
@@ -451,4 +454,35 @@ img {
 
 #hidebanner {
     position: relative;
+}
+
+
+/* PUBLISH */
+
+.preview-buttons-container {
+    display:  flex;
+    justify-content: space-between;
+    /* justify-content: space-evenly; */
+    align-items: center;
+}
+#preview-publish-button-container {
+    display:  flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+}
+#publish-button {
+    border-radius: 20px;
+    margin: 0 !important;
+    padding: 10px 20px;
+    background-color: var(--icon-secondary);
+    color: black;
+    border: 2px solid rgb(111, 20, 20);
+    height: min-content;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight:bold ;
+    gap: 5px
 }

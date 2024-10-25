@@ -13,16 +13,18 @@ import ToolBox from "../ToolBox"
 import ExternalLinkBar from '../CardDetails/ExternalLinkBar'
 import ContactInfo from '../CardDetails/ContactInfo'
 
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { FaCheck } from "react-icons/fa";
 
 
-export default function CardDetails() {
+
+export default function PublicCard({ preview }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const card = useSelector(state => state.cards.currentCard)
-    // const cardId = card.id
     const params = useParams()
     const privateToken = params.privateToken
-    console.log('privateTOKEN!:', privateToken)
+
     const [bio, setBio] = useState('')
     const [trackList, setTrackList] = useState([])
     const [displayInfo, setDisplayInfo] = useState({})
@@ -45,8 +47,8 @@ export default function CardDetails() {
 
 
     useEffect(() => {
-        dispatch(thunkGetPreviewCard(privateToken)).then(()=> {
-            setCardId(card.id)
+        dispatch(thunkGetPreviewCard(privateToken)).then((res) => {
+            // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
         })
     }, [dispatch, privateToken])
 
@@ -54,6 +56,7 @@ export default function CardDetails() {
     //setting up users data:
     useEffect(() => {
         if (card && card.User) {
+            setCardId(card.id)
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
             setBio(card.customBio || displayInfo.bio)
@@ -127,7 +130,7 @@ export default function CardDetails() {
                             {externalLinks && <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />}
                         </div>
 
-                    {/* card title and description */}
+                        {/* card title and description */}
 
                         <div id="card-title-and-description-container" style={{ color: primaryTextColor }}>
                             {card?.title && (
@@ -226,21 +229,26 @@ export default function CardDetails() {
                         </div>
                     </div>
 
-
-                    <div id="preview-button-container">
-                        <button id="preview-publish-button"
-                            onClick={() => navigate(`/cards/${cardId}`)}
-                        >
-                            BACK TO EDITING
-                        </button>
-                    </div>
-                    <div id="preview-button-container">
-                        <button id="publish-button"
-                        onClick={handlePublishCard}
-                        >
-                            PUBLISH
-                        </button>
-                    </div>
+                    {preview &&
+                        <div className='preview-buttons-container'>
+                            <div id="preview-button-container">
+                                <button id="preview-publish-button"
+                                    onClick={() => navigate(`/cards/${cardId}`)}
+                                >
+                                    <IoMdArrowRoundBack size={18}/>
+                                    BACK TO EDITING
+                                </button>
+                            </div>
+                            <div id="preview-publish-button-container">
+                                <button id="publish-button"
+                                    onClick={handlePublishCard}
+                                >
+                                    PUBLISH
+                                    <FaCheck size={18}/>
+                                </button>
+                            </div>
+                        </div>
+                    }
 
                     <div id="card-details-footer">
                         Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
