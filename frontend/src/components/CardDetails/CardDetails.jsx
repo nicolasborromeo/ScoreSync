@@ -13,7 +13,7 @@ import TracksModal from "./TracksModal"
 import ExternalLinkBar from './ExternalLinkBar'
 import ContactInfo from './ContactInfo'
 
-import { BsPlusSquareDotted } from "react-icons/bs";
+
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 
 import { CiEdit } from "react-icons/ci";
@@ -241,7 +241,7 @@ export default function CardDetails() {
                             <h2 id="biography-title">Biography</h2>
                             <EditableField
                                 cssId={`card-bio-text`}
-                                value={card.custoBio ? card.customBio : displayInfo.bo || '...'}
+                                value={card.customBio ? card.customBio : displayInfo.bio || '...'}
                                 column={'customBio'}
                                 type="textarea"
                                 primaryTextColor={primaryTextColor}

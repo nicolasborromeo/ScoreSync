@@ -1,172 +1,256 @@
-//  {
-//     //preview returns boolean
-
-//     return <h1>this will be your public card</h1>
-// }
-
+import '../CardDetails/CardDetails.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { thunkGetPreviewCard, thunkUpdateCard } from "../../store/cards"
+import { thunkGetPreviewCard } from "../../store/cards"
+import { useNavigate, Link, useParams } from "react-router-dom"
+
+
 import CardAudioPlayer from "../CardDetails/CardAudioPlayer"
 import CardTrackList from "../CardDetails/CardTrackList"
-import ImagesModal from "../CardDetails/ImagesModal"
+
 import ToolBox from "../ToolBox"
-import '../CardDetails/CardDetails.css'
-import { useModal } from "../../context/Modal"
-import TracksModal from "../CardDetails/TracksModal"
-import { BsPlusSquareDotted } from "react-icons/bs";
-import { isEmpty } from "../../utils/utils"
+
+import ExternalLinkBar from '../CardDetails/ExternalLinkBar'
+import ContactInfo from '../CardDetails/ContactInfo'
 
 
-export default function PublicCard({ preview }) {
+
+export default function CardDetails() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    let { privateToken } = useParams()
     const card = useSelector(state => state.cards.currentCard)
+    // const cardId = card.id
+    const params = useParams()
+    const privateToken = params.privateToken
+    console.log('privateTOKEN!:', privateToken)
+    const [bio, setBio] = useState('')
+    const [trackList, setTrackList] = useState([])
     const [displayInfo, setDisplayInfo] = useState({})
     const [externalLinks, setExternalLinks] = useState({})
-    const [trackList, setTrackList] = useState([])
     const [userLoaded, setUserLoaded] = useState(false)
+    const [tracksLoaded, setTracksLoaded] = useState(false)
     const [audioUrl, setAudioUrl] = useState('')
-    const [trackTitle, setTrackTitle] = useState()
-    const [bio, setBio] = useState()
+
+    //State variables for card colors and font:
+    const [secondaryBackground, setSecondaryBackground] = useState('#141418')
+    const [secondaryTextColor, setSecondaryTextColor] = useState('#b6b6b6')
+    const [primaryBackground, setPrimaryBackground] = useState('#141418')
+    const [primaryTextColor, setPrimaryTextColor] = useState('#ececec')
+    const [secondaryEnabled, setSecondaryEnabled] = useState(true)
+    const [waveformColor, setWaveformColor] = useState('#eb3578')
+    const [fontFamily, setFontFamily] = useState("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
+    const [fontSize, setFontSize] = useState(16)
+    const [cardId, setCardId] = useState('')
 
 
-    //getting the current card:
+
     useEffect(() => {
-        dispatch(thunkGetPreviewCard(privateToken))
+        dispatch(thunkGetPreviewCard(privateToken)).then(()=> {
+            setCardId(card.id)
+        })
     }, [dispatch, privateToken])
+
+
     //setting up users data:
     useEffect(() => {
         if (card && card.User) {
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
-            card.customBio ? setBio(card.customBio) : setBio(displayInfo.bio || '')
+            setBio(card.customBio || displayInfo.bio)
             setUserLoaded(true)
-        } else {
-            console.log('NO USER', card)
-        }
+        } else return
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
 
     //setting up tracks data:
     useEffect(() => {
-        if (card && card?.Tracks?.length) {
+        if (card && card.Tracks?.length) {
             setTrackList(card.Tracks)
             setAudioUrl(card.Tracks[0].filePath)
-            setTrackTitle(card.Tracks[0].title)
-        }
-    }, [card])
 
-    const handleBackToEditing = () => {
-        navigate(`/cards/${card.id}`)
+        }
+        setTracksLoaded(true)
+    }, [card, cardId])
+
+    // setting up card bio
+
+    // useEffect(() => {
+    //     if(card && displayInfo && (displayInfo?.bio)) {
+    //         console.log(card)
+    //     }
+    // }, [card, displayInfo, displayInfo.bio])
+
+    const handlePublishCard = () => {
+
     }
 
-    //State variables for card colors and font:
-    const [primaryBackground, setPrimaryBackground] = useState('#141418')
-    const [secondaryBackground, setSecondaryBackground] = useState('#141418')
-    const [primaryTextColor, setPrimaryTextColor] = useState('#ececec')
-    const [secondaryTextColor, setSecondaryTextColor] = useState('#b6b6b6')
-    const [waveformColor, setWaveformColor] = useState('#eb3578')
-    const [secondaryEnabled, setSecondaryEnabled] = useState(true)
-    const [fontFamily, setFontFamily] = useState("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif")
-    const [fontSize, setFontSize] = useState(16)
 
+    if (userLoaded
+        &&
+        tracksLoaded
+    ) return (
 
-    if (userLoaded) return (
-        <div id="background-for-app-in-card-details" style={
-            secondaryEnabled ?
-                { background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }
-                :
-                { backgroundColor: primaryBackground }
-        }>
-
+        <div id="background-for-app-in-card-details" style={{ background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }}>
             <div id="card-details-container" style={{ fontFamily: fontFamily, fontSize: `${fontSize}px` }}>
+
+                {/* banner  */}
+
                 <section id="card-banner">
-                    <img src={card.Banner.url || `/defaultBanner.jpg`} />
-                    {/* <div className="image-container" onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'banner'} closeModal={closeModal} />)}>
-                        <i className="pencil-icon">✏️</i>
-                    </div> */}
+                    <div className='public-image-container'>
+                        <img src={card.Banner.url || `/defaultBanner.jpg`} />
+                    </div>
                 </section>
 
-                <section id="card-user-info" >
+                <section id="card-user-info">
+
+                    {/* profile picture */}
+
+                    <div id="card-profilepic-container">
+                        <div className='public-image-container'>
+                            <img style={{ border: `4px ridge ${waveformColor}` }} src={card.ProfilePic.url || `/defaultProfile.webp`} />
+                        </div>
+                    </div>
 
                     {/* name and jobtitle */}
 
-                    <div id="name-and-title" style={{ color: primaryTextColor }}>
-                        <h2 id="users-name">{displayInfo.name}</h2>
-                        <EditableField
-                            cssId={'job-title'}
-                            value={card.customJobTitle ? card.customJobTitle : displayInfo.jobTitle}
-                            column={'customJobTitle'}
-                        />
-                    </div>
+                    <div id="top-info-container">
+                        <div id="name-title-links-container">
+                            <div id="name-and-title" style={{ color: primaryTextColor }}>
+                                <h2 id="users-name">{displayInfo.name}</h2>
+                                <div>
+                                    <div className="editable-field-container">
+                                        <p id='job-title' >
+                                            {card.customJobTitle || displayInfo.jobTitle}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {externalLinks && <ExternalLinkBar externalLinks={externalLinks} waveformColor={waveformColor} />}
+                        </div>
 
-                    {/* contact info email phone website */}
+                    {/* card title and description */}
 
-                    <div id="contact-info" style={{ color: secondaryTextColor }}>
-                        <p id="email">{displayInfo.email}</p>
-                        <p id="phone">{displayInfo.phone}</p>
-                        <p id="website">{displayInfo.website?.split('//')[1]}</p>
+                        <div id="card-title-and-description-container" style={{ color: primaryTextColor }}>
+                            {card?.title && (
+                                <div className="editable-field-container">
+                                    <p id='card-title' >
+                                        {card.title}
+                                    </p>
+                                </div>
+                            )}
+                            {card?.description && (
+                                <div className="editable-field-container">
+                                    <p id='card-description' >
+                                        {card.description}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* contact info email phone website */}
+
+                        <div id="contact-info" style={{ color: waveformColor }}>
+                            {displayInfo?.website && (
+                                <>
+                                    <Link
+                                        to={`${displayInfo.website}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer external"
+                                        style={{ color: waveformColor, textDecoration: 'none' }} // Here, we remove textDecoration
+                                        className="contact-link"
+                                        id="website"
+                                    >
+                                        {displayInfo.website?.split('//')[1]}
+                                    </Link>
+                                    <p>·</p>
+                                </>
+                            )}
+                            {displayInfo?.email && (
+                                <>
+                                    <Link
+                                        href={`mailto:${displayInfo.email}`}
+                                        style={{ color: waveformColor, textDecoration: 'none' }}
+                                        id="email"
+                                        className="contact-link"
+                                    >
+                                        {displayInfo.email}
+                                    </Link>
+                                    <p>·</p>
+                                </>
+                            )}
+                            {displayInfo?.phone && (
+                                <Link
+                                    href={`tel:${displayInfo.phone}`}
+                                    style={{ color: waveformColor, textDecoration: 'none' }}
+                                    id="phone"
+                                    className="contact-link"
+                                >
+                                    {displayInfo.phone}
+                                </Link>
+                            )}
+                        </div>
                     </div>
                 </section>
 
                 {/* audioplayer */}
 
-                <section id="card-audioplayer" >
-                    <div style={{ color: primaryTextColor }}>
-                        <EditableField
-                            cssId={'card-title'}
-                            value={card.title ? card.title : 'Your Playlist Title...'}
-                            column={'title'}
-                        />
-
-                        <EditableField
-                            cssId={'card-description'}
-                            value={card.description ? card.description : 'Your Playlist Description...'}
-                            column={'description'}
-                        />
-                    </div>
-                    <div style={{ color: primaryTextColor }} >
-                        {card?.Tracks?.length ? (<p style={{ color: waveformColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)}
-
+                <section id="card-audioplayer">
+                    <div id="audioplayer-and-tracklist-container" style={{ color: waveformColor }}>
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <div>
-                            <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={card.id} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} />
-                        </div>
-
-
-
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} />
                     </div>
-                    <div id="card-download-option"></div>
                 </section>
+
+
 
                 {/* bio and links */}
 
                 <section style={{ color: primaryTextColor }}>
+
                     <div id="card-bio">
                         <div id="card-headshot-container">
-                            <div className="image-container" >
+                            <div className="public-image-container">
                                 <img src={card.Headshot.url || '/defaultHeadshot.jpg'} />
                             </div>
                         </div>
+                        <div id="bio-container">
+                            <h2 id="biography-title">Biography</h2>
+                            <div id='card-bio-text'>
+                                {bio?.split('\n').map((paragraph, i) => (
+                                    <p key={i}>{paragraph}</p>
+                                ))}
+                            </div>
+                            <div id="contact-info-container">
+                                <ContactInfo displayInfo={displayInfo} waveformColor={waveformColor} />
+                            </div>
 
-
-                        <div id="card-bio-text" className="editable-field" onClick={() => setEditEnabled(true)}>
-                            {bio.split('\n').map((paragraph, i) => (
-                                <p key={i}>{paragraph}</p>
-                            ))}
                         </div>
                     </div>
-                    <div id="card-contact-info" style={{ display: 'none' }}>
-                        <p>{externalLinks[0].url}</p>
+
+
+                    <div id="preview-button-container">
+                        <button id="preview-publish-button"
+                            onClick={() => navigate(`/cards/${cardId}`)}
+                        >
+                            BACK TO EDITING
+                        </button>
+                    </div>
+                    <div id="preview-button-container">
+                        <button id="publish-button"
+                        onClick={handlePublishCard}
+                        >
+                            PUBLISH
+                        </button>
                     </div>
 
-                    <button onClick={handleBackToEditing}>BACK TO EDITING</button>
+                    <div id="card-details-footer">
+                        Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
+                    </div>
                 </section>
 
             </div>
-            <div id="preview-hidden-toolbox-container" style={{ display: 'none' }}>
+
+            {/* HIDDEN pallete toolbox */}
+            <div className='hidden'>
                 <ToolBox
                     primaryBackground={primaryBackground}
                     setPrimaryBackground={setPrimaryBackground}
@@ -186,7 +270,7 @@ export default function PublicCard({ preview }) {
                     secondaryEnabled={secondaryEnabled}
                     setSecondaryEnabled={setSecondaryEnabled}
 
-                    cardId={card.id}
+                    cardId={cardId}
 
                     fontFamily={fontFamily}
                     setFontFamily={setFontFamily}
@@ -197,83 +281,4 @@ export default function PublicCard({ preview }) {
             </div>
         </div>
     )
-}
-
-
-
-//EDITABLE FIELD COMPONENT
-
-function EditableField({ value, cssId, column, type = 'p' }) {
-    const dispatch = useDispatch()
-    const cardId = useSelector(state => state.cards.currentCard.id)
-    const defaultBio = useSelector(state => state.cards.currentCard.User.UserDisplayInfo.bio)
-    const [editEnabled, setEditEnabled] = useState(false)
-    const [editValue, setEditValue] = useState(value)
-    const [defaultBioEnabled, setDefaultBioEnabled] = useState(false)
-    const handleSave = () => {
-        if (!isEmpty(editValue)) dispatch(thunkUpdateCard(cardId, column, editValue))
-        setEditEnabled(false)
-    }
-    useEffect(() => {
-        if (defaultBio) setDefaultBioEnabled(true)
-    }, [defaultBio])
-
-    const handleUseDefault = () => {
-        if (defaultBio) setEditValue(defaultBio)
-    }
-
-    //reset the value on the input field to the one clicked
-    useEffect(() => {
-        setEditValue(value)
-    }, [editEnabled, value])
-
-    //switch return and behaviour depending on the type (p, textarea)
-    if (type === 'p') return editEnabled ?
-        (
-            <input
-                className="editable-field-input"
-                value={editValue}
-                autoFocus
-                onChange={(e) => setEditValue(e.target.value)}
-                onBlur={() => setEditEnabled(false)}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSave()
-                }}
-            />
-        )
-        :
-        (
-            <div className="editable-field-container">
-                <p id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
-                    {value}
-                </p>
-                <i onClick={() => setEditEnabled(true)} className="pencil-icon-on-field">✏️</i>
-            </div>
-
-        )
-
-    if (type === 'textarea') return editEnabled ?
-        (
-            <>
-                <textarea
-                    className="editable-field-textarea"
-                    value={editValue}
-                    autoFocus
-                    onChange={(e) => setEditValue(e.target.value)}
-                />
-                <button onClick={handleSave}>Confirm</button>
-                <button onClick={() => setEditEnabled(false)}>Cancel</button>
-                <button disabled={!defaultBioEnabled} onClick={handleUseDefault}>Use Default</button>
-
-            </>
-        ) : (
-            <>
-                <div id={`${cssId}`} className="editable-field" onClick={() => setEditEnabled(true)}>
-                    {value.split('\n').map((paragraph, i) => (
-                        <p key={i}>{paragraph}</p>
-                    ))}
-                </div>
-            </>
-        )
-
 }

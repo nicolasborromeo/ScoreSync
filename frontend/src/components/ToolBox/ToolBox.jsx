@@ -202,14 +202,14 @@ export default function ToolBox({
                 />
                 <p>Primary Text Color</p>
             </div>
-            <div>
+            {/* <div>
                 <input
                     type="color"
                     value={secondaryTextColor}
                     onChange={(e) => setSecondaryTextColor(e.target.value)}
                 />
                 <p>Secondary Text Color</p>
-            </div>
+            </div> */}
             <div>
                 <input
                     type="color"
@@ -248,13 +248,13 @@ export default function ToolBox({
             <div id="toolbox-button-container">
                 <button
                     className='add-tracks-button'
-                    onClick={handleSaveCardStyles}
-                >Save
+                    onClick={handleRevertStyle}
+                >Cancel
                 </button>
                 <button
                     className='add-tracks-button'
-                    onClick={handleRevertStyle}
-                >Cancel
+                    onClick={handleSaveCardStyles}
+                >Save
                 </button>
             </div>
         </div>

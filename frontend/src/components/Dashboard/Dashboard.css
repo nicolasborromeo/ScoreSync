@@ -7,12 +7,14 @@
     font-family: inherit;
     color: var(--text-primary);
     background-color: var(--bg-secondary);
+
 }
 
 .dashboard-row-layout {
     display: flex;
     width: 100% !important;
     justify-content: flex-start !important;
+    /* max-width: 90vw; */
 }
 
 #divider{

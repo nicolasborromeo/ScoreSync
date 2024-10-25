@@ -23,6 +23,9 @@ img {
     image-rendering: auto;
     image-rendering: crisp-edges;
 }
+#card-banner .public-image-container{
+    
+}
 
 #card-banner img {
     width: 100% !important;
@@ -288,6 +291,13 @@ img {
     align-items: center;
 
 }
+#card-headshot-container .public-image-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
 
 #card-headshot-container img {
     height: 100%;
@@ -300,7 +310,7 @@ img {
     display: flex;
     gap: 2em;
     align-items: flex-start;
-
+    margin-top: 4em;
 }
 #card-bio-text{
     line-height: 1.4em;

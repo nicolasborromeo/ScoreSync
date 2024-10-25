@@ -422,6 +422,7 @@ router.get(
             card = card.toJSON()
             card.Banner = card.Banner ? { ...card.Banner[0] } : 'No Image associated Yet'
             card.Headshot = card.Headshot ? { ...card.Headshot[0] } : 'No Image associated Yet'
+            card.ProfilePic = card.ProfilePic ? { ...card.ProfilePic[0] } : 'No Image associated Yet'
             let formattedTracks = card.Tracks.map(track => {
                 track.order = track.CardTrack.trackOrder
                 delete track.CardTrack
