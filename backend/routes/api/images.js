@@ -36,13 +36,17 @@ router.delete(
         const imageId = req.params.imageId
         //search for the track in the db
         const image = await Image.findByPk(imageId)
-        if(!image) return res.status(404).json("Couldn't find image in database")
+
+        console.log('-----------------------IN ROUTE IMAGE ID AND IMAGE: ', imageId, image)
+        // if(!image) return res.status(404).json("Couldn't find image in database")
         //format the filePath to match AWS key
         // const filePath =  image.filePath.split('.com/')[1]
         // const key = filePath.replaceAll('+', ' ')
         const key = image.key
+        console.log('=========KEY EQUALS AWS KEY=========: ', key === 'Demo-lition/images/1729800277223Screenshot 2024-10-19 at 11.36.02 AM.png')
         //send the delete command to AWS
         const successfulDelete = await deleteFile(key)
+        console.log('---------------SUCCESSFULL DELETE?', successfulDelete)
         //if successful => delete from db
         if(successfulDelete) {
             const deleteFromDb = await image.destroy()
@@ -61,13 +65,12 @@ router.post(
         const userId = user.id
         const username = user.username
         const awsResponse = await multipleImagesUpload({ files: req.files, public: true, username})
-
         const images = await Promise.all(
             awsResponse.map(image => Image.create({
                 userId: userId,
                 url: image.url,
                 name: image.name,
-                key: image.key
+                key: `${username}/images/${image.key}`
             }))
         );
 

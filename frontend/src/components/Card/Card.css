@@ -183,3 +183,29 @@
     filter: grayscale(0%) brightness(1);
     cursor: pointer;
 }
+
+
+/* CARD COLLECTION GRID */
+#card-collection-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.carousel-container {
+    display: flex;
+    overflow: hidden; /* Hide overflow to achieve the carousel effect */
+    width: 80%; /* Adjust the width as needed */
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease; /* Smooth transition for moving cards */
+}
+
+.little-card-container {
+    min-width: 200px; /* Adjust size for the cards */
+    margin: 0 10px; /* Spacing between cards */
+    /* Additional styles for your card preview */
+}

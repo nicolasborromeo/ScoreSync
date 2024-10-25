@@ -5,39 +5,33 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA
 }
 
+
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('UserDisplayInfos', {
+    await queryInterface.createTable('CardProfilePics', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      userId: {
+      imgId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model:"Images",
           key: 'id'
         },
-        onDelete: 'CASCADE'
+        onDelete:'CASCADE'
       },
-      bio: {
-        type: Sequelize.TEXT
-      },
-      jobTitle: {
-        type: Sequelize.STRING
-      },
-      email: {
-        type: Sequelize.STRING,
-      },
-      phone: {
-        type: Sequelize.STRING
+      cardId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model:"Cards",
+          key: 'id'
+        },
+        onDelete:'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -48,11 +42,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-      }
+      },
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "UserDisplayInfos";
+    options.tableName = 'CardProfilePic';
     await queryInterface.dropTable(options);
   }
 };

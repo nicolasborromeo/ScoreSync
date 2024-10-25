@@ -29,9 +29,10 @@ export default function TrackUploadButton() {
     }
     if (uploading) {
         return (
-            <AiOutlineLoading className='loading-icon' />
-        // <td colSpan="5" style={{ textAlign: 'center', borderBottom: '1px solid #eeeeee' }}>
-        // </td>
+            <button className="add-tracks-button">
+                UPLOADING...
+                <AiOutlineLoading className='loading-icon' size={25}/>
+            </button>
         )
     } else {
         return (
@@ -44,9 +45,12 @@ export default function TrackUploadButton() {
                     ref={hiddenInputRef}
                     style={{ display: 'none' }}
                 />
-                <button onClick={handleClick} className="upload-tracks-icon">
+                <button onClick={handleClick}
+                // className="upload-tracks-icon"
+                className="add-tracks-button"
+                >
                     UPLOAD TRACKS
-                    <FaCloudUploadAlt size={30} className="colored" />
+                    <FaCloudUploadAlt size={25} className="colored" />
                 </button>
             </div>
         )

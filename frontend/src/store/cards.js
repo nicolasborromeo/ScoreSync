@@ -8,6 +8,9 @@ const UPDATE_CARD_IMAGE = "cards/updateCardImage"
 const REMOVE_CARD_TRACK = "cards/removeCardTrack"
 const ADD_TRACKS_TO_CARD = "cards/addTracksToCard"
 const RENAME_CARD = "cards/renameCard"
+const UPDATE_CARD_STYLES = "cards/updateCardStyles"
+const UPDATE_TRACKLIST_ORDER = "cards/updateTracklistOrder"
+const UNPUBLISH_CARD = "cards/unpublishCard"
 
 const setUserCards = (userCards) => {
     return {
@@ -67,15 +70,37 @@ const renameCard = (cardId, title) => {
     }
 }
 
+const updateCardStyles = (colors, font) => {
+    return {
+        type: UPDATE_CARD_STYLES,
+        colors, font
+    }
+}
+
+const updateTracklistOrder = (tracklist) => {
+    return {
+        type: UPDATE_TRACKLIST_ORDER,
+        tracklist
+    }
+}
+
+const unpublishCard = (cardId) => {
+    return {
+        type: UNPUBLISH_CARD,
+        cardId
+    }
+}
+
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
+    console.log('thunk')
     const userCards = await response.json()
     dispatch(setUserCards(userCards))
     return userCards
 }
 
 export const thunkGetCurrentCard = (cardId) => async dispatch => {
-    const response = await csrfFetch(`/api/cards/${cardId}`)
+    const response = await csrfFetch(`/api/cards/card/${cardId}`)
     if (response.ok) {
         const card = await response.json()
         dispatch(setCurrentCard(card))
@@ -83,11 +108,14 @@ export const thunkGetCurrentCard = (cardId) => async dispatch => {
     }
 }
 
-export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async () => {
+export const thunkUpdateCardTracklistOrder = (cardId, tracklist) => async dispatch => {
     const response = await csrfFetch(`/api/cards/tracklist/${cardId}`, {
         method: 'PUT',
         body: JSON.stringify({ tracklist })
     })
+    // if(response.ok) {
+    //     dispatch(updateTracklistOrder(tracklist))
+    // }
     if (!response.ok) {
         const error = await response.json()
         console.error(error)
@@ -140,13 +168,14 @@ export const thunkAddTracksToCard = (cardId, selectedTracks) => async dispatch =
     }
 }
 
-export const thunkCreateNewCard = (title) => async () => {
+export const thunkCreateNewCard = (title) => async dispatch => {
     const response = await csrfFetch(`/api/cards`, {
         method: "POST",
         body: JSON.stringify({ title })
     })
     if (response.ok) {
         const data = await response.json()
+        dispatch(setCurrentCard(data))
         return data
     }
 }
@@ -167,6 +196,64 @@ export const thunkRenameCard = (cardId, title) => async dispatch => {
     })
     if (response.ok) {
         dispatch(renameCard(cardId, title))
+    }
+}
+
+export const thunkSaveCardStyles = (cardId, colors, font) => async dispatch => {
+    const response = await csrfFetch(`/api/cardstyles/${cardId}`, {
+        method: "PUT",
+        body: JSON.stringify({colors, font})
+    })
+    if(response.ok) {
+        dispatch(updateCardStyles(colors, font))
+    }
+}
+
+export const thunkGetPreviewCard = (privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/preview/${privateToken}`)
+    if(response.ok) {
+        const cardData = await response.json()
+        dispatch(setCurrentCard(cardData))
+        return(cardData)
+    }
+}
+
+export const thunkCheckUserDisplayInfo = () => async () => {
+    const response = await csrfFetch(`/api/displayinfo/current`)
+    const data = await response.json()
+    return data
+}
+
+export const thunkPublishCard = (cardId, privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/publish/${cardId}`, {
+        method: 'PUT',
+        body: JSON.stringify({privateToken})
+    })
+    if( response.ok) {
+        const data = await response.json()
+        return data
+        // console.log(data)
+    }
+}
+
+export const thunkGetPublishedCard = (privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${privateToken}`)
+    if(response.ok) {
+        const cardData = await response.json()
+        dispatch(setCurrentCard(cardData))
+        return(cardData)
+    }
+}
+
+export const thunkUnPublishCard = (cardId) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/unpublish/${cardId}`, {
+        method: 'PUT'
+    })
+    if( response.ok) {
+        const data = await response.json()
+        dispatch(unpublishCard(cardId))
+        return data
+        // console.log(data)
     }
 }
 
@@ -198,6 +285,10 @@ const cardsReducer = (state = initialState, action) => {
             if (imgType === 'headshot') {
                 delete newState.currentCard.Headshot
                 newState.currentCard.Headshot = newImage
+            }
+            if (imgType === 'profile') {
+                delete newState.currentCard.ProfilePic
+                newState.currentCard.ProfilePic = newImage
             }
             return newState
         }
@@ -235,6 +326,40 @@ const cardsReducer = (state = initialState, action) => {
                 userCards: state.userCards.map(card=> {
                     if(card.id === cardId) {
                         card.title = title
+                    }
+                    return card
+                })
+            }
+        }
+        case UPDATE_CARD_STYLES: {
+            const {colors, font} = action
+            return {
+                ...state,
+                currentCard: {
+                    ...state.currentCard,
+                    CardColor: colors,
+                    CardFont: font
+                }
+            }
+        }
+        case UPDATE_TRACKLIST_ORDER: {
+            const {tracklist} = action
+            return {
+                ...state,
+                currentCard: {
+                    ...state.currentCard,
+                    Tracks: [...tracklist]
+                }
+            }
+        }
+        case UNPUBLISH_CARD: {
+            const {cardId} = action
+            return {
+                ...state,
+                userCards: state.userCards.map(card => {
+                    if(card.id === cardId) {
+                        card.isActive = false
+                        card.updatedAt = new Date().toISOString()
                     }
                     return card
                 })

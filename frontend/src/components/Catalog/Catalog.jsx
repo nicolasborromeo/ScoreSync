@@ -130,13 +130,7 @@ export default function Catalog() {
                 !catalog.length
                 &&
                     <>
-                        <tbody>
-                            <tr>
-                                <td colSpan="5" style={{ textAlign: 'center' }}>
-                                    You don&apos;t have any uploaded tracks yet. Click the icon <FaCloudUploadAlt /> to start building your catalog
-                                </td>
-                            </tr>
-                        </tbody>
+                        <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
                     </>
                 }
 

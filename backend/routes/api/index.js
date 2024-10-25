@@ -6,6 +6,7 @@ const usersExternalLinks = require('./externallinks.js')
 const tracksRouter = require('./tracks.js')
 const imagesRouter = require('./images.js')
 const cardsRouter = require('./cards.js')
+const cardStylesRouter = require('./cardstyles.js')
 const { restoreUser } = require('../../utils/auth.js');
 
 router.use(restoreUser)
@@ -17,6 +18,7 @@ router.use('/links', usersExternalLinks)
 router.use('/tracks', tracksRouter)
 router.use('/images', imagesRouter)
 router.use('/cards', cardsRouter)
+router.use('/cardstyles', cardStylesRouter)
 
 router.post('/test', (req, res) => {
     res.json({ requestBody: req.body });

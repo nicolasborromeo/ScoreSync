@@ -1,24 +1,30 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { FaPlay } from "react-icons/fa6";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { thunkUpdateCardTracklistOrder, thunkRemoveCardTrack } from '../../store/cards';
-import {formatSecsToMins} from '../../utils/utils'
+import { formatSecsToMins } from '../../utils/utils'
 
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect } from 'react';
 
 
-export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle }) {
+export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle, waveformColor, primaryTextColor }) {
     const dispatch = useDispatch()
-    const trackListSelector = useSelector(state => state.cards.currentCard.Tracks)
+
+
+    useEffect(() => {
+        if (trackList) {
+            setTrackList(trackList)
+        }
+    }, [trackList, setTrackList])
 
     //handle empty tracklist
     useEffect(() => {
-        if (!trackListSelector.length) {
+        if (!trackList.length) {
             setTrackList([])
             setAudioUrl('')
         }
-    }, [setTrackList, trackListSelector, setAudioUrl])
+    }, [setTrackList, trackList.length, setAudioUrl])
 
     //Re-Ordering function
     const onDragEnd = (result) => {
@@ -45,7 +51,10 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
     //Thunk Actions
     const handleRemoveCardTrack = (trackId) => {
         dispatch(thunkRemoveCardTrack(cardId, trackId))
+        const updatedTrackList = trackList.filter(track => track.id !== trackId);
+        setTrackList(updatedTrackList); 
     }
+
 
 
     return (
@@ -53,8 +62,14 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="tracks">
                     {(provided) => (
-                        <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}>
-                            {trackListSelector?.map((track, i) => (
+                        <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}
+                            style={{
+                                // color: primaryTextColor,
+                                border:`1px solid ${waveformColor}44`,
+                                borderRadius:'15px',
+                                overflow:'scroll'}}
+                        >
+                            {trackList?.map((track, i) => (
                                 <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>
                                     {(provided) => (
                                         <div
@@ -63,10 +78,14 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                         >
-                                            <span> <FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></span>
-                                            <span>{track.title}</span>
-                                            <span>{formatSecsToMins(track.duration)}</span>
-                                            <span > <RiDeleteBin6Line style={{ cursor: 'pointer' }} onClick={() => handleRemoveCardTrack(track.id)} /></span>
+                                            <div className="track-row-play-and-title-container">
+                                                <span id="trackrow-play-button"> <FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></span>
+                                                <span>{track.title}</span>
+                                            </div>
+                                            <div className="track-row-duration-delete-container">
+                                                <span>{formatSecsToMins(track.duration)}</span>
+                                                <span > <RiDeleteBin6Line style={{ cursor: 'pointer' }} onClick={() => handleRemoveCardTrack(track.id)} /></span>
+                                            </div>
                                         </div>
                                     )}
                                 </Draggable>

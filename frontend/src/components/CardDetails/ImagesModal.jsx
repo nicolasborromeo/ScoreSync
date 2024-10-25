@@ -5,7 +5,7 @@ import { thunkGetUserImages } from '../../store/images';
 import { thunkUpdateCardImage } from '../../store/cards';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import '../Images/Images.css'
-
+import ImageUploadButton from '../ImageUploadButton';
 
 export default function ImagesModal({cardId, type, closeModal}) {
     const user = useSelector(state => state.session.user)
@@ -22,7 +22,7 @@ export default function ImagesModal({cardId, type, closeModal}) {
     const handleUpdatePicture = (imgId) => {
         dispatch(thunkUpdateCardImage(cardId, type, imgId)).then(()=> closeModal())
     }
-
+    console.log(images)
     return (
         <div id="images-modal-container">
 
@@ -30,7 +30,7 @@ export default function ImagesModal({cardId, type, closeModal}) {
                     stateUpdated
                     &&
                     <div className="images-modal-grid">
-                        {images?.map(img => (
+                        {images?.reverse().map(img => (
                             <div className="image-item" key={img.id} onDoubleClick={()=>handleUpdatePicture(img.id)} style={{cursor:'pointer'}}>
                                 <img src={img.url} alt={img.name} />
                                 <p>{img.name}</p>
@@ -48,6 +48,7 @@ export default function ImagesModal({cardId, type, closeModal}) {
 
                     </>
                 }
+            <ImageUploadButton />
         </div>
     )
 }

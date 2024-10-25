@@ -57,8 +57,9 @@ export default function Images() {
 
     const openImageMenu = (e, id, name) => {
         e.stopPropagation()
-        setX(e.clientX - 80)
-        setY(e.clientY)
+
+        setX(e.clientX )
+        setY(e.clientY + 15)
         setImageId(id)
         setImageName(name)
         setShowMenu(true)
@@ -100,19 +101,13 @@ export default function Images() {
             }
 
             {
-                !images
+                !images?.length
                 &&
-                <>
+                    <>
+                        <p className="no-items-message-container">You don&apos;t have any Images uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your portfolio</p>
+                    </>
 
-                    <div style={{ textAlign: 'center' }}>
-                        You don&apos;t have any uploaded images yet. Click the icon <FaCloudUploadAlt /> to start building your catalog
-                    </div>
-
-                </>
             }
-
-            <ImageUploadButton handleUploadImages={handleUploadImages} />
-
             {
                 uploading
                 &&
@@ -121,6 +116,9 @@ export default function Images() {
                 </div>
 
             }
+
+            <ImageUploadButton handleUploadImages={handleUploadImages} />
+
             <ImageMenu
                 handleDeleteImage={handleDeleteImage}
                 imageId={imageId}
@@ -148,7 +146,7 @@ function ImageUploadButton({ handleUploadImages }) {
         <div>
             <input
                 type="file"
-                accept=".jpg,.png"
+                accept=".jpg,.png,.webp"
                 multiple
                 onChange={handleUploadImages}
                 ref={hiddenInputRef}
@@ -170,7 +168,7 @@ function ImageMenu({ imageId, imageName, x, y, menuRef, showMenu, handleDeleteIm
 
     return (
         <div className="track-options-container"
-            style={{ display: showMenu ? 'flex' : 'none', position: 'absolute', top: y, left: x }}
+            style={{ display: showMenu ? 'flex' : 'none', position: 'fixed', top: y, left: x }}
             ref={menuRef}
         >
             <div

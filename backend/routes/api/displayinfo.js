@@ -5,18 +5,42 @@ const { UserDisplayInfo } = require('../../db/models');
 
 const router = express.Router();
 
+router.get(
+    '/current',
+    requireAuth,
+    async (req, res, next) => {
+        const { user } = req
+        try {
+            const displayInfo = await UserDisplayInfo.findOne({ where: { userId: user.id } })
+            res.status(200).json(displayInfo)
+        } catch (error) {
+            res.status(500).json(error)
+            return next(error)
+        }
+    }
+)
+
 router.post('/current',
     requireAuth,
     async (req, res) => {
         let user = req.user;
-        let userHasInfo = await UserDisplayInfo.findOne({
-            where: {userId : user.id}
+        let userInfo = await UserDisplayInfo.findOne({
+            where: { userId: user.id }
         });
-        if(userHasInfo) return res.status(400).json({error: 'You already have a display info. If you want to update it use the Update button'});
+        const { name, email, website, jobTitle, bio, phone } = req.body.data
+        let usersDisplayInfo;
+        try {
 
-        let usersDisplayInfo = await UserDisplayInfo.create({userId: user.id, ...req.body})
-
-        return res.json({message:'Succesfully stored your display info', displayInfo: usersDisplayInfo});
+            if (userInfo) {
+                usersDisplayInfo = await userInfo.update({ name, email, website, jobTitle, bio, phone })
+            } else {
+                usersDisplayInfo = await UserDisplayInfo.create({ userId: user.id, name, email, website, jobTitle, bio, phone})
+            }
+            return res.json({ message: 'Succesfully stored your display info', usersDisplayInfo });
+        } catch (error) {
+            res.json(error)
+            return next(error)
+        }
     }
 )
 
@@ -25,13 +49,13 @@ router.put('/current',
     async (req, res) => {
         let user = req.user;
         let userInfo = await UserDisplayInfo.findOne({
-            where: {userId : user.id}
+            where: { userId: user.id }
         });
-        if(!userInfo) return res.status(400).json({error: 'You do not have a display info to update. Set your default info first'});
+        if (!userInfo) return res.status(400).json({ error: 'You do not have a display info to update. Set your default info first' });
 
-        let usersDisplayInfo = await userInfo.update({userId: user.id, ...req.body})
+        let usersDisplayInfo = await userInfo.update({ userId: user.id, ...req.body })
 
-        return res.json({message:'Succesfully updated your display info', displayInfo: usersDisplayInfo});
+        return res.json({ message: 'Succesfully updated your display info', displayInfo: usersDisplayInfo });
     }
 )
 

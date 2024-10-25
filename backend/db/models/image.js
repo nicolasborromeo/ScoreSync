@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         through: models.CardHeadshot, as: 'Headshot', foreignKey: 'imgId',
         otherKey: 'cardId', onDelete: 'CASCADE'
       })
+      Image.belongsToMany(models.Card, {
+        through: models.CardProfilePic, as: 'ProfilePic', foreignKey: 'imgId',
+        otherKey: 'cardId', onDelete: 'CASCADE'
+      })
     }
   }
   Image.init({

@@ -1,0 +1,75 @@
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+    gap: 20px;
+    padding: 20px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.dashboard-card {
+    background-color: var(--bg-primary);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-width: 18vw;
+    max-height: 25vh;
+    cursor: pointer;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    margin-top: 10px;
+}
+
+.icon {
+    color: var(--icon-secondary);
+}
+
+.progress-circle {
+    position: relative;
+}
+
+.progress-circle-background {
+    fill: none;
+    stroke: #e6e6e6;
+}
+
+.progress-circle-progress {
+    fill: none;
+    stroke: var(--icon-secondary);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-text {
+    font-size: 1.2rem;
+    fill: var(--icon-secondary);
+    font-weight: bold;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-card {
+        padding: 15px;
+    }
+
+    .card-content h3 {
+        font-size: 2rem;
+    }
+
+    .card-content p {
+        font-size: 1rem;
+    }
+}

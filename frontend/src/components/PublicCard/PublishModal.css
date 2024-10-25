@@ -1,0 +1,104 @@
+#publish-modal {
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    /* padding-top: 1em; */
+    padding: 1em 3em;
+    padding-bottom: 2em;
+    min-width: max-content;
+    width: max-content;
+}
+#decoration-top-line {
+    width: 100%;
+    background-color: var(--icon-secondary);
+    height: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+#close-modal-x {
+    position: relative;
+    top: 7px;
+    right: 7px;
+    text-align: right;
+    color: var(--text-primary);
+    /* padding: 1em; */
+    height: 1em;
+    margin: 0 !important;
+    padding: 0;
+    cursor: pointer;
+}
+
+#publish-modal-title {
+    margin: 0 !important;
+    /* padding: 0.8em 0; */
+
+}
+
+#publish-modal-title-subtitle {
+    margin: 0;
+    padding: 0;
+}
+
+#sub-title-and-view-site-button {
+    display: flex;
+}
+
+#sub-title-and-view-site-button button {
+    background: transparent;
+    border: 1px solid gray;
+    border-radius: 18px;
+    padding: 6px 15px;
+    color: var(--text-primary);
+}
+
+#copy-to-clipboard-and-address {
+    display: flex;
+    align-items: center;
+    background-color: rgb(62, 60, 60);
+    border-radius: 10px;
+    height: 2em;
+    padding: 0 8px;
+    gap: 6px;
+}
+#publish-modal-icon-container {
+
+        display: flex;
+        align-items: center;
+        min-width: 20px; /* Match the size of the larger icon */
+    
+}
+
+#copy-to-clipboard-and-address p{
+    max-width: 30vw;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    font-size: 0.8em;
+}
+
+#publish-modal-buttons{
+    display: flex;
+    width: 100%;
+    justify-content: center !important;
+    align-items: center;
+    gap: 3em;
+    /* padding: 1em 0 0; */
+}
+#publish-modal-buttons button{
+    background: transparent;
+    border: 1px solid gray;
+    border-radius: 18px;
+    padding: 6px 15px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+#publish-modal-buttons button:hover{
+    filter: brightness(2)
+}

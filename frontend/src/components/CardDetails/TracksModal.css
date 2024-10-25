@@ -1,0 +1,124 @@
+/* TRACKS MODAL */
+#trackmodal-content {
+    display: flex;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    box-shadow: 1px 1px 4px 3px gray;
+    gap: 2rem;
+    padding: 1.5rem;
+    height: min-content;
+    min-height: min-content !important;
+    min-width: max-content;
+}
+
+#tracksmodal-search-column span {
+    margin-top: 1em;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    text-decoration: underline;
+}
+#tracksmodal-search-column input {
+    margin-top: 1.3em;
+    border-radius: 18px;
+}
+
+#tracksmodal-search-column select {
+    width: 100%;
+    border-radius: 18px;
+    margin-top: 1.3em;
+}
+
+#tracksmodal-track-row {
+    display: flex;
+    white-space: nowrap;
+    min-width: min-content;
+    width: 50vw;
+    align-items: center;
+    gap:3px;
+}
+/* CUSTOMIZED CHECK BOXES */
+#tracksmodal-track-row input{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-primary);
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#tracksmodal-track-row input[type="checkbox"]:checked {
+    background-color: var(--icon-secondary);
+    border-color: var(--bg-primary);
+}
+
+/* checkmark */
+#tracksmodal-track-row input[type="checkbox"]:checked::before {
+    content: '✔';
+    color: white;
+    font-size: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*Hover effect */
+#tracksmodal-track-row input[type="checkbox"]:hover {
+    border-color: var(--icon-secondary); /* Change border color on hover */
+    /* border-width: 1px; */
+    filter: grayscale(30%)
+}
+
+/* END CUSTOMIZE CHECK BOXES */
+#track-modal-buttons-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 20px;
+}
+#track-modal-buttons-container .add-tracks-button {
+    padding: 6px 27px;
+}
+
+.add-tracks-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    /* margin: 10px auto; */
+    filter: grayscale(30%) opacity(0.7);
+    transition: color, filter, background 400ms ease;
+    padding: 6px 16px;
+    justify-content: center;
+}
+
+.add-tracks-button:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    filter: grayscale(0%) opacity(1)
+}
+
+.add-tracks-button .loading-icon {
+    width: 25px;
+    height: 25px;
+    animation: rotate 1s linear infinite
+}
+#tracksmodal-tracks-colum>p{
+    font-style: italic;
+}
+
+#tracksmodal-track-list {
+    max-height: 50vh;
+    overflow-y: scroll !important;
+    background-color: var(--bg-secondary);
+    box-shadow: inset 0px 0px 4px 4px black;
+}
