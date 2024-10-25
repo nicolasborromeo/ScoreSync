@@ -36,59 +36,21 @@ function formatCardResponse(card) {
     return card;
 }
 
-router.get(
-    '/:privateToken',
-    async (req, res) => {
-        const {privateToken} = req.params
-        let card = await Card.findOne({
-            where: { privateToken },
-            include: [
-                {
-                    model: User,
-                    include: [
-                        { model: ExternalLink },
-                        { model: UserDisplayInfo }
-                    ]
-                },
-                { model: Image, as: 'Banner' },
-                { model: Image, as: 'Headshot' },
-                { model: Image, as: 'ProfilePic' },
-                {
-                    model: Track,
-                    attributes: ['id', 'duration', 'filePath', 'title']
-                },
-                {
-                    model: CardColor,
-                    attributes: { exclude: ['id', 'cardId', 'updatedAt', 'createdAt'] }
-                },
-                {
-                    model: CardFont,
-                    attributes: { exclude: ['id', 'cardId', 'updatedAt', 'createdAt'] }
-                }
-            ]
-        });
-
-        if (!card) {
-            return res.status(404).send('Card not found');
-        }
-        card = formatCardResponse(card);
-        return res.status(200).json(card);
-
-    }
-)
 
 router.get(
     '/current',
     requireAuth,
     async (req, res) => {
         const { user } = req;
+        console.log('----------------------ROUTE, user: ', user)
         const userCards = await Card.findAll({ where: { userId: user.id } });
         return res.status(200).json({ userCards: userCards });
     },
 );
 
+
 router.get(
-    '/:id',
+    '/card/:id',
     requireAuth,
     async (req, res) => {
         let card = await Card.findByPk(req.params.id, {
@@ -140,6 +102,48 @@ router.get(
         return res.status(200).json(card)
     }
 )
+
+router.get(
+    '/:privateToken',
+    async (req, res) => {
+        const {privateToken} = req.params
+        let card = await Card.findOne({
+            where: { privateToken },
+            include: [
+                {
+                    model: User,
+                    include: [
+                        { model: ExternalLink },
+                        { model: UserDisplayInfo }
+                    ]
+                },
+                { model: Image, as: 'Banner' },
+                { model: Image, as: 'Headshot' },
+                { model: Image, as: 'ProfilePic' },
+                {
+                    model: Track,
+                    attributes: ['id', 'duration', 'filePath', 'title']
+                },
+                {
+                    model: CardColor,
+                    attributes: { exclude: ['id', 'cardId', 'updatedAt', 'createdAt'] }
+                },
+                {
+                    model: CardFont,
+                    attributes: { exclude: ['id', 'cardId', 'updatedAt', 'createdAt'] }
+                }
+            ]
+        });
+
+        if (!card) {
+            return res.status(404).send('Card not found');
+        }
+        card = formatCardResponse(card);
+        return res.status(200).json(card);
+
+    }
+)
+
 
 ///UPDATE TRACKLIST ORDER
 

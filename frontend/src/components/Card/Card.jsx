@@ -7,7 +7,6 @@ import { thunkCheckUserDisplayInfo, thunkGetUserCards } from '../../store/cards'
 import { useModal } from '../../context/Modal';
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
-
 //icons
 import { CiMenuKebab } from "react-icons/ci";
 import { IoMdSettings } from "react-icons/io";
@@ -105,8 +104,8 @@ export default function Card() {
                                         }</td>
                                         <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
                                         <td><NavLink className='card-link' id="navlink-to-public-url" to={card.publicUrl}><GoLink /></NavLink></td>
-                                        <td>{formatUploaded(card.updatedAt)}</td>
                                         <td>{formatUploaded(card.createdAt)}</td>
+                                        <td>{formatUploaded(card.updatedAt)}</td>
                                         <td><IoMdSettings /></td>
                                         <td><CiMenuKebab id="track-menu-icon"
                                         onClick={(e) => openCardMenu(e, card.id, card.title)}
@@ -130,6 +129,8 @@ export default function Card() {
                     onClick={handleCreateCard}
                 />
             </div>
+
+
 
             {/* OPTIONS MENU hidden component */}
             <CardMenu

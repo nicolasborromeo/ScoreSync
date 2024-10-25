@@ -10,6 +10,7 @@ const ADD_TRACKS_TO_CARD = "cards/addTracksToCard"
 const RENAME_CARD = "cards/renameCard"
 const UPDATE_CARD_STYLES = "cards/updateCardStyles"
 const UPDATE_TRACKLIST_ORDER = "cards/updateTracklistOrder"
+const UNPUBLISH_CARD = "cards/unpublishCard"
 
 const setUserCards = (userCards) => {
     return {
@@ -83,15 +84,23 @@ const updateTracklistOrder = (tracklist) => {
     }
 }
 
+const unpublishCard = (cardId) => {
+    return {
+        type: UNPUBLISH_CARD,
+        cardId
+    }
+}
+
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
+    console.log('thunk')
     const userCards = await response.json()
     dispatch(setUserCards(userCards))
     return userCards
 }
 
 export const thunkGetCurrentCard = (cardId) => async dispatch => {
-    const response = await csrfFetch(`/api/cards/${cardId}`)
+    const response = await csrfFetch(`/api/cards/card/${cardId}`)
     if (response.ok) {
         const card = await response.json()
         dispatch(setCurrentCard(card))
@@ -242,6 +251,7 @@ export const thunkUnPublishCard = (cardId) => async dispatch => {
     })
     if( response.ok) {
         const data = await response.json()
+        dispatch(unpublishCard(cardId))
         return data
         // console.log(data)
     }
@@ -340,6 +350,19 @@ const cardsReducer = (state = initialState, action) => {
                     ...state.currentCard,
                     Tracks: [...tracklist]
                 }
+            }
+        }
+        case UNPUBLISH_CARD: {
+            const {cardId} = action
+            return {
+                ...state,
+                userCards: state.userCards.map(card => {
+                    if(card.id === cardId) {
+                        card.isActive = false
+                        card.updatedAt = new Date().toISOString()
+                    }
+                    return card
+                })
             }
         }
         default:

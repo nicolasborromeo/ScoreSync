@@ -15,6 +15,8 @@ import ContactInfo from '../CardDetails/ContactInfo'
 
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaCheck } from "react-icons/fa";
+import { MdArrowBackIosNew } from "react-icons/md";
+
 
 
 
@@ -46,19 +48,18 @@ export default function PublicCard({ preview }) {
     const [cardId, setCardId] = useState('')
 
 
-    if(preview) {
-        useEffect(() => {
+    useEffect(() => {
+        if(preview) {
             dispatch(thunkGetPreviewCard(privateToken)).then(() => {
                 // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
             })
-        }, [dispatch, privateToken])
-    } else {
-        useEffect(() => {
+        } else {
             dispatch(thunkGetPublishedCard(privateToken)).then(() => {
                 // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
             })
-        }, [dispatch, privateToken])
-    }
+        }
+    }, [dispatch, privateToken, preview])
+
 
 
     //setting up users data:
@@ -96,6 +97,9 @@ export default function PublicCard({ preview }) {
     ) return (
 
         <div id="background-for-app-in-card-details" style={{ background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }}>
+
+            {preview && <div id="preview-back-arrow-button"><MdArrowBackIosNew size={30} onClick={() => navigate(`/cards/${cardId}`)}/></div>}
+
             <div id="card-details-container" style={{ fontFamily: fontFamily, fontSize: `${fontSize}px` }}>
 
                 {/* banner  */}

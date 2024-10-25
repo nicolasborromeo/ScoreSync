@@ -487,3 +487,16 @@ img {
     font-weight:bold ;
     gap: 5px
 }
+
+#preview-back-arrow-button{
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    z-index: 1000;
+    cursor: pointer;
+    color: rgb(166, 161, 161);
+}
+
+#preview-back-arrow-button:hover{
+    filter: brightness(2);
+}

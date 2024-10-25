@@ -1,11 +1,13 @@
 import { useModal } from "../../context/Modal"
 import CardTitleModal from "./CardTitleModal"
-import { thunkDeleteCard } from "../../store/cards"
+import { thunkDeleteCard, thunkUnPublishCard } from "../../store/cards"
 import { useDispatch } from "react-redux"
 import { RxCursorText } from "react-icons/rx";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineUnpublished } from "react-icons/md";
+
 
 
 export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, setShowMenu }) {
@@ -15,6 +17,12 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
 
     const handleDeleteCard = (cardId) => {
         dispatch(thunkDeleteCard(cardId)).then(()=> setShowMenu(false))
+    }
+
+    const handleUnPublishCard = (cardId) => {
+        dispatch(thunkUnPublishCard(cardId))
+        .then(()=> setShowMenu(false))
+        .then(()=> window.alert('Your card is now private'))
     }
 
     return (
@@ -39,6 +47,12 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
                 onClick={() => navigate(`/cards/${cardId}`)}>
                 <CiEdit />
                 Edit
+            </div>
+            <div
+                style={{ color: 'lightgray', cursor: 'pointer' }}
+                onClick={()=>handleUnPublishCard(cardId)}>
+                <MdOutlineUnpublished />
+                UnPublish
             </div>
         </div>
     )
