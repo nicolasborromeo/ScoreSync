@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path')
 const apiRouter = require('./api');
+
+
+
 router.use('/api', apiRouter);
-
-
 
 // Static routes
 // Serve React build files in production
@@ -41,7 +42,21 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+// router.get(
+//   '/:privateToken',
+//   async (req, res) => {
+//       const {privateToken} = req.params
+//       const card = await findOne({where: {privateToken}})
 
+//       if (!card) {
+//           return res.status(404).send('Card not found');
+//       }
+
+//       card = formatCardResponse(card);
+//       return res.status(200).json(card);
+
+//   }
+// )
 
 
 module.exports = router;

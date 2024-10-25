@@ -215,6 +215,38 @@ export const thunkCheckUserDisplayInfo = () => async () => {
     return data
 }
 
+export const thunkPublishCard = (cardId, privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/publish/${cardId}`, {
+        method: 'PUT',
+        body: JSON.stringify({privateToken})
+    })
+    if( response.ok) {
+        const data = await response.json()
+        return data
+        // console.log(data)
+    }
+}
+
+export const thunkGetPublishedCard = (privateToken) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/${privateToken}`)
+    if(response.ok) {
+        const cardData = await response.json()
+        dispatch(setCurrentCard(cardData))
+        return(cardData)
+    }
+}
+
+export const thunkUnPublishCard = (cardId) => async dispatch => {
+    const response = await csrfFetch(`/api/cards/unpublish/${cardId}`, {
+        method: 'PUT'
+    })
+    if( response.ok) {
+        const data = await response.json()
+        return data
+        // console.log(data)
+    }
+}
+
 const initialState = { userCards: [] }
 
 const cardsReducer = (state = initialState, action) => {

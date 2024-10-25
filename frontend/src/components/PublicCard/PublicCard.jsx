@@ -1,13 +1,13 @@
 import '../CardDetails/CardDetails.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { thunkGetPreviewCard } from "../../store/cards"
+import { thunkGetPreviewCard, thunkPublishCard, thunkGetPublishedCard } from "../../store/cards"
 import { useNavigate, Link, useParams } from "react-router-dom"
-
+import { useModal } from '../../context/Modal'
 
 import CardAudioPlayer from "../CardDetails/CardAudioPlayer"
 import CardTrackList from "../CardDetails/CardTrackList"
-
+import PublishModal from './PublishModal'
 import ToolBox from "../ToolBox"
 
 import ExternalLinkBar from '../CardDetails/ExternalLinkBar'
@@ -21,6 +21,7 @@ import { FaCheck } from "react-icons/fa";
 export default function PublicCard({ preview }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {closeModal, setModalContent} = useModal()
     const card = useSelector(state => state.cards.currentCard)
     const params = useParams()
     const privateToken = params.privateToken
@@ -45,12 +46,19 @@ export default function PublicCard({ preview }) {
     const [cardId, setCardId] = useState('')
 
 
-
-    useEffect(() => {
-        dispatch(thunkGetPreviewCard(privateToken)).then((res) => {
-            // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
-        })
-    }, [dispatch, privateToken])
+    if(preview) {
+        useEffect(() => {
+            dispatch(thunkGetPreviewCard(privateToken)).then(() => {
+                // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
+            })
+        }, [dispatch, privateToken])
+    } else {
+        useEffect(() => {
+            dispatch(thunkGetPublishedCard(privateToken)).then(() => {
+                // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
+            })
+        }, [dispatch, privateToken])
+    }
 
 
     //setting up users data:
@@ -59,7 +67,7 @@ export default function PublicCard({ preview }) {
             setCardId(card.id)
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
-            setBio(card.customBio || displayInfo.bio)
+            setBio(card.customBio ||card.User.UserDisplayInfo?.bio)
             setUserLoaded(true)
         } else return
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
@@ -74,16 +82,11 @@ export default function PublicCard({ preview }) {
         setTracksLoaded(true)
     }, [card, cardId])
 
-    // setting up card bio
-
-    // useEffect(() => {
-    //     if(card && displayInfo && (displayInfo?.bio)) {
-    //         console.log(card)
-    //     }
-    // }, [card, displayInfo, displayInfo.bio])
-
     const handlePublishCard = () => {
-
+        dispatch(thunkPublishCard(cardId, privateToken)).then((res)=> {
+            const {publicUrl} = res
+            setModalContent(<PublishModal publicUrl={publicUrl} closeModal={closeModal} navigate={navigate}/>)
+        })
     }
 
 
