@@ -34,7 +34,7 @@ export default function CardDetails() {
     const [userLoaded, setUserLoaded] = useState(false)
     const [tracksLoaded, setTracksLoaded] = useState(false)
     const [audioUrl, setAudioUrl] = useState('')
-    const [trackTitle, setTrackTitle] = useState()
+
 
     //getting the current card:
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function CardDetails() {
         if (cardId && card && card.Tracks?.length) {
             setTrackList(card.Tracks)
             setAudioUrl(card.Tracks[0].filePath)
-            setTrackTitle(card.Tracks[0].title)
+           
         }
         setTracksLoaded(true)
     }, [card, cardId])
@@ -209,7 +209,7 @@ export default function CardDetails() {
                     >
                         {/* {card.Tracks.length ? (<p id="now-playing" style={{ color: primaryTextColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)} */}
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} setTrackTitle={setTrackTitle} waveformColor={waveformColor} />
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl}  waveformColor={waveformColor} />
                     </div>
 
                     <div

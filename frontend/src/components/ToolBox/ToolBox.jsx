@@ -98,7 +98,7 @@ export default function ToolBox({
             setFontFamily(card?.CardFont?.fontFamily)
             setFontSize(card?.CardFont?.fontSize)
         }
-    }, [cardId, card]);
+    }, [cardId, card, setPrimaryBackground, setSecondaryBackground, setPrimaryTextColor, setSecondaryTextColor, setWaveformColor, setOriginalSecondaryBackground, setSecondaryEnabled, setFontFamily, setFontSize]);
 
     //logic to enable/disable secondary background
     useEffect(() => {
@@ -107,7 +107,7 @@ export default function ToolBox({
         } else {
             setSecondaryBackground(primaryBackground);
         }
-    }, [secondaryEnabled, originalSecondaryBackground, primaryBackground]);
+    }, [secondaryEnabled, originalSecondaryBackground, primaryBackground, setSecondaryBackground]);
 
     //thunks API calls
     const handleSaveCardStyles = () => {

@@ -266,6 +266,33 @@ router.post(
     }
 )
 
+//UPDATE CARD'S CUSTOM/EDITABLE FIELDS
+router.put(
+    '/card/:cardId',
+    requireAuth,
+    async (req, res, next) => {
+        const { column, editValue } = req.body
+        const cardId = req.params.cardId
+        const card = await Card.findByPk(cardId)
+
+        if (!Card.rawAttributes.hasOwnProperty(column)) {
+            const error = new Error()
+            error.title = 'Column not found'
+            error.message = 'Column name was incorrect or does not exist in the card table'
+            error.status = 404
+            return next(error)
+        } else {
+            try {
+                card[column] = editValue
+                await card.save()
+                return res.status(201).json(card)
+            } catch (error) {
+                return res.json(error)
+            }
+        }
+    }
+)
+
 //CREATE NEW EMPTY CARD
 router.post(
     '/',

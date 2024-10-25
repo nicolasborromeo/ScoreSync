@@ -14,14 +14,19 @@ module.exports = {
     CardColor.bulkCreate([
       {
         cardId: 1,
-        primaryBackground: '#abbed6',
-        secondaryBackground: '#a37ab4',
-        primaryTextColor: '#f1b1c1',
-        secondaryTextColor: '#9ae5db',
-        waveformColor: '#5b828a'
+        primaryBackground: '#141418',
+        secondaryBackground: '#141418',
+        primaryTextColor: '#ececec',
+        secondaryTextColor: '#b6b6b6',
+        waveformColor: '#b6b6b6'
       },
       {
-        cardId: 2
+        cardId: 2,
+        primaryBackground: '#2f1815',
+        secondaryBackground: '#141418',
+        primaryTextColor: '#ececec',
+        secondaryTextColor: '#b6b6b6',
+        waveformColor: '#a77049'
       },
       {
         cardId: 3

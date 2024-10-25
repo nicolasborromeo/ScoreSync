@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function ContactInfo({ secondaryTextColor, waveformColor, displayInfo }) {
+export default function ContactInfo({ waveformColor, displayInfo }) {
     return (
         <>
             <h2>Contact</h2>

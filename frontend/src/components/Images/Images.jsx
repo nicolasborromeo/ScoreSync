@@ -58,7 +58,7 @@ export default function Images() {
     const openImageMenu = (e, id, name) => {
         e.stopPropagation()
 
-        setX(e.clientX )
+        setX(e.clientX)
         setY(e.clientY + 15)
         setImageId(id)
         setImageName(name)
@@ -103,21 +103,15 @@ export default function Images() {
             {
                 !images?.length
                 &&
-                    <>
-                        <p className="no-items-message-container">You don&apos;t have any Images uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your portfolio</p>
-                    </>
-
-            }
-            {
-                uploading
-                &&
-                <div style={{ textAlign: 'center' }}>
-                    <AiOutlineLoading className='loading-icon' /> Uploading...
-                </div>
+                <>
+                    <p className="no-items-message-container">You don&apos;t have any Images uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your portfolio</p>
+                </>
 
             }
 
-            <ImageUploadButton handleUploadImages={handleUploadImages} />
+            <div style={{margin: '2em'}}>
+            <ImageUploadButton handleUploadImages={handleUploadImages} uploading={uploading}/>
+            </div>
 
             <ImageMenu
                 handleDeleteImage={handleDeleteImage}
@@ -133,7 +127,7 @@ export default function Images() {
 }
 
 
-function ImageUploadButton({ handleUploadImages }) {
+function ImageUploadButton({ handleUploadImages, uploading }) {
     const hiddenInputRef = useRef(null)
 
     const handleClick = () => {
@@ -142,7 +136,14 @@ function ImageUploadButton({ handleUploadImages }) {
         }
     }
 
-    return (
+
+    if (uploading) return (
+        <div style={{ textAlign: 'center', margin: '1em', display:'flex', justifyContent:'center', alignItems:'center', gap:'1em' }}>
+            <AiOutlineLoading className='loading-icon' /> Uploading...
+        </div>
+    )
+
+    if (!uploading) return (
         <div>
             <input
                 type="file"

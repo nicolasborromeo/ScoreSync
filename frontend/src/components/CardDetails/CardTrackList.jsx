@@ -8,7 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect } from 'react';
 
 
-export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, setTrackTitle, waveformColor, primaryTextColor }) {
+export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, waveformColor }) {
     const dispatch = useDispatch()
 
 
@@ -43,8 +43,8 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
     }
 
     //Audioplayer functions
-    const handleTrackPlay = (url, title) => {
-        setTrackTitle(title)
+    const handleTrackPlay = (url) => {
+        // setTrackTitle(title)
         setAudioUrl(url)
     }
 
@@ -52,7 +52,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
     const handleRemoveCardTrack = (trackId) => {
         dispatch(thunkRemoveCardTrack(cardId, trackId))
         const updatedTrackList = trackList.filter(track => track.id !== trackId);
-        setTrackList(updatedTrackList); 
+        setTrackList(updatedTrackList);
     }
 
 
