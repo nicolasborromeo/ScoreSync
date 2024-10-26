@@ -11,6 +11,7 @@ import Images from './components/Images'
 import Card from "./components/Card";
 import CardDetails from "./components/CardDetails"
 import PublicCard from './components/PublicCard'
+import InactiveCard from "./components/InactiveCard";
 
 function Layout() {
 
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: '/:privateToken',
     element: <PublicCard preview={false} />,
+  },
+  {
+    path: '/inactive',
+    element: <InactiveCard />,
   },
   {
     element: <Layout />,

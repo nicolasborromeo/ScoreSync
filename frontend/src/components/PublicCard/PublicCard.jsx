@@ -65,13 +65,14 @@ export default function PublicCard({ preview }) {
     //setting up users data:
     useEffect(() => {
         if (card && card.User) {
+            if(!preview && !card.isActive) navigate('/inactive')
             setCardId(card.id)
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
             setBio(card.customBio ||card.User.UserDisplayInfo?.bio)
             setUserLoaded(true)
         } else return
-    }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded])
+    }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded, preview, navigate])
 
     //setting up tracks data:
     useEffect(() => {
