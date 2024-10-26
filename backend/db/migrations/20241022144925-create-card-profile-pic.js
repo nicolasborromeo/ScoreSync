@@ -46,7 +46,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'CardProfilePic';
+    options.tableName = 'CardProfilePics';
     await queryInterface.dropTable(options);
   }
 };
