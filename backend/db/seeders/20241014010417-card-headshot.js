@@ -20,7 +20,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        imgId: 4,
+        imgId: 3,
         cardId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),

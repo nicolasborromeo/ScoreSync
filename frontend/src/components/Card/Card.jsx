@@ -63,10 +63,10 @@ export default function Card() {
 
     const handleCreateCard = async () => {
         const usersInfo = await dispatch(thunkCheckUserDisplayInfo())
-        if(usersInfo.name) {
-            setModalContent(<CardTitleModal navigate={navigate} action={'create'}/>)
+        if (usersInfo.name) {
+            setModalContent(<CardTitleModal navigate={navigate} action={'create'} />)
         } else {
-            setModalContent(<p style={{color: 'red', textAlign:'center'}}>You need to complete your Display Information on the Dashboard first</p>)
+            setModalContent(<p style={{ color: 'red', textAlign: 'center' }}>You need to complete your Display Information on the Dashboard first</p>)
         }
     }
 
@@ -103,12 +103,12 @@ export default function Card() {
                                         <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />
                                         }</td>
                                         <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
-                                        <td><NavLink className='card-link' id="navlink-to-public-url" to={card.publicUrl}><GoLink /></NavLink></td>
+                                        <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
                                         <td>{formatUploaded(card.createdAt)}</td>
                                         <td>{formatUploaded(card.updatedAt)}</td>
                                         <td><IoMdSettings /></td>
                                         <td><CiMenuKebab id="track-menu-icon"
-                                        onClick={(e) => openCardMenu(e, card.id, card.title)}
+                                            onClick={(e) => openCardMenu(e, card.id, card.title)}
                                         /></td>
                                     </tr>
                                 ))}
@@ -118,9 +118,9 @@ export default function Card() {
             {
                 !cards.length
                 &&
-                    <>
-                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
-                    </>
+                <>
+                    <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
+                </>
             }
             <div >
                 <CiCirclePlus
