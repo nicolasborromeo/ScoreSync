@@ -57,7 +57,7 @@ export default function CardDetails() {
         if (cardId && card && card.Tracks?.length) {
             setTrackList(card.Tracks)
             setAudioUrl(card.Tracks[0].filePath)
-           
+
         }
         setTracksLoaded(true)
     }, [card, cardId])
@@ -105,8 +105,8 @@ export default function CardDetails() {
 
                 <section id="card-user-info" >
 
-                    <div id="card-profilepic-container">
-                        <div className='image-container'
+                    <div id="card-profilepic-container" >
+                        <div className='rounded-image-container'
                             onClick={() => setModalContent(<ImagesModal cardId={cardId} type={'profile'} closeModal={closeModal} />)}
                         >
                             <img style={{ border: `4px ridge ${waveformColor}` }} src={card?.ProfilePic?.url || `/defaultProfile.webp`} />

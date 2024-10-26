@@ -2,7 +2,7 @@
 
 const { Card } = require('../models')
 
-let DATABASE_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : 'http://localhost:5173'
+let APP_BASE_URL = process.env.APP_BASE_URL
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -21,8 +21,8 @@ module.exports = {
         isActive: true,
         customBio: null,
         customJobTitle: "Freelance Composer",
-        previewUrl: `${DATABASE_URL}/cards/preview/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
-        publicUrl: `${DATABASE_URL}/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
+        previewUrl: `${APP_BASE_URL}/cards/preview/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
+        publicUrl: `${APP_BASE_URL}/a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6`,
         privateToken: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -33,10 +33,10 @@ module.exports = {
         description: "An epic collection of soundtracks for your projects.",
         isLight: false,
         isActive: true,
-        customBio: "Film Composer",
+        customBio: null,
         customJobTitle: "Composer",
-        previewUrl: `${DATABASE_URL}/cards/preview/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
-        publicUrl: `${DATABASE_URL}/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
+        previewUrl: `${APP_BASE_URL}/cards/preview/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
+        publicUrl: `${APP_BASE_URL}/c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r`,
         privateToken: "c3d4e5f6-g7h8-i9j0-k1l2-m3n4o5p6q7r",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -49,8 +49,8 @@ module.exports = {
         isActive: false,
         customBio: "Music Historian",
         customJobTitle: "DJ",
-        previewUrl: `${DATABASE_URL}/cards/preview/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
-        publicUrl: `${DATABASE_URL}/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
+        previewUrl: `${APP_BASE_URL}/cards/preview/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
+        publicUrl: `${APP_BASE_URL}/d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s`,
         privateToken: "d4e5f6g7-h8i9-j0k1-l2m3-n4o5p6q7r8s",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -63,8 +63,8 @@ module.exports = {
         isActive: true,
         customBio: "Nature Lover",
         customJobTitle: "Field Recordist",
-        previewUrl: `${DATABASE_URL}/cards/preview/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
-        publicUrl: `${DATABASE_URL}/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
+        previewUrl: `${APP_BASE_URL}/cards/preview/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
+        publicUrl: `${APP_BASE_URL}/e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t`,
         privateToken: "e5f6g7h8-i9j0-k1l2-m3n4-o5p6q7r8s9t",
         createdAt: new Date(),
         updatedAt: new Date(),
