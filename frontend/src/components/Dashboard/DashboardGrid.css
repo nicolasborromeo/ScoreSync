@@ -4,9 +4,11 @@
     /* flex-direction: column; */
     /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
     gap: 20px;
-    padding: 20px;
+    /* padding: 20px; */
+    padding-bottom: 20px;
     max-width: 90%;
     margin: 0 auto;
+    width: 40vw;
 }
 
 .dashboard-card {
