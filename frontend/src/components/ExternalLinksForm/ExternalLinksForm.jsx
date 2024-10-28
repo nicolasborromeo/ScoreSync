@@ -47,7 +47,7 @@ export default function ExternalLinksForm() {
                 {errors.url && <p className='error-p'>{errors.url}</p>}
             </form>
             <div className='external-links-list'>
-                {links?.length && links?.map(link => (
+                {links?.length > 0 && links?.map(link => (
 
                     <div key={link.id} className='external-link-row'>
                         <div>

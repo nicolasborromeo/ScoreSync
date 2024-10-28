@@ -14,7 +14,8 @@
     display: flex;
     width: 100% !important;
     justify-content: flex-start !important;
-    /* max-width: 90vw; */
+    margin-left: 8em;
+    max-width: 80vw;
 }
 
 #divider{

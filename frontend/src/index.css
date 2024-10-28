@@ -8,8 +8,9 @@
     --bg-primary: #23232e;
     --bg-secondary: #141418;
     --bg-colorful: #522258;
-    --icon-primary: #f78204;
-    --icon-secondary: #EB3678;
+    --icon-primary: #BD1792;
+    --icon-secondary: #BD1792;
+    /* --icon-secondary: #EB3678; */
     --transition-speed: 600ms;
 }
 * {
