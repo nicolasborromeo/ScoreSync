@@ -40,7 +40,7 @@ export const thunkAddExternalLink = (url) => async dispatch => {
     })
     if(response.ok) {
     const newLink = await response.json()
-        dispatch(addExternalLink(newLink))
+        dispatch(addExternalLink(newLink.newExternalLink))
     } else {
         const error = response.json()
         return error
@@ -60,7 +60,7 @@ export const thunkDeleteExternalLink = (linkId) => async dispatch => {
     }
 }
 
-const initialSate ={}
+const initialSate = {}
 
 const externalLinksReducer = (state = initialSate, action) =>{
     switch(action.type) {
@@ -70,7 +70,7 @@ const externalLinksReducer = (state = initialSate, action) =>{
         case ADD_EXTERNAL_LINK: {
             return {
                 ...state,
-                linksArray: [...state.linksArray, ...action.newLink]
+                linksArray: [...state.linksArray, action.newLink]
             }
         }
         case DELETE_EXTERNAL_LINK: {

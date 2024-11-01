@@ -20,7 +20,7 @@ export default function ExternalLinkBar({ externalLinks, waveformColor }) {
 
 
 export const ExternalLink = ({ url, waveformColor }) => {
-
+    
     if (url.includes('imdb')) {
         return <Link
                 to={url}
