@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     waveformColor: {
       type: DataTypes.STRING,
-      defaultValue: '#EB3678'
+      defaultValue: '#BD1792'
     }
   }, {
     sequelize,

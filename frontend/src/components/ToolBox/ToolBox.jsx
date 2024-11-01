@@ -83,7 +83,7 @@ export default function ToolBox({
     const [originalSecondaryBackground, setOriginalSecondaryBackground] = useState(secondaryBackground)
     const [minimized, setMinimized] = useState(true)
 
-    //resetting the colros and fonts when clicking on new card
+    //resetting the colors and fonts when clicking on new card
     useEffect(() => {
         if (cardId) {
             setPrimaryBackground(card?.CardColor?.primaryBackground);
