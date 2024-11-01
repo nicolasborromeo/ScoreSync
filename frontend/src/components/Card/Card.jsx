@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatUploaded } from "../../utils/utils";
-import { thunkCheckUserDisplayInfo, thunkGetUserCards } from '../../store/cards'
+import { thunkGetUserCards } from '../../store/cards'
 import { useModal } from '../../context/Modal';
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
@@ -21,9 +21,10 @@ import { CiCirclePlus } from "react-icons/ci";
 
 export default function Card() {
     const navigate = useNavigate()
-    const { setModalContent } = useModal()
+    const { setModalContent, closeModal } = useModal()
     const user = useSelector(state => state.session.user)
     const cards = useSelector(state => state.cards.userCards)
+    const displayInfo = useSelector(state => state.displayInfo)
     const dispatch = useDispatch()
 
     const [stateUpdated, setStateUpdated] = useState()
@@ -62,11 +63,10 @@ export default function Card() {
     }, [user, dispatch])
 
     const handleCreateCard = async () => {
-        const usersInfo = await dispatch(thunkCheckUserDisplayInfo())
-        if (usersInfo.name) {
+        if (displayInfo?.name) {
             setModalContent(<CardTitleModal navigate={navigate} action={'create'} />)
         } else {
-            setModalContent(<p style={{ color: 'red', textAlign: 'center' }}>You need to complete your Display Information on the Dashboard first</p>)
+            setModalContent(<PleaseCompleteInfo navigate={navigate} closeModal={closeModal}/>)
         }
     }
 
@@ -148,5 +148,18 @@ export default function Card() {
             />
 
         </div>
+    )
+}
+
+
+function PleaseCompleteInfo ({navigate, closeModal}) {
+
+    const navigateDashboard = () => {
+        navigate('/dashboard')
+        closeModal()
+    }
+
+    return (
+        <p style={{ color: 'white', textAlign: 'center', padding:'20px', filter:'grayscale(20%)' }}>Please complete your <br/><em>Display Information </em><br/>on the <span onClick={navigateDashboard} style={{cursor:'pointer'}}><u><strong>Dashboard</strong></u></span> first</p>
     )
 }
