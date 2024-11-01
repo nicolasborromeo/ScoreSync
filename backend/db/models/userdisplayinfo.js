@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class UserDisplayInfo extends Model {
-  
+
     static associate(models) {
       UserDisplayInfo.belongsTo(models.User, {foreignKey:'userId', onDelete: 'CASCADE'})
     }
@@ -26,18 +26,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     website: {
       type: DataTypes.STRING,
-      validate: {
-        isUrl: true
-      }
+      // validate: {
+      //   isUrl: true
+      // }
     },
     jobTitle: {
       type: DataTypes.STRING
     },
     email: {
       type: DataTypes.STRING,
-      validate: {
-        isEmail: true
-      }
+      // validate: {
+      //   isEmail: true
+      // }
     },
     phone: {
       type: DataTypes.STRING,

@@ -157,12 +157,15 @@ export default function ToolBox({
 
     //RETURN
     if (minimized) return (
-        <div id="toolbox-minimized-button">
-            <GiPalette
-                onClick={openToolBox}
-                size={30}
-            />
-        </div>
+        <>
+            {/* <p id="toolbox-customize-text">Customize:</p> */}
+            <div id="toolbox-minimized-button">
+                <GiPalette
+                    onClick={openToolBox}
+                    size={30}
+                />
+            </div>
+        </>
     )
     if (!minimized) return (
         <div id="toolbox-container" style={style}>

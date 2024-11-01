@@ -14,7 +14,6 @@ router.get(
             const displayInfo = await UserDisplayInfo.findOne({ where: { userId: user.id } })
             res.status(200).json(displayInfo)
         } catch (error) {
-            res.status(500).json(error)
             return next(error)
         }
     }
@@ -22,7 +21,7 @@ router.get(
 
 router.post('/current',
     requireAuth,
-    async (req, res) => {
+    async (req, res, next) => {
         let user = req.user;
         let userInfo = await UserDisplayInfo.findOne({
             where: { userId: user.id }
@@ -36,9 +35,9 @@ router.post('/current',
             } else {
                 usersDisplayInfo = await UserDisplayInfo.create({ userId: user.id, name, email, website, jobTitle, bio, phone})
             }
-            return res.json({ message: 'Succesfully stored your display info', usersDisplayInfo });
+            return res.json({usersDisplayInfo});
         } catch (error) {
-            res.json(error)
+            // res.json(error)
             return next(error)
         }
     }

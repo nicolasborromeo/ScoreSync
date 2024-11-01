@@ -21,12 +21,12 @@ export default function DisplayInfoForm() {
     useEffect(() => {
         if (displayInfo && fetched) {
             const { name, jobTitle, email, website, phone, bio } = displayInfo
-            if(name) setName(name || '')
-            if(jobTitle) setJobTitle(jobTitle || '')
-            if(email) setEmail(email || '')
-            if(website) setWebsite(website || '')
-            if(phone) setPhone(phone || '')
-            if(bio) setBio(bio || '')
+            if (name) setName(name || '')
+            if (jobTitle) setJobTitle(jobTitle || '')
+            if (email) setEmail(email || '')
+            if (website) setWebsite(website || '')
+            if (phone) setPhone(phone || '')
+            if (bio) setBio(bio || '')
         }
     }, [displayInfo, fetched])
 
@@ -67,6 +67,7 @@ export default function DisplayInfoForm() {
                         <fieldset>
                             <legend>Email Address</legend>
                             <input
+                                // required
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}

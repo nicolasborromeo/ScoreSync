@@ -170,7 +170,7 @@ export default function CardDetails() {
                                     >
                                         {displayInfo.website?.split('//')[1]}
                                     </Link>
-                                    <p>·</p>
+                                    {displayInfo?.email && <p>·</p>}
                                 </>
                             }
                             {displayInfo?.email &&
@@ -183,7 +183,7 @@ export default function CardDetails() {
                                     >
                                         {displayInfo.email}
                                     </Link>
-                                    <p>·</p>
+                                    {displayInfo?.phone && <p>·</p>}
                                 </>
                             }
                             {displayInfo?.phone &&
@@ -210,7 +210,7 @@ export default function CardDetails() {
                     >
                         {/* {card.Tracks.length ? (<p id="now-playing" style={{ color: primaryTextColor }}>Now playing: {trackTitle}</p>) : (<p id="card-detail-no-tracks-warning">No Tracks<br></br>Get started by adding tracks</p>)} */}
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl}  waveformColor={waveformColor} />
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} />
                     </div>
 
                     <div
