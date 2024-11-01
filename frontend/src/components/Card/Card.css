@@ -11,6 +11,7 @@
     color: var(--text-primary);
     background-color: var(--bg-secondary);
 }
+
 .gradient-border {
     padding: 0px;
     border: 2px solid transparent;

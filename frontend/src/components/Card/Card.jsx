@@ -74,7 +74,7 @@ export default function Card() {
         <div id="cards-container">
 
             <div className="page-title-container">
-                <p>Cards</p>
+                <p id="page-title">Cards</p>
             </div>
             <div
             // className='gradient-border'

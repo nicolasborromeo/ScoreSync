@@ -42,7 +42,7 @@ module.exports = {
       },
       waveformColor: {
         type: Sequelize.STRING,
-        defaultValue: '#EB3678'
+        defaultValue: '#BD1792'
       },
       createdAt: {
         allowNull: false,
