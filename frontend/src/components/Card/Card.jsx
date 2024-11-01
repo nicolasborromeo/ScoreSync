@@ -76,6 +76,9 @@ export default function Card() {
             <div className="page-title-container">
                 <p>Cards</p>
             </div>
+            <div
+            // className='gradient-border'
+            >
 
             <table className="cards-table">
                 <thead>
@@ -115,6 +118,7 @@ export default function Card() {
                     </tbody>
                 }
             </table>
+            </div>
             {
                 !cards.length
                 &&
