@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatUploaded } from "../../utils/utils";
 import { thunkGetUserCards } from '../../store/cards'
+import{thunkGetUsersDisplayInfo} from '../../store/displayInfo'
 import { useModal } from '../../context/Modal';
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
@@ -26,7 +27,7 @@ export default function Card() {
     const cards = useSelector(state => state.cards.userCards)
     const displayInfo = useSelector(state => state.displayInfo)
     const dispatch = useDispatch()
-
+    console.log(displayInfo)
     const [stateUpdated, setStateUpdated] = useState()
 
     //Card Option Menu States Variables
@@ -57,8 +58,11 @@ export default function Card() {
 
     //Thunk operations
     useEffect(() => {
-        dispatch(thunkGetUserCards()).then(() => {
+        dispatch(thunkGetUserCards())
+        .then(dispatch(thunkGetUsersDisplayInfo()))
+        .then(() => {
             setStateUpdated(true)
+            console.log('DISPKAY INFO --------------', displayInfo)
         })
     }, [user, dispatch])
 
