@@ -8,7 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect } from 'react';
 
 
-export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, waveformColor }) {
+export default function CardTrackList({ trackList, setTrackList, cardId, setAudioUrl, waveformColor, isPublic=false }) {
     const dispatch = useDispatch()
 
 
@@ -59,7 +59,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
 
     return (
         <div id="tracklist-container">
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={ onDragEnd}>
                 <Droppable droppableId="tracks">
                     {(provided) => (
                         <div id="card-playlist" {...provided.droppableProps} ref={provided.innerRef}
@@ -70,7 +70,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                                 overflow:'scroll'}}
                         >
                             {trackList?.map((track, i) => (
-                                <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i}>
+                                <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i} isDragDisabled={isPublic}>
                                     {(provided) => (
                                         <div
                                             className="card-track-row"
@@ -84,7 +84,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                                             </div>
                                             <div className="track-row-duration-delete-container">
                                                 <span>{formatSecsToMins(track.duration)}</span>
-                                                <span > <RiDeleteBin6Line style={{ cursor: 'pointer' }} onClick={() => handleRemoveCardTrack(track.id)} /></span>
+                                               { !isPublic && <span > <RiDeleteBin6Line style={{ cursor: 'pointer' }} onClick={() => handleRemoveCardTrack(track.id)} /></span>}
                                             </div>
                                         </div>
                                     )}

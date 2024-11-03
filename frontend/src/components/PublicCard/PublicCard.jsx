@@ -207,7 +207,7 @@ export default function PublicCard({ preview }) {
                 <section id="card-audioplayer">
                     <div id="audioplayer-and-tracklist-container" style={{ color: waveformColor }}>
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} />
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} isPublic={true}/>
                     </div>
                 </section>
 
