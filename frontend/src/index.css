@@ -187,7 +187,7 @@ body::-webkit-scrollbar-thumb{
     letter-spacing: 0;
     max-height: min-content;
     box-shadow: -4px 3px 6px black;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }

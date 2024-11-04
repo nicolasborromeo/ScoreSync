@@ -279,27 +279,26 @@
 /* AUDIO PLAYER */
 
 .audio-player-container {
-    position: fixed;
+    /* position: fixed;
+    width: calc(100% - 22em); */
+    position: relative;
+    width: calc(100% - 16em);
     bottom: 0;
     margin-bottom: 10px;
     align-self: center;
     margin: 0 auto 0 !important;
-    /* width: 80%; */
-    width: calc(100% - 22em);
     background-color: #11182777;
-    /* background-color: var(--bg-secondary); */
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 10px;
+    max-height: 30vh;
 }
 
 .title-x-container {
-    /* background-color: #1d1d22; */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* box-shadow: 0px 1px 3px black; */
     padding: 0;
     margin: 0;
     margin-bottom: 10px;
@@ -338,14 +337,14 @@
     align-items: center;
     margin: 10px 20px;
     gap: 20px;
-    padding: 5px 0;
+    padding: 5px 0 20px;
 }
 
 .player-controls .play-background {
     background: linear-gradient(to right, #de5dbb, #8f096b);
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    height: 45px;
+    width: 45px;
     display: flex;
     align-items: center;
     justify-content: center;

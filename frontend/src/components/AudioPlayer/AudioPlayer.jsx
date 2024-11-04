@@ -16,7 +16,7 @@ const AudioPlayer = ({ audioUrl }) => {
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
         container: containerRef,
-        height: 80,
+        height: 60,
         autoplay: false,
         waveColor: '#BD1792',
         progressColor: 'rgb(100, 0, 100)',
@@ -52,23 +52,30 @@ const AudioPlayer = ({ audioUrl }) => {
             {/* LOADING BAR */}
             {loadingProgress < 100 &&
                 <div className="loading-bar-container" style={{ width: '50%', backgroundColor: '#030712', height: '25px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
-                    <div style={{ position: "absolute", display:'flex', justifyContent:'center', padding:'0 10px', fontSize:'0.8rem', color:'black' }}>
+                    <div style={{ position: "absolute", display: 'flex', justifyContent: 'center', padding: '0 10px', fontSize: '0.8rem', color: 'black' }}>
                     </div>
-                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#BD1792', height: '76%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
-                    <span style={{position:'absolute', padding:'4px 10px', fontSize:'0.8rem', fontWeight:'bold'}}>Loading...</span>
+                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#BD1792', height: '76%', borderRadius: '20px', transition: 'width 0.2s' }}></div>
+                    <span style={{ position: 'absolute', padding: '4px 10px', fontSize: '0.8rem', fontWeight: 'bold' }}>Loading...</span>
                 </div>}
             {/* Waveform */}
-            <div id="waveform" className={!isReady ? 'hidden' : ''} ref={containerRef} />
+            <div id="waveform"
+                // className={!isReady ? 'hidden' : ''}
+
+                ref={containerRef}
+            />
             {/* Player Controls */}
-            {isReady &&
-                <div className="player-controls">
-                    <div className="play-background">
+            <div className="player-controls">
+                {isReady &&
+                <>
+                <div className="play-background">
                     <span id="player-playpause" onClick={onPlayPause} className="clickable">
                         {isPlaying ? <Pause size={30} /> : <PlayIcon size={30} />}
                     </span>
-                    </div>
-                    <span id="player-timeline">{formatTime(currentTime)} / {formatTime(duration)}</span>
-                </div>}
+                </div>
+                <span id="player-timeline">{formatTime(currentTime)} / {formatTime(duration)}</span>
+                </>}
+            </div>
+
         </>
     )
 };
