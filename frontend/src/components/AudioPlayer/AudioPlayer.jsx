@@ -6,6 +6,7 @@ import { useWavesurfer } from '@wavesurfer/react'
 import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import { formatTime } from "../../utils/utils";
 
+import { PlayIcon, Pause } from "lucide-react";
 
 const AudioPlayer = ({ audioUrl }) => {
     const containerRef = useRef()
@@ -15,9 +16,9 @@ const AudioPlayer = ({ audioUrl }) => {
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
         container: containerRef,
-        height: 100,
+        height: 80,
         autoplay: false,
-        waveColor: '#EB3678',
+        waveColor: '#BD1792',
         progressColor: 'rgb(100, 0, 100)',
         url: audioUrl,
         plugins: useMemo(() => [Timeline.create()], []),
@@ -50,20 +51,22 @@ const AudioPlayer = ({ audioUrl }) => {
 
             {/* LOADING BAR */}
             {loadingProgress < 100 &&
-                <div className="loading-bar-container" style={{ width: '50%', backgroundColor: 'gray', height: '20px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
+                <div className="loading-bar-container" style={{ width: '50%', backgroundColor: '#030712', height: '25px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
                     <div style={{ position: "absolute", display:'flex', justifyContent:'center', padding:'0 10px', fontSize:'0.8rem', color:'black' }}>
                     </div>
-                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#EB3678', filter: 'grayscale(40%) brightness(0.5)', height: '60%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
-                    <span style={{position:'absolute', padding:'0 10px', fontSize:'0.8rem'}}>Loading...</span>
+                    <div className="loading-bar" style={{ width: `${loadingProgress}%`, backgroundColor: '#BD1792', height: '76%', borderRadius:'20px',transition: 'width 0.2s' }}></div>
+                    <span style={{position:'absolute', padding:'4px 10px', fontSize:'0.8rem', fontWeight:'bold'}}>Loading...</span>
                 </div>}
             {/* Waveform */}
             <div id="waveform" className={!isReady ? 'hidden' : ''} ref={containerRef} />
             {/* Player Controls */}
             {isReady &&
                 <div className="player-controls">
-                    <span id="player-playpause" onClick={onPlayPause} >
-                        {isPlaying ? <FaCirclePause size={40} /> : <FaCirclePlay size={40} />}
+                    <div className="play-background">
+                    <span id="player-playpause" onClick={onPlayPause} className="clickable">
+                        {isPlaying ? <Pause size={30} /> : <PlayIcon size={30} />}
                     </span>
+                    </div>
                     <span id="player-timeline">{formatTime(currentTime)} / {formatTime(duration)}</span>
                 </div>}
         </>

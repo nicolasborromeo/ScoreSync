@@ -16,7 +16,15 @@ import { RxCursorText } from "react-icons/rx";
 
 import './Catalog.css'
 
-
+import {
+    PlayIcon,
+    ImageIcon,
+    MusicIcon,
+    UserIcon,
+    MoreVerticalIcon,
+    UploadIcon,
+    XIcon,
+  } from "lucide-react";
 
 
 export default function Catalog() {
@@ -43,7 +51,12 @@ export default function Catalog() {
 
     //Thunk operations
     useEffect(() => {
-        dispatch(thunkGetUserTracks()).then(() => {
+        dispatch(thunkGetUserTracks())
+        // .then(()=> {
+        //     console.log('CATALOG------------->',catalog)
+        //     handleTrackPlay(catalog[0].url, catalog[0].title)
+        // })
+        .then(() => {
             setStateUpdated(true)
         })
     }, [user, dispatch])
@@ -81,7 +94,7 @@ export default function Catalog() {
     //Track Options Menu
     const openTrackMenu = (e, trackId, trackTitle) => {
         e.stopPropagation()
-        setX(e.clientX -80)
+        setX(e.clientX - 80)
         setY(e.clientY)
         setTrackId(trackId)
         setTrackTitle(trackTitle)
@@ -104,65 +117,67 @@ export default function Catalog() {
             </div>
 
             <table className="tracks-table">
-                <thead><tr><th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
+                <thead><tr><th>Name</th><th></th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
                 {
-                catalog?.length >= 1
-                &&
-                Array.isArray(catalog)
-                &&
+                    catalog?.length >= 1
+                    &&
+                    Array.isArray(catalog)
+                    &&
                     <tbody id="tracks-tbody">
                         {stateUpdated
-                        &&
-                        catalog.map(
-                            track => (
-                            <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track': ''}`} id={track.id} onClick={() => setActiveTrackId(track.id)}>
-                                <td><FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></td>
-                                <td>{track.title}</td>
-                                <td>{formatSecsToMins(track.duration)}</td>
-                                <td>{formatUploaded(track.createdAt)}</td>
-                                <td><CiMenuKebab id="track-menu-icon" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
-                            </tr>
-                        ))}
+                            &&
+                            catalog.map(
+                                track => (
+                                    <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
+                                        <td id="track-row-play-icon">
+                                            <div className="play-background">
+                                            <PlayIcon
+                                                size={16}
+                                                // color={activeTrackId == track.id ? 'white' : "#545b69"}
+                                                onClick={() => {
+                                                    handleTrackPlay(track.filePath, track.title)
+                                                    setActiveTrackId(track.id)
+                                                }}
+                                            />
+                                            </div>
+                                        </td>
+                                        <td>{track.title}</td>
+                                        <td>{formatSecsToMins(track.duration)}</td>
+                                        <td>{formatUploaded(track.createdAt)}</td>
+                                        <td><CiMenuKebab id="track-menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
+                                    </tr>
+                                ))}
                     </tbody>
                 }
 
                 {
-                !catalog.length
-                &&
+                    !catalog.length
+                    &&
                     <>
                         <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
                     </>
                 }
-{/*
-                {
-                uploading
-                &&
-
-                    <div className="catalog-loading-icon">
-                        <AiOutlineLoading className='loading-icon' /> <span>Loading...</span>
-                    </div>
 
 
-                } */}
 
             </table>
 
             <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
 
             {/* AUDIOPLAYER */}
-           {
-           showPlayer
-           &&
-           <div className="audio-player-container">
-            <div className="title-x-container">
-                 <span id="audio-player-track-title">{trackTitle}</span>
-                <span className="close-audio-player-x" onClick={toggleShowPlayer}>x</span>
-            </div>
-                <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
-                    <AudioPlayer audioUrl={audioUrl} />
+            {
+                showPlayer
+                &&
+                <div className="audio-player-container">
+                    <div className="title-x-container">
+                        <span id="audio-player-track-title">{trackTitle}</span>
+                        <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20}/></span>
+                    </div>
+                    <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
+                        <AudioPlayer audioUrl={audioUrl} />
+                    </div>
                 </div>
-            </div>
-           }
+            }
 
             {/* OPTIONS MENU hidden component */}
             <TrackMenu
@@ -186,12 +201,12 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
             hiddenInputRef.current.click();
         }
     }
-    if(uploading) return (
-        <div style={{ textAlign: 'center', margin: '1em', display:'flex', justifyContent:'center', alignItems:'center', gap:'1em' }}>
+    if (uploading) return (
+        <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
             <AiOutlineLoading className='loading-icon' /> Uploading...
         </div>
     )
-    if(!uploading) return (
+    if (!uploading) return (
         <div>
             <input
                 type="file"
@@ -202,8 +217,8 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
                 style={{ display: 'none' }}
             />
             <button onClick={handleClick} className="upload-tracks-icon">
-                UPLOAD TRACKS
-                <FaCloudUploadAlt size={30} className="colored" />
+                <span>UPLOAD TRACKS</span>
+                <FaCloudUploadAlt size={30} />
             </button>
         </div>
     )

@@ -320,7 +320,7 @@ img {
     /* display: block; */
     background-color: var(--bg-primary) !important;
     color: white !important;
-    border-radius: 20px !important;
+    border-radius: 10px !important;
     font-weight: bold;
     width: fit-content;
     margin: 0;
