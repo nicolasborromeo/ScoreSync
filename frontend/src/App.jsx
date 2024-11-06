@@ -33,7 +33,6 @@ function Layout() {
       <Navigation isLoaded={isLoaded} />
       <div className="main">
         {isLoaded && <Outlet />}
-        <Footer />
       </div>
     </div>
 

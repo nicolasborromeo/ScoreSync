@@ -356,8 +356,10 @@ img {
 }
 
 #card-headshot-container img {
-    height: 100%;
-    width: 45vw;
+    /* height: 100%;
+    width: 45vw; */
+    width: 100%;
+    height: auto;
     max-height: 50vh;
     object-fit: cover;
 }

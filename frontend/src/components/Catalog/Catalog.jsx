@@ -6,8 +6,8 @@ import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks, thunkUpdateTra
 import { formatUploaded, formatSecsToMins } from "../../utils/utils";
 
 import AudioPlayer from "../AudioPlayer"
+import RenameModal from "../RenameModal";
 
-import { FaPlay } from "react-icons/fa6";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -18,11 +18,6 @@ import './Catalog.css'
 
 import {
     PlayIcon,
-    ImageIcon,
-    MusicIcon,
-    UserIcon,
-    MoreVerticalIcon,
-    UploadIcon,
     XIcon,
   } from "lucide-react";
 
@@ -52,10 +47,6 @@ export default function Catalog() {
     //Thunk operations
     useEffect(() => {
         dispatch(thunkGetUserTracks())
-        // .then(()=> {
-        //     console.log('CATALOG------------->',catalog)
-        //     handleTrackPlay(catalog[0].url, catalog[0].title)
-        // })
         .then(() => {
             setStateUpdated(true)
         })
@@ -144,7 +135,7 @@ export default function Catalog() {
                                         <td>{track.title}</td>
                                         <td>{formatSecsToMins(track.duration)}</td>
                                         <td>{formatUploaded(track.createdAt)}</td>
-                                        <td><CiMenuKebab id="track-menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
+                                        <td><CiMenuKebab id="menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
                                     </tr>
                                 ))}
                     </tbody>
@@ -216,7 +207,7 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
                 ref={hiddenInputRef}
                 style={{ display: 'none' }}
             />
-            <button onClick={handleClick} className="upload-tracks-icon">
+            <button onClick={handleClick} className="upload-icon">
                 <span>UPLOAD TRACKS</span>
                 <FaCloudUploadAlt size={30} />
             </button>
@@ -229,13 +220,13 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
     const { setModalContent, closeModal } = useModal()
 
     return (
-        <div className="track-options-container"
+        <div className="options-container"
             style={{ display: showMenu ? 'flex' : 'none', position: 'absolute', top: y, left: x }}
             ref={menuRef}
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={() => setModalContent(<RenameModal trackId={trackId} trackTitle={trackTitle} closeModal={closeModal} />)}
+                onClick={() => setModalContent(<RenameModal id={trackId} title={trackTitle} type={'Track'} closeModal={closeModal} />)}
             >
                 <RxCursorText />Rename
             </div>
@@ -250,37 +241,37 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
 }
 
 //Rename Track Modal
-function RenameModal({ trackId, trackTitle, closeModal }) {
-    const [title, setTitle] = useState(trackTitle)
-    const [disabled, setDisabled] = useState()
-    const dispatch = useDispatch()
+// function RenameModal({ trackId, trackTitle, closeModal }) {
+//     const [title, setTitle] = useState(trackTitle)
+//     const [disabled, setDisabled] = useState()
+//     const dispatch = useDispatch()
 
-    useEffect(() => {
-        if (title.length > 2) {
-            setDisabled(false)
-        } else {
-            setDisabled(true)
-        }
-    }, [title])
+//     useEffect(() => {
+//         if (title.length > 2) {
+//             setDisabled(false)
+//         } else {
+//             setDisabled(true)
+//         }
+//     }, [title])
 
-    const handleUpdateTitle = async (trackId) => {
-        if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
-    }
-    return (
-        <div id="rename-track-modal-content">
-            <h4>Rename Track</h4>
-            <fieldset>
-                <legend>Track name</legend>
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </fieldset>
-            <div className="cancel-rename-buttons">
-                <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
-                <button id="rename-button" onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
-            </div>
-        </div>
-    )
-}
+//     const handleUpdateTitle = async (trackId) => {
+//         if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
+//     }
+//     return (
+//         <div id="rename-track-modal-content">
+//             <h4>Rename Track</h4>
+//             <fieldset>
+//                 <legend>Track name</legend>
+//                 <input
+//                     type="text"
+//                     value={title}
+//                     onChange={(e) => setTitle(e.target.value)}
+//                 />
+//             </fieldset>
+//             <div className="cancel-rename-buttons">
+//                 <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
+//                 <button id="rename-button" onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
+//             </div>
+//         </div>
+//     )
+// }

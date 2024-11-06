@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { thunkUploadImages } from "../../store/images";
 import { AiOutlineLoading } from "react-icons/ai";
-
+import '../../index.css'
 
 export default function ImageUploadButton() {
     const user = useSelector(state => state.session.user)
@@ -44,8 +44,8 @@ export default function ImageUploadButton() {
                 style={{ display: 'none' }}
             />
 
-            <button onClick={handleClick} className="add-tracks-button">
-                UPLOAD IMAGES
+            <button onClick={handleClick} className="upload-icon">
+                <span>UPLOAD IMAGES</span>
                 <FaCloudUploadAlt size={30} className="colored" />
             </button>
 

@@ -152,7 +152,6 @@ body::-webkit-scrollbar-thumb{
     margin: 1rem;
     text-align: center;
     white-space: nowrap;
-    /* background: var(--bg-primary); */
     font-size: 1rem;
     letter-spacing: 0.3ch;
     width: 100%;
@@ -163,7 +162,6 @@ body::-webkit-scrollbar-thumb{
 .logo .link-text{
     text-decoration: none !important;
     color: var(--text-secondary);
-    /* height: 5rem; */
 }
 
 
@@ -175,7 +173,6 @@ body::-webkit-scrollbar-thumb{
 }
 
 .page-title-container {
-    /* background-color: #6b6977; */
     background-color: var(--bg-primary) !important;
     color: white;
     width: 100%;
@@ -216,4 +213,85 @@ body::-webkit-scrollbar-thumb{
     margin: 0;
     color: var(--text-primary);
     font-size: 0.6em;
+}
+
+
+/* UPLOAD ICON  */
+.upload-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 10px;
+    margin: 30px auto;
+    font-weight: bold;
+    /* transition: color, filter, border, background 400ms ease; */
+    padding: 8px 18px;
+    background-color: var(--bg-primary);
+    position: relative;
+}
+
+.upload-icon span {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #de5dbb, #8f096b);
+    position: relative;
+    z-index: 10;
+    color: white !important;
+}
+
+.upload-icon svg {
+   color: var(--icon-secondary)
+}
+
+.upload-icon::after {
+    content: '';
+    position: absolute;
+    height: 107%;
+    width: 102%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    margin: 30px auto;
+    right: -2px;
+    background: linear-gradient(to right, #de5dbb, #8f096b);
+    z-index: -1;
+}
+
+.upload-icon:hover span,
+.upload-icon:hover svg {
+    filter: brightness(1.2);
+}
+
+
+/* OPTIONS MENU */
+
+#menu-icon {
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.options-container {
+    overflow: hidden;
+    background-color: #1f1f28; /* Slightly darker shade for better contrast */
+    border-radius: 8px; /* Slightly reduced for a more modern look */
+    flex-direction: column;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5); /* Softer shadow for a cleaner effect */
+    font-size: 0.9em;
+}
+
+.options-container div {
+    width: 100%;
+    padding: 10px 14px; /* Slightly reduced padding for a tighter layout */
+    border-bottom: 1px solid #3a3c45;
+    display: inherit;
+    align-items: center;
+    gap: 10px; /* Slightly increased for more balanced spacing */
+    transition: background-color 0.3s ease; /* Target background-color only for a smoother effect */
+}
+
+.options-container div:hover {
+    background-color: #3a3c45; /* Slightly lighter background on hover */
 }

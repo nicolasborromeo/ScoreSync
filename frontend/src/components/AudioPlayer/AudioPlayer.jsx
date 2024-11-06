@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import { FaCirclePlay } from "react-icons/fa6";
-import { FaCirclePause } from "react-icons/fa6";
+
 
 import { useWavesurfer } from '@wavesurfer/react'
 import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
@@ -59,8 +58,7 @@ const AudioPlayer = ({ audioUrl }) => {
                 </div>}
             {/* Waveform */}
             <div id="waveform"
-                // className={!isReady ? 'hidden' : ''}
-
+                className={!isReady ? 'hidden' : ''}
                 ref={containerRef}
             />
             {/* Player Controls */}

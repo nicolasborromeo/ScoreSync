@@ -4,13 +4,15 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { formatUploaded } from "../../utils/utils";
 import { thunkGetUserCards } from '../../store/cards'
-import{thunkGetUsersDisplayInfo} from '../../store/displayInfo'
+import { thunkGetUsersDisplayInfo } from '../../store/displayInfo'
 import { useModal } from '../../context/Modal';
+
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
+import CardPreviewRow from '../CardPreviewRow';
+
 //icons
 import { CiMenuKebab } from "react-icons/ci";
-import { IoMdSettings } from "react-icons/io";
 import { GoLink } from "react-icons/go";
 import { IoMdCloudDone } from "react-icons/io";
 import { MdOutlineCloudOff } from "react-icons/md";
@@ -59,18 +61,17 @@ export default function Card() {
     //Thunk operations
     useEffect(() => {
         dispatch(thunkGetUserCards())
-        .then(dispatch(thunkGetUsersDisplayInfo()))
-        .then(() => {
-            setStateUpdated(true)
-            console.log('DISPKAY INFO --------------', displayInfo)
-        })
+            .then(dispatch(thunkGetUsersDisplayInfo()))
+            .then(() => {
+                setStateUpdated(true)
+            })
     }, [user, dispatch])
 
     const handleCreateCard = async () => {
         if (displayInfo?.name) {
             setModalContent(<CardTitleModal navigate={navigate} action={'create'} />)
         } else {
-            setModalContent(<PleaseCompleteInfo navigate={navigate} closeModal={closeModal}/>)
+            setModalContent(<PleaseCompleteInfo navigate={navigate} closeModal={closeModal} />)
         }
     }
 
@@ -80,48 +81,45 @@ export default function Card() {
             <div className="page-title-container">
                 <p id="page-title">Cards</p>
             </div>
-            <div
-            // className='gradient-border'
-            >
-
-            <table className="cards-table">
-                <thead>
-                    <tr>
-                        <th>Active</th>
-                        <th>Title</th>
-                        <th>Live Link</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>Settings</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                {
-                    cards?.length >= 1
-                    &&
-                    Array.isArray(cards)
-                    &&
-                    <tbody>
-                        {stateUpdated
-                            &&
-                            cards.map(
-                                card => (
-                                    <tr key={card.id}>
-                                        <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />
-                                        }</td>
-                                        <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
-                                        <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
-                                        <td>{formatUploaded(card.createdAt)}</td>
-                                        <td>{formatUploaded(card.updatedAt)}</td>
-                                        <td><IoMdSettings /></td>
-                                        <td><CiMenuKebab id="track-menu-icon"
-                                            onClick={(e) => openCardMenu(e, card.id, card.title)}
-                                        /></td>
-                                    </tr>
-                                ))}
-                    </tbody>
-                }
-            </table>
+            <div>
+                <table className="cards-table">
+                    <thead>
+                        <tr>
+                            <th>Active</th>
+                            <th>Title</th>
+                            <th>Live Link</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            {/* <th>Settings</th> */}
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {
+                        cards?.length >= 1
+                        &&
+                        Array.isArray(cards)
+                        &&
+                        <tbody>
+                            {stateUpdated
+                                &&
+                                cards.map(
+                                    card => (
+                                        <tr key={card.id}>
+                                            <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />
+                                            }</td>
+                                            <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
+                                            <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
+                                            <td>{formatUploaded(card.createdAt)}</td>
+                                            <td>{formatUploaded(card.updatedAt)}</td>
+                                            {/* <td><IoMdSettings /></td> */}
+                                            <td><CiMenuKebab id="track-menu-icon"
+                                                onClick={(e) => openCardMenu(e, card.id, card.title)}
+                                            /></td>
+                                        </tr>
+                                    ))}
+                        </tbody>
+                    }
+                </table>
             </div>
             {
                 !cards.length
@@ -130,13 +128,17 @@ export default function Card() {
                     <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
                 </>
             }
-            <div >
+            {/* <div >
                 <CiCirclePlus
                     id="add-card-button"
                     size={60}
                     onClick={handleCreateCard}
                 />
-            </div>
+            </div> */}
+
+            {/* Card Preview Row */}
+
+            <CardPreviewRow cards={cards} handleCreateCard={handleCreateCard}/>
 
 
 
@@ -156,7 +158,7 @@ export default function Card() {
 }
 
 
-function PleaseCompleteInfo ({navigate, closeModal}) {
+function PleaseCompleteInfo({ navigate, closeModal }) {
 
     const navigateDashboard = () => {
         navigate('/dashboard')
@@ -164,6 +166,6 @@ function PleaseCompleteInfo ({navigate, closeModal}) {
     }
 
     return (
-        <p style={{ color: 'white', textAlign: 'center', padding:'20px', filter:'grayscale(20%)' }}>Please complete your <br/><em>Display Information </em><br/>on the <span onClick={navigateDashboard} style={{cursor:'pointer'}}><u><strong>Dashboard</strong></u></span> first</p>
+        <p style={{ color: 'white', textAlign: 'center', padding: '20px', filter: 'grayscale(20%)' }}>Please complete your <br /><em>Display Information </em><br />on the <span onClick={navigateDashboard} style={{ cursor: 'pointer' }}><u><strong>Dashboard</strong></u></span> first</p>
     )
 }

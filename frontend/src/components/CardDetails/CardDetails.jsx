@@ -34,11 +34,12 @@ export default function CardDetails() {
     const [userLoaded, setUserLoaded] = useState(false)
     const [tracksLoaded, setTracksLoaded] = useState(false)
     const [audioUrl, setAudioUrl] = useState('')
+    const [cardLoaded, setCardLoaded] = useState(false)
 
 
     //getting the current card:
     useEffect(() => {
-        dispatch(thunkGetCurrentCard(cardId))
+        dispatch(thunkGetCurrentCard(cardId)).then(()=> setCardLoaded(true))
     }, [dispatch, cardId])
 
     //setting up users data:
@@ -81,6 +82,8 @@ export default function CardDetails() {
     if (userLoaded
         &&
         tracksLoaded
+        &&
+        cardLoaded
     ) return (
 
         <div

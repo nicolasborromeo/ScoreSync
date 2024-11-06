@@ -1,12 +1,6 @@
 
-/* MODAL CSS */
-#modal-content{
-   width: min-content;
-   overflow: scroll;
-   background-color: #222;
-   /* border: 1px solid lightgray; */
-   box-shadow: 1px 1px 10px 2px black;
-}
+/* IMAGE MODAL CSS */
+
 #images-modal-container {
     margin: 0;
     padding: 1em !important;
@@ -34,7 +28,7 @@
     width: fit-content
 }
 
-#images-modal-container .add-tracks-button {
+#images-modal-container .upload-icon {
     margin: 1em auto;
 }
 
@@ -49,7 +43,7 @@
     margin: 0;
     font-family: inherit;
     color: var(--text-primary);
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
     overflow: scroll;
 }
 
@@ -59,7 +53,6 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
-    background-color: #222;
     width: 80%;
     margin: 0 auto;
     margin-right: 10em;
@@ -67,18 +60,44 @@
 
 /* Individual image items */
 .image-item {
-    background-color: #333;
+    background-color: #33333327;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    justify-content: space-between;
     position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Image styling */
+.image-item:hover {
+    transform:scale(1.01);
+    /* box-shadow: 0px 5px 15px #b740972f; */
+}
+
+
+/* menu icon */
+.image-item #menu-icon {
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    /* color: gray; */
+    transition: color 0.2s ease;
+    border-radius: 50%;
+    padding: 6px;
+    box-sizing: content-box;
+}
+
+.image-item #menu-icon:hover {
+    /* color: rgb(210, 86, 150); */
+    background-color: rgba(163, 162, 162, 0.072);
+}
+/* end menu icon */
+
+
 .image-item img {
     max-width: 100%;
     height: auto;
@@ -87,35 +106,37 @@
 }
 
 .image-item p {
+    color: var(--text-primary);
     max-width: 100%;
     white-space: wrap;
-    text-align: left;
-
+    font-size: 0.9em !important;
+    /* color:#a78aa5; */
+    /* margin: 0; */
+    opacity: 1;
+    /* transition: opacity 0.3s ease, transform 0.3s ease; */
+    /* transform: translateY(10px) */
 }
 
-#checkbox-options-container{
+
+.image-item:hover p {
+    display: inline;
+    opacity: 1;
+    /* color: var(--icon-primary); */
+    filter: grayscale(50%) brightness(0.8);
+    transform: translateY(0); /* Move up to its natural position */
+}
+
+#name-options-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-bottom: 5px;
+    color: gray;
 }
 
 /* Styling the checkbox */
 .image-item input[type="checkbox"] {
     transform: scale(1.5);
-}
-.image-item #track-menu-icon{
-    scale: 1.2;
-}
-
-/* Text label below the image */
-.image-item p {
-    font-size: 0.9rem;
-    margin: 5px 0 0 0;
-    word-wrap: break-word;
-}
-
-.image-item:hover {
-    background-color: #444;
 }
