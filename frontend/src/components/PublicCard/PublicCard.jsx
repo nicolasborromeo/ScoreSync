@@ -247,11 +247,13 @@ export default function PublicCard({ preview }) {
                                     BACK TO EDITING
                                 </button>
                             </div>
-                            <div id="preview-publish-button-container">
-                                <button id="publish-button"
+                            <div className='publish-button-container'>
+                                <button
+                                    // id="publish-button"
+                                    className='upload-icon'
                                     onClick={handlePublishCard}
                                 >
-                                    PUBLISH
+                                    <span>PUBLISH</span>
                                     <FaCheck size={18}/>
                                 </button>
                             </div>

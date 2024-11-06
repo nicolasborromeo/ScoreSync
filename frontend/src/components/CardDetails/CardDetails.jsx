@@ -262,7 +262,9 @@ export default function CardDetails() {
                     </div> */}
 
                     <div id="preview-button-container">
-                        <button id="preview-publish-button"
+                        <button
+                            className='add-tracks-button'
+                            id="preview-publish-button"
                             onClick={handlePreview}>
                             PREVIEW & PUBLISH
                         </button>

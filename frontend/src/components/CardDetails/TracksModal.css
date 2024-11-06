@@ -9,6 +9,8 @@
     height: min-content;
     min-height: min-content !important;
     min-width: max-content;
+    border: 0.1px solid rgb(73, 73, 73);
+    border-radius: 10px;
 }
 
 #tracksmodal-search-column span {
@@ -83,29 +85,12 @@
     gap: 1em;
     margin-top: 20px;
 }
-#track-modal-buttons-container .add-tracks-button {
+#track-modal-buttons-container>.add-tracks-button {
     padding: 6px 27px;
 }
 
-.add-tracks-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    /* margin: 10px auto; */
-    filter: grayscale(30%) opacity(0.7);
-    transition: color, filter, background 400ms ease;
-    padding: 6px 16px;
-    justify-content: center;
-}
 
-.add-tracks-button:hover {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    filter: grayscale(0%) opacity(1)
-}
+
 
 .add-tracks-button .loading-icon {
     width: 25px;

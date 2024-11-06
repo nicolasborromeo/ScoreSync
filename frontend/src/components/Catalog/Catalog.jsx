@@ -7,6 +7,7 @@ import { formatUploaded, formatSecsToMins } from "../../utils/utils";
 
 import AudioPlayer from "../AudioPlayer"
 import RenameModal from "../RenameModal";
+import Footer from "../Footer"
 
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,7 +20,7 @@ import './Catalog.css'
 import {
     PlayIcon,
     XIcon,
-  } from "lucide-react";
+} from "lucide-react";
 
 
 export default function Catalog() {
@@ -47,9 +48,9 @@ export default function Catalog() {
     //Thunk operations
     useEffect(() => {
         dispatch(thunkGetUserTracks())
-        .then(() => {
-            setStateUpdated(true)
-        })
+            .then(() => {
+                setStateUpdated(true)
+            })
     }, [user, dispatch])
 
     const handleUploadTracks = async e => {
@@ -104,7 +105,9 @@ export default function Catalog() {
         <div id="catalog-container">
 
             <div className="page-title-container">
-                <p>Catalog</p>
+                <div className="page-title-content">
+                    <p>Catalog</p>
+                </div>
             </div>
 
             <table className="tracks-table">
@@ -117,19 +120,19 @@ export default function Catalog() {
                     <tbody id="tracks-tbody">
                         {stateUpdated
                             &&
-                            catalog.map(
+                            catalog.toReversed().map(
                                 track => (
                                     <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
                                         <td id="track-row-play-icon">
                                             <div className="play-background">
-                                            <PlayIcon
-                                                size={16}
-                                                // color={activeTrackId == track.id ? 'white' : "#545b69"}
-                                                onClick={() => {
-                                                    handleTrackPlay(track.filePath, track.title)
-                                                    setActiveTrackId(track.id)
-                                                }}
-                                            />
+                                                <PlayIcon
+                                                    size={16}
+                                                    // color={activeTrackId == track.id ? 'white' : "#545b69"}
+                                                    onClick={() => {
+                                                        handleTrackPlay(track.filePath, track.title)
+                                                        setActiveTrackId(track.id)
+                                                    }}
+                                                />
                                             </div>
                                         </td>
                                         <td>{track.title}</td>
@@ -140,18 +143,14 @@ export default function Catalog() {
                                 ))}
                     </tbody>
                 }
-
-                {
-                    !catalog.length
-                    &&
-                    <>
-                        <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
-                    </>
-                }
-
-
-
             </table>
+            {
+                !catalog.length
+                &&
+                <>
+                    <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
+                </>
+            }
 
             <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
 
@@ -162,7 +161,7 @@ export default function Catalog() {
                 <div className="audio-player-container">
                     <div className="title-x-container">
                         <span id="audio-player-track-title">{trackTitle}</span>
-                        <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20}/></span>
+                        <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20} /></span>
                     </div>
                     <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
                         <AudioPlayer audioUrl={audioUrl} />
@@ -194,7 +193,8 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
     }
     if (uploading) return (
         <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
-            <AiOutlineLoading className='loading-icon' /> Uploading...
+            <AiOutlineLoading className='loading-icon' />
+            {/* Uploading... */}
         </div>
     )
     if (!uploading) return (

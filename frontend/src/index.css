@@ -5,17 +5,14 @@
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --text-primary: #b6b6b6;
     --text-secondary: #ececec;
-    /* --bg-primary: #23232e; OG */
     --bg-primary: #030712;
-    /* --bg-secondary: #141418; OG*/
     --bg-secondary:  #111827;
     --bg-colorful: #522258;
     --icon-primary: #BD1792;
     --icon-secondary: #BD1792;
-    /* --icon-primary: #ec4899;
-    --icon-secondary: #ec4899; */
-    /* --icon-secondary: #EB3678; */
     --transition-speed: 600ms;
+    --linear-gradient: linear-gradient(to right, #de5dbb, #8f096b);
+    --linear-background:linear-gradient(45deg , #d17ebb, #ff01bb, #8b0aa5);
 }
 * {
     box-sizing: border-box;
@@ -41,37 +38,26 @@ body, html{
 
 .hidden {display: none;}
 
-/* body::-webkit-scrollbar{
-    width: 0.1rem;
-}
-body::-webkit-scrollbar-track{
-    background: #1e1e24;
 
-}
-body::-webkit-scrollbar-thumb{
-    background: var(--icon-secondary);
-} */
 
 
 .main {
     margin-left: 5rem;
     width:100%;
+    height: 100%;
 }
 
 
-/* #app-wrapper{
-    margin-left: 0;
-} */
 #app-container {
     display: flex;
+    flex: 1;
     margin: 0;
     padding: 0;
     font-size: 1em;
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
 
 .colored {
-    /* color: #551a8b; */
     color: var(--icon-secondary);
 }
 
@@ -177,20 +163,27 @@ body::-webkit-scrollbar-thumb{
     color: white;
     width: 100%;
     min-height: 80px !important;
+    max-height: min-content;
     font-weight: bold;
     text-transform: uppercase;
     white-space: nowrap;
     font-size: 1rem;
     letter-spacing: 0;
-    max-height: min-content;
     box-shadow: -4px 3px 6px black;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }
+.page-title-content{
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
 
+}
 .page-title-container p {
-    margin: 0.6rem 8rem;
+    /* margin: 0.6rem 8rem; */
     font-size: 1.8rem;
 }
 
@@ -202,7 +195,10 @@ body::-webkit-scrollbar-thumb{
 }
 
 .footer {
-    background-color: var(--bg-secondary);
+    position:relative;
+    height: 200px;
+    background-color: var(--bg-primary);
+    background-color: 'white';
     text-align: center;
     padding: 0 !important;
     margin: 0px !important;
@@ -226,10 +222,10 @@ body::-webkit-scrollbar-thumb{
     border-radius: 10px;
     margin: 30px auto;
     font-weight: bold;
-    /* transition: color, filter, border, background 400ms ease; */
     padding: 8px 18px;
     background-color: var(--bg-primary);
     position: relative;
+
 }
 
 .upload-icon span {
@@ -240,10 +236,12 @@ body::-webkit-scrollbar-thumb{
     position: relative;
     z-index: 10;
     color: white !important;
+    transition: all 0.2s ease !important;
 }
 
 .upload-icon svg {
-   color: var(--icon-secondary)
+   color: var(--icon-secondary);
+   transition: all 0.2s ease !important;
 }
 
 .upload-icon::after {
@@ -275,23 +273,23 @@ body::-webkit-scrollbar-thumb{
 
 .options-container {
     overflow: hidden;
-    background-color: #1f1f28; /* Slightly darker shade for better contrast */
-    border-radius: 8px; /* Slightly reduced for a more modern look */
+    background-color: #1f1f28;
+    border-radius: 8px;
     flex-direction: column;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5); /* Softer shadow for a cleaner effect */
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5);
     font-size: 0.9em;
 }
 
 .options-container div {
     width: 100%;
-    padding: 10px 14px; /* Slightly reduced padding for a tighter layout */
+    padding: 10px 14px;
     border-bottom: 1px solid #3a3c45;
     display: inherit;
     align-items: center;
-    gap: 10px; /* Slightly increased for more balanced spacing */
-    transition: background-color 0.3s ease; /* Target background-color only for a smoother effect */
+    gap: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .options-container div:hover {
-    background-color: #3a3c45; /* Slightly lighter background on hover */
+    background-color: #3a3c45;
 }

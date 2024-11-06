@@ -23,9 +23,7 @@ img {
     image-rendering: auto;
     image-rendering: crisp-edges;
 }
-#card-banner .public-image-container{
 
-}
 
 #card-banner img {
     width: 100% !important;
@@ -294,11 +292,11 @@ img {
     gap: 1em;
 }
 
-#card-detail-no-tracks-warning {
+/* #card-detail-no-tracks-warning {
     display: flex;
     font-weight: bold;
-    color: gray
-}
+    color: gray;
+} */
 
 #trackrow-play-button:hover,
 #card-player-playpause:hover {
@@ -314,10 +312,9 @@ img {
     display: flex !important;
     justify-content: center !important;
     align-items: flex-start;
-    /* width: fit-content; */
 }
+
 .add-tracks-button {
-    /* display: block; */
     background-color: var(--bg-primary) !important;
     color: white !important;
     border-radius: 10px !important;
@@ -325,8 +322,23 @@ img {
     width: fit-content;
     margin: 0;
     justify-self: flex-start;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    filter: grayscale(30%) opacity(0.7);
+    transition: color, filter, background 400ms ease;
+    padding: 6px 16px;
+    justify-content: center;
 }
 
+.add-tracks-button:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    filter: grayscale(0%) opacity(1)
+}
 
 
 /* HEADSHOT & BIO */
@@ -384,20 +396,6 @@ img {
 
 
 
-#preview-publish-button {
-    display: flex;
-    border: 1px solid gray;
-    padding: 11px 15px;
-    background-color: var(--bg-primary) !important;
-    color: var(--text-primary);
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 3em auto !important;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-}
 
 #contact-info-component {
     display: flex;
@@ -521,29 +519,37 @@ img {
 .preview-buttons-container {
     display:  flex;
     justify-content: space-between;
-    /* justify-content: space-evenly; */
     align-items: center;
 }
-#preview-publish-button-container {
+
+.publish-button-container .upload-icon {
+    padding: 10px 35px;
+    /* width: 170px; */
     display:  flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin: 0 !important;
 }
-#publish-button {
-    border-radius: 20px;
-    margin: 0 !important;
-    padding: 10px 20px;
-    background-color: var(--icon-secondary);
-    color: black;
-    border: 2px solid rgb(111, 20, 20);
-    height: min-content;
-    cursor: pointer;
+
+
+#preview-publish-button {
     display: flex;
-    justify-content: center;
+    border: 1px solid lightgray;
+    padding: 11px 15px;
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary);
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 3em auto !important;
     align-items: center;
-    font-weight:bold ;
-    gap: 5px
+    justify-content: center;
+    gap: 2px;
+    filter: grayscale(30%) opacity(0.7);
+}
+
+#preview-publish-button:hover {
+    filter: brightness(1.2);
+    color: var(--text-primary);
 }
 
 #preview-back-arrow-button{

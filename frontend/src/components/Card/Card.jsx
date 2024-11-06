@@ -10,6 +10,7 @@ import { useModal } from '../../context/Modal';
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
 import CardPreviewRow from '../CardPreviewRow';
+import Footer from '../Footer'
 
 //icons
 import { CiMenuKebab } from "react-icons/ci";
@@ -18,7 +19,8 @@ import { IoMdCloudDone } from "react-icons/io";
 import { MdOutlineCloudOff } from "react-icons/md";
 import { CiCirclePlus } from "react-icons/ci";
 // import { BsPlusSquareDotted } from "react-icons/bs";
-//
+
+import { Plus } from 'lucide-react'
 
 
 
@@ -29,7 +31,6 @@ export default function Card() {
     const cards = useSelector(state => state.cards.userCards)
     const displayInfo = useSelector(state => state.displayInfo)
     const dispatch = useDispatch()
-    console.log(displayInfo)
     const [stateUpdated, setStateUpdated] = useState()
 
     //Card Option Menu States Variables
@@ -79,8 +80,15 @@ export default function Card() {
         <div id="cards-container">
 
             <div className="page-title-container">
-                <p id="page-title">Cards</p>
+                <div className='page-title-content'>
+
+                    <p id="page-title">Cards</p>
+                    <button className='upload-icon' onClick={handleCreateCard}>
+                        <Plus /> <span><h3>New Card</h3></span>
+                    </button>
+                </div>
             </div>
+
             <div>
                 <table className="cards-table">
                     <thead>
@@ -105,8 +113,7 @@ export default function Card() {
                                 cards.map(
                                     card => (
                                         <tr key={card.id}>
-                                            <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />
-                                            }</td>
+                                            <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />}</td>
                                             <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
                                             <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
                                             <td>{formatUploaded(card.createdAt)}</td>
@@ -120,25 +127,19 @@ export default function Card() {
                         </tbody>
                     }
                 </table>
+                {
+                    !cards.length
+                    &&
+                    <>
+                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
+                    </>
+                }
             </div>
-            {
-                !cards.length
-                &&
-                <>
-                    <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
-                </>
-            }
-            {/* <div >
-                <CiCirclePlus
-                    id="add-card-button"
-                    size={60}
-                    onClick={handleCreateCard}
-                />
-            </div> */}
+
 
             {/* Card Preview Row */}
 
-            <CardPreviewRow cards={cards} handleCreateCard={handleCreateCard}/>
+            <CardPreviewRow cards={cards} />
 
 
 
@@ -152,7 +153,7 @@ export default function Card() {
                 x={x}
                 y={y}
             />
-
+            {/* <Footer /> */}
         </div>
     )
 }

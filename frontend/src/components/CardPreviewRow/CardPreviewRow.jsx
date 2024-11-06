@@ -1,12 +1,12 @@
 import './CardPreviewRow.css'
-import { CiCirclePlus } from "react-icons/ci";
+
 
 
 import { useNavigate } from 'react-router-dom';
 
 
 
-export default function CardPreviewRow({ cards, handleCreateCard }) {
+export default function CardPreviewRow({ cards }) {
     const navigate = useNavigate();
 
     return (
@@ -29,14 +29,7 @@ export default function CardPreviewRow({ cards, handleCreateCard }) {
                             />
                         </div>
                     ))}
-                <div className="add-card-button-container">
-
-                <CiCirclePlus
-                    id="add-card-button"
-                    size={70}
-                    onClick={handleCreateCard}
-                />
-            </div>
+                
             </div>
         </div>
     );

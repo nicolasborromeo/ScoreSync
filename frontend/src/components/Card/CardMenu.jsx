@@ -26,7 +26,7 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
     }
 
     return (
-        <div className="track-options-container"
+        <div className="options-container"
             style={{ display: showMenu ? 'flex' : 'none', position: 'absolute', top: y, left: x }}
             ref={menuRef}
         >

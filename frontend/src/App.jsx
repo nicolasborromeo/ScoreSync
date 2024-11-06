@@ -12,7 +12,7 @@ import Card from "./components/Card";
 import CardDetails from "./components/CardDetails"
 import PublicCard from './components/PublicCard'
 import InactiveCard from "./components/InactiveCard";
-
+import Footer from './components/Footer'
 function Layout() {
 
   const user = useSelector(state => state.session.user)
@@ -29,13 +29,12 @@ function Layout() {
 
 
   return (
-    <div id="app-container">
-      <Navigation isLoaded={isLoaded} />
-      <div className="main">
-        {isLoaded && <Outlet />}
+      <div id="app-container">
+        <Navigation isLoaded={isLoaded} />
+        <div className="main">
+          {isLoaded && <Outlet />}
+        </div>
       </div>
-    </div>
-
   )
 }
 
@@ -102,15 +101,5 @@ function App() {
 
 }
 
-
-const Footer = () => {
-  return (
-    <div className="footer">
-      <p>
-      Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
-      </p>
-    </div>
-  )
-}
 
 export default App;

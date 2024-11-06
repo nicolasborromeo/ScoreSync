@@ -37,7 +37,7 @@
 #images-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% -10em);
     height: 100%;
     position: fixed;
     margin: 0;
@@ -55,7 +55,7 @@
     padding: 20px;
     width: 80%;
     margin: 0 auto;
-    margin-right: 10em;
+    /* margin-right: 10em; */
 }
 
 /* Individual image items */
@@ -79,51 +79,12 @@
 }
 
 
-/* menu icon */
-.image-item #menu-icon {
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2em;
-    /* color: gray; */
-    transition: color 0.2s ease;
-    border-radius: 50%;
-    padding: 6px;
-    box-sizing: content-box;
-}
-
-.image-item #menu-icon:hover {
-    /* color: rgb(210, 86, 150); */
-    background-color: rgba(163, 162, 162, 0.072);
-}
-/* end menu icon */
-
 
 .image-item img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin-bottom: 10px;
-}
-
-.image-item p {
-    color: var(--text-primary);
-    max-width: 100%;
-    white-space: wrap;
-    font-size: 0.9em !important;
-    /* color:#a78aa5; */
-    /* margin: 0; */
-    opacity: 1;
-    /* transition: opacity 0.3s ease, transform 0.3s ease; */
-    /* transform: translateY(10px) */
-}
-
-
-.image-item:hover p {
-    display: inline;
-    opacity: 1;
-    /* color: var(--icon-primary); */
-    filter: grayscale(50%) brightness(0.8);
-    transform: translateY(0); /* Move up to its natural position */
 }
 
 #name-options-container{
@@ -135,6 +96,41 @@
     margin-bottom: 5px;
     color: gray;
 }
+
+.image-item p {
+    color: var(--text-primary);
+    max-width: 100%;
+    white-space: wrap;
+    font-size: 0.9em !important;
+    opacity: 1;
+}
+
+
+.image-item:hover p {
+    display: inline;
+    opacity: 1;
+    filter: grayscale(50%) brightness(0.8);
+    transform: translateY(0); /* Move up to its natural position */
+}
+
+
+/* menu icon */
+.image-item #menu-icon {
+    cursor: pointer;
+    font-size: 1.2em;
+    border-radius: 50%;
+    padding: 6px;
+    box-sizing: content-box;
+    transition: color 0.2s ease;
+}
+
+.image-item #menu-icon:hover {
+    background-color: rgba(163, 162, 162, 0.072);
+}
+/* end menu icon */
+
+
+
 
 /* Styling the checkbox */
 .image-item input[type="checkbox"] {

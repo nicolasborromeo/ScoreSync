@@ -27,7 +27,7 @@ export default function RenameModal({ id, title, type, closeModal }) {
     }
 
     return (
-        <div id="rename-track-modal-content">
+        <div id="title-modal-content">
             <h4>Rename {`${type}`}</h4>
             <fieldset>
                 <legend>{`${type}`} name</legend>
@@ -37,9 +37,9 @@ export default function RenameModal({ id, title, type, closeModal }) {
                     onChange={(e) => setNewTitle(e.target.value)}
                 />
             </fieldset>
-            <div className="cancel-rename-buttons">
-                <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
-                <button id="rename-button" onClick={() => handleUpdateTitle(id)} disabled={disabled}>RENAME</button>
+            <div className="title-modal-buttons">
+                <button id="title-modal-cancel-button" onClick={closeModal}>CANCEL</button>
+                <button id="ok-button" onClick={() => handleUpdateTitle(id)} disabled={disabled}>RENAME</button>
             </div>
         </div>
     )
