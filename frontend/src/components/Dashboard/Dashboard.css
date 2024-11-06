@@ -6,7 +6,7 @@
     margin: 0;
     font-family: inherit;
     color: var(--text-primary);
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
 
 }
 
@@ -27,14 +27,13 @@
 .dashboard-button{
     padding: 10px 20px;
     border-radius: 18px;
-    height: 3em;
+    height: 3.5em;
     background: none;
     border: 1px solid lightgray;
     color: white;
     cursor: pointer;
 }
 .dashboard-button:hover{
-    /* filter: brightness(2); */
     border-color: var(--icon-secondary);
     color: var(--icon-secondary);
 

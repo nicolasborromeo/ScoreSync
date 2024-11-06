@@ -1,28 +1,65 @@
-
-#display-information-container{
+#display-information-container {
     width: 80vw;
+    height: auto;
     margin-left: 8em;
-    /* background-color: rgb(60, 57, 57); */
-    background-color: #393841;
-    padding: 1em;
-    border-radius: 4px;
+    background-color: #2f2f3183;
+    padding: 1.5em;
+    border-radius: 20px;
     box-shadow: (0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px
 }
 
 
-
-
-#display-information-container h2 {
+#display-information-container h3 {
     margin: 0;
-    /* color: var(--text-secondary) */
+    color: var(--text-secondary)
 }
 
+.text-and-button {
+    display: flex;
+    align-items: center !important;
+}
+
+.text-and-button p {
+    font-size: 0.8em;
+    color: rgb(152, 152, 152);
+    margin-bottom: 2em;
+}
+
+.text-and-button #save-button {
+    cursor: pointer;
+    margin: 0 10px;
+}
+.active-button {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+
+      color: rgba(255, 200, 200, 0.3);
+    }
+    50% {
+
+      color: white;
+    }
+    100% {
+      color: rgba(255, 200, 200, 0.3);
+    }
+  }
+
+.grayed {
+    filter: grayscale(100%) brightness(0.3);
+}
+
+.text-and-button #save-button:hover {
+    color: var(--icon-secondary);
+}
 
 #display-information-container form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-
+    font-size: 0.9em;
 }
 
 #display-information-container form div {
@@ -47,7 +84,7 @@
     border: none;
     outline: none;
     color: var(--text-secondary);
-    font-size: 1em;
+    font-size: 0.9em;
     height: max-content;
     font-family: inherit;
 }
@@ -58,25 +95,89 @@
 
 #display-information-container form div fieldset legend {
     transition: color, 0.3s ease;
+    font-size: 0.8em;
 }
 
 #display-information-container form div fieldset {
-    border: 2px solid gray; 
+    border: 2px solid gray;
     border-radius: 10px;
-    transition: border-color 0.4s ease; 
+    transition: border-color 0.4s ease;
     margin-bottom: 8px;
-
+    border-radius: 18px;
+    border-color: #4d4d53;
+    transition: all 0.4s ease;
 }
 
 #display-information-container form div fieldset:focus-within {
-    border-color: var(--icon-secondary); 
+    border-color: var(--icon-secondary);
 }
+
 #display-information-container form div fieldset:hover {
-    border-color: var(--text-secondary); 
+    border-color: rgba(255, 255, 255, 0.491);
     color: var(--text-secondary)
 }
 
 
 #display-information-container form div fieldset:focus-within legend {
     color: var(--icon-secondary);
+}
+
+
+/* ARE YOU SURE MODAL */
+.are-you-sure-container{
+    height: 100%;
+    /* background-color: var(--bg-secondary); */
+    background-color: #0d1217;
+    color: var(--text-secondary);
+    padding: 25px;
+    width: 400px;
+    box-shadow: 2px 1px 5px black;
+    border-radius: 20px;
+    border: 0.4px solid rgba(96, 95, 95, 0.602);
+    text-align: center;
+}
+
+.are-you-sure-buttons {
+    /* padding: 10px; */
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#cancel-button {
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    padding: 7px 13px;
+    color: var(--text-primary);
+    transition: all 0.5s ease;
+    border-radius: 10px;
+}
+
+#cancel-button:hover {
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: #3434404e;
+}
+
+#ok-button {
+    font-size: 1em;
+    border-radius: 10px;
+    padding: 12px 18px;
+    border: none;
+    background-color: var(--icon-secondary);
+    filter: grayscale(20%) brightness(0.9);
+    transition: filter 200ms ease;
+    /* box-shadow: 2px 1px 3px 1px; */
+    color: whihte;
+    transition: all 0.5s ease;
+    /* background: linear-gradient(to right, #de5dbb, #8f096b); */
+}
+
+#ok-button:hover {
+    filter: grayscale(0%) brightness(1);
+    cursor: pointer;
 }

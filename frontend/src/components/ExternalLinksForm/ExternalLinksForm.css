@@ -1,26 +1,63 @@
 .external-links-form-container {
-    /* margin-top: 20px; */
     width: 40vw;
-    /* margin-left: 8em; */
-    background-color: #393841;
-    padding: 1em;
-    border-radius: 4px;
+    background-color: #2f2f3183;
+    padding: 1.5em;
+    border-radius: 20px;
     margin-bottom: 2em;
 }
 
+.external-links-form-container h3 {
+    color: var(--text-secondary);
+}
+
+
+.subtitle-text p {
+    font-size: 0.8em;
+    color: rgb(152, 152, 152);
+    margin-bottom: 2em;
+}
+
+.form-and-button-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 20px ;
+}
+
+.form-and-button-container svg {
+    margin: 0 !important;
+    /* padding: 20px 16px; */
+    cursor: pointer;
+}
+
+.form-and-button-container form {
+    flex: 1;
+}
+
+.form-and-button-container .dashboard-button {
+    align-self: flex-end;
+    padding: 8px 16px !important;
+}
+
 .external-links-form-container form fieldset {
-    border-radius: 8px;
-    border-color: var(--text-primary);
+    border-radius: 18px;
+    border-color: #4d4d53;
+    width: 100%;
+    transition: all 0.4s ease;
 }
 
 .external-links-form-container form fieldset:hover {
-   border-color: white;
+   border-color: rgba(255, 255, 255, 0.491);
    color: white
 }
 
 .external-links-form-container form fieldset:focus-within {
     border-color: var(--icon-secondary); /* Changes the border color */
     color: var(--icon-secondary);
+}
+
+.external-links-form-container form fieldset legend {
+    font-size: 0.7em;
 }
 
 .external-links-form-container h3 {
@@ -46,12 +83,19 @@
     padding: 3px 0;
 }
 
-.external-link-row {
+.external-links-list {
+    margin-top: 1em;
+}
+
+.external-links-list .external-link-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
-    right: 2px;
+    font-size: 0.8em;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 8px;
 }
 
 .external-link-row div {
@@ -59,4 +103,9 @@
     align-items: center;
     justify-content: flex-start;
     gap: 7px;
+}
+
+.external-link-row>svg{
+    position: relative;
+    right: 4px
 }
