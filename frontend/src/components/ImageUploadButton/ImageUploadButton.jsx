@@ -27,10 +27,28 @@ export default function ImageUploadButton() {
             hiddenInputRef.current.click();
         }
     }
-    if(uploading) return (
-            <div style={{ textAlign: 'center', color:'gray' }}>
-                <AiOutlineLoading className='loading-icon' /> Uploading...
-            </div>
+    if(uploading)
+        return (
+            // <div style={{ textAlign: 'center', color:'gray' }}>
+            //     <AiOutlineLoading className='loading-icon' /> Uploading...
+            // </div>
+            <div>
+            <input
+                type="file"
+                accept=".jpg,.png,.webp"
+                multiple
+                onChange={handleUploadImages}
+                ref={hiddenInputRef}
+                style={{ display: 'none' }}
+            />
+
+            <button onClick={handleClick} className="add-tracks-button">
+                <span>UPLOADING...</span>
+                <AiOutlineLoading className='loading-icon' size={30}/>
+            </button>
+
+
+        </div>
     )
     if(!uploading)
     return (
@@ -44,7 +62,7 @@ export default function ImageUploadButton() {
                 style={{ display: 'none' }}
             />
 
-            <button onClick={handleClick} className="upload-icon">
+            <button onClick={handleClick} className="add-tracks-button">
                 <span>UPLOAD IMAGES</span>
                 <FaCloudUploadAlt size={30} className="colored" />
             </button>

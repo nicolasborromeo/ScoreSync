@@ -3,7 +3,6 @@ import './ExternalLinksForm.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { thunkGetExternalLinks, thunkAddExternalLink, thunkDeleteExternalLink } from '../../store/links'
 import { ExternalLink } from '../CardDetails/ExternalLinkBar'
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { Plus, Trash } from 'lucide-react'
 
 export default function ExternalLinksForm() {
@@ -53,7 +52,6 @@ export default function ExternalLinksForm() {
                     {errors.url && <p className='error-p'>{errors.url}</p>}
                 </form>
                 <Plus onClick={handleAddLink}/>
-                {/* <button className='dashboard-button' onClick={handleAddLink}>Add</button> */}
             </div>
 
             <div className='external-links-list'>
@@ -72,7 +70,10 @@ export default function ExternalLinksForm() {
             {
                 !links?.length
                 &&
-                <p>You don&apos;t have any links yet</p>
+                <div className='no-items-message-container'>
+                    <p className='no-items-message'>You don&apos;t have any links yet</p>
+                </div>
+
             }
         </div>
     )

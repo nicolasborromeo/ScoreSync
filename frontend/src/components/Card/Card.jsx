@@ -83,9 +83,12 @@ export default function Card() {
                 <div className='page-title-content'>
 
                     <p id="page-title">Cards</p>
-                    <button className='upload-icon' onClick={handleCreateCard}>
-                        <Plus /> <span><h3>New Card</h3></span>
-                    </button>
+                    <div className='gradient-button-background'>
+                        <button className='upload-icon' onClick={handleCreateCard}>
+                            <Plus />
+                            <span>NEW CARD</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -131,7 +134,7 @@ export default function Card() {
                     !cards.length
                     &&
                     <>
-                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <CiCirclePlus /> to start.</p>
+                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <Plus /> to start creating.</p>
                     </>
                 }
             </div>

@@ -18,7 +18,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-width: 18vw;
-    max-height: 25vh;
+    max-height: 20vh;
     cursor: pointer;
 }
 

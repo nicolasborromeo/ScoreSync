@@ -83,7 +83,9 @@ export default function Images() {
             <div className="page-title-container">
                 <div className="page-title-content">
                     <p id="page-title">Images</p>
+                    <div className='gradient-button-background'>
                     <ImageUploadButton handleUploadImages={handleUploadImages} uploading={uploading} />
+                    </div>
                 </div>
             </div>
 
@@ -119,7 +121,7 @@ export default function Images() {
                 !images?.length
                 &&
                 <>
-                    <p className="no-items-message-container">You don&apos;t have any Images uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your portfolio</p>
+                    <p className="no-items-message-container">You don&apos;t have any Images yet. Click the icon <FaCloudUploadAlt /> to upload images and customize your cards</p>
                 </>
             }
 

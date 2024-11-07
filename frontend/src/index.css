@@ -27,7 +27,7 @@
 
 body, html{
     color: black;
-    background-color: white;
+    background-color: var(--bg-primary);
     margin: 0;
     padding:0;
     width: 100%;
@@ -50,16 +50,17 @@ body, html{
 
 #app-container {
     display: flex;
-    flex: 1;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     font-size: 1em;
-    /* min-height: 100vh; */
 }
 
 .colored {
     color: var(--icon-secondary);
 }
+
+/* NAV BAR */
 
 .navigation-container{
     width: 5rem;
@@ -68,6 +69,9 @@ body, html{
     background-color: black;
     transition: width 200ms ease;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .navigation-ul {
@@ -150,6 +154,7 @@ body, html{
     color: var(--text-secondary);
 }
 
+/* NO ITEMS  */
 
 .no-items-message-container {
     display: flex;
@@ -158,11 +163,19 @@ body, html{
     gap: 0.4em;
 }
 
+.no-items-message {
+    /* font-style: italic; */
+    font-size: 0.9em;
+    color: rgba(128, 128, 128, 0.494);
+}
+
+/* PAGE TITLE */
+
 .page-title-container {
     background-color: var(--bg-primary) !important;
     color: white;
     width: 100%;
-    min-height: 80px !important;
+    min-height: min-content;
     max-height: min-content;
     font-weight: bold;
     text-transform: uppercase;
@@ -173,6 +186,7 @@ body, html{
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    position: relative;
 }
 .page-title-content{
     display: flex;
@@ -180,10 +194,9 @@ body, html{
     align-items: center;
     width: 80%;
     margin: 0 auto;
-
+    position: relative;
 }
 .page-title-container p {
-    /* margin: 0.6rem 8rem; */
     font-size: 1.8rem;
 }
 
@@ -194,14 +207,20 @@ body, html{
     color: var(--icon-primary);
 }
 
+/* FOOTER */
+
+#outlet-and-footer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+
 .footer {
-    position:relative;
-    height: 200px;
-    background-color: var(--bg-primary);
-    background-color: 'white';
+    background: transparent;
     text-align: center;
     padding: 0 !important;
-    margin: 0px !important;
+    margin-top: auto !important;
 
 }
 .footer p {
@@ -220,7 +239,7 @@ body, html{
     gap: 10px;
     border: none;
     border-radius: 10px;
-    margin: 30px auto;
+    /* margin: 30px auto; */
     font-weight: bold;
     padding: 8px 18px;
     background-color: var(--bg-primary);
@@ -263,6 +282,9 @@ body, html{
     filter: brightness(1.2);
 }
 
+.gradient-button-background {
+    z-index: 1;
+}
 
 /* OPTIONS MENU */
 

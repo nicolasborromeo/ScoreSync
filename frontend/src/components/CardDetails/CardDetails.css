@@ -1,17 +1,42 @@
-#background-for-app-in-card-details {
+/* #background-for-app-in-card-details {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
     color: white;
-    position: fixed;
+    position: relative;
     overflow: scroll;
-    display: flex;
     background-size: 100% 100% !important;
     background-position: center !important;
 }
 
 #card-details-container {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% -10em);
+    height: 100vh;
     min-width: 100%;
+} */
+
+#background-for-app-in-card-details {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    width: 100vw;
+    background-size: cover;
+    background-position: center;
+    color: white;
 }
+
+/* Main content container */
+#card-details-container {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 
 #card-details-container section:not(:first-child)  {
     margin: 0 auto;

@@ -270,9 +270,7 @@ export default function CardDetails() {
                         </button>
                     </div>
 
-                    <div id="card-details-footer">
-                        Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
-                    </div>
+                    
                 </section>
 
             </div>

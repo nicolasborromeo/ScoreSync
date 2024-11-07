@@ -23,7 +23,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 export default function PublicCard({ preview }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {closeModal, setModalContent} = useModal()
+    const { closeModal, setModalContent } = useModal()
     const card = useSelector(state => state.cards.currentCard)
     const params = useParams()
     const privateToken = params.privateToken
@@ -49,7 +49,7 @@ export default function PublicCard({ preview }) {
 
 
     useEffect(() => {
-        if(preview) {
+        if (preview) {
             dispatch(thunkGetPreviewCard(privateToken)).then(() => {
                 // console.log('RESPONSE FOMR THUNK: ', res) this return the card object in case I need it
             })
@@ -65,11 +65,11 @@ export default function PublicCard({ preview }) {
     //setting up users data:
     useEffect(() => {
         if (card && card.User) {
-            if(!preview && !card.isActive) navigate('/inactive')
+            if (!preview && !card.isActive) navigate('/inactive')
             setCardId(card.id)
             setDisplayInfo(card.User.UserDisplayInfo)
             setExternalLinks(card.User.ExternalLinks)
-            setBio(card.customBio ||card.User.UserDisplayInfo?.bio)
+            setBio(card.customBio || card.User.UserDisplayInfo?.bio)
             setUserLoaded(true)
         } else return
     }, [dispatch, card, setDisplayInfo, setExternalLinks, userLoaded, preview, navigate])
@@ -85,9 +85,9 @@ export default function PublicCard({ preview }) {
     }, [card, cardId])
 
     const handlePublishCard = () => {
-        dispatch(thunkPublishCard(cardId, privateToken)).then((res)=> {
-            const {publicUrl} = res
-            setModalContent(<PublishModal publicUrl={publicUrl} closeModal={closeModal} navigate={navigate}/>)
+        dispatch(thunkPublishCard(cardId, privateToken)).then((res) => {
+            const { publicUrl } = res
+            setModalContent(<PublishModal publicUrl={publicUrl} closeModal={closeModal} navigate={navigate} />)
         })
     }
 
@@ -99,7 +99,7 @@ export default function PublicCard({ preview }) {
 
         <div id="background-for-app-in-card-details" style={{ background: `linear-gradient(${primaryBackground} , ${secondaryBackground})` }}>
 
-            {preview && <div id="preview-back-arrow-button"><MdArrowBackIosNew size={30} onClick={() => navigate(`/cards/${cardId}`)}/></div>}
+            {preview && <div id="preview-back-arrow-button"><MdArrowBackIosNew size={30} onClick={() => navigate(`/cards/${cardId}`)} /></div>}
 
             <div id="card-details-container" style={{ fontFamily: fontFamily, fontSize: `${fontSize}px` }}>
 
@@ -207,7 +207,7 @@ export default function PublicCard({ preview }) {
                 <section id="card-audioplayer">
                     <div id="audioplayer-and-tracklist-container" style={{ color: waveformColor }}>
                         <CardAudioPlayer audioUrl={audioUrl} waveformColor={waveformColor} />
-                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} isPublic={true}/>
+                        <CardTrackList trackList={trackList} setTrackList={setTrackList} cardId={cardId} setAudioUrl={setAudioUrl} waveformColor={waveformColor} isPublic={true} />
                     </div>
                 </section>
 
@@ -243,19 +243,21 @@ export default function PublicCard({ preview }) {
                                 <button id="preview-publish-button"
                                     onClick={() => navigate(`/cards/${cardId}`)}
                                 >
-                                    <IoMdArrowRoundBack size={18}/>
+                                    <IoMdArrowRoundBack size={18} />
                                     BACK TO EDITING
                                 </button>
                             </div>
-                            <div className='publish-button-container'>
-                                <button
-                                    // id="publish-button"
-                                    className='upload-icon'
-                                    onClick={handlePublishCard}
-                                >
-                                    <span>PUBLISH</span>
-                                    <FaCheck size={18}/>
-                                </button>
+                            <div className='gradient-button-background'>
+                                <div className='publish-button-container'>
+                                    <button
+                                        // id="publish-button"
+                                        className='upload-icon'
+                                        onClick={handlePublishCard}
+                                    >
+                                        <span>PUBLISH</span>
+                                        <FaCheck size={18} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     }

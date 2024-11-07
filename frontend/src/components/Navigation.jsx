@@ -6,6 +6,7 @@ import { CiUser } from "react-icons/ci";
 import { logout } from "../store/session";
 import { useDispatch } from "react-redux";
 import { PiImageSquareFill } from "react-icons/pi";
+import {Power} from 'lucide-react'
 
 
 export default function Navigation({ isLoaded }) {
@@ -36,15 +37,15 @@ export default function Navigation({ isLoaded }) {
                         <span className="link-text">Images</span>
                     </NavLink>
                 </li>
+            </ul>
                 {isLoaded &&
                     <li className="nav-item">
-                        <NavLink to='/' className="nav-link" onClick={dispatch(logout)}>
-                            <span className="link-icon"><CiUser /></span>
+                        <NavLink to='/' className="nav-link" style={{fontWeight:'bold'}} onClick={dispatch(logout)}>
+                            <span className="link-icon"><Power size={30} color="red"/></span>
                             <span className="link-text">Log Out</span>
                         </NavLink>
                     </li>
                 }
-            </ul>
         </div>
     );
 }

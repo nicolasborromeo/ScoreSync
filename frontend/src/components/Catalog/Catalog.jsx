@@ -106,7 +106,10 @@ export default function Catalog() {
 
             <div className="page-title-container">
                 <div className="page-title-content">
-                    <p>Catalog</p>
+                    <p id="page-title">Catalog</p>
+                    <div className="gradient-button-background">
+                        <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
+                    </div>
                 </div>
             </div>
 
@@ -118,16 +121,25 @@ export default function Catalog() {
                     Array.isArray(catalog)
                     &&
                     <tbody id="tracks-tbody">
+                        {
+                            uploading
+                            &&
+
+                            <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
+                                <AiOutlineLoading className='loading-icon' size={16} />
+                                {/* Uploading... */}
+                            </div>
+
+                        }
                         {stateUpdated
                             &&
                             catalog.toReversed().map(
                                 track => (
-                                    <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
+                                    <tr key={track.id}
+                                        className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
                                         <td id="track-row-play-icon">
                                             <div className="play-background">
-                                                <PlayIcon
-                                                    size={16}
-                                                    // color={activeTrackId == track.id ? 'white' : "#545b69"}
+                                                <PlayIcon size={16}
                                                     onClick={() => {
                                                         handleTrackPlay(track.filePath, track.title)
                                                         setActiveTrackId(track.id)
@@ -152,7 +164,7 @@ export default function Catalog() {
                 </>
             }
 
-            <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
+
 
             {/* AUDIOPLAYER */}
             {
@@ -191,12 +203,24 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
             hiddenInputRef.current.click();
         }
     }
+
     if (uploading) return (
-        <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
-            <AiOutlineLoading className='loading-icon' />
-            {/* Uploading... */}
+        <div>
+            <input
+                type="file"
+                accept=".wav,.mp3"
+                multiple
+                onChange={handleUploadTracks}
+                ref={hiddenInputRef}
+                style={{ display: 'none' }}
+            />
+            <button className="upload-icon">
+                <span>UPLOADING...</span>
+                {/* <FaCloudUploadAlt size={30} /> */}
+            </button>
         </div>
     )
+
     if (!uploading) return (
         <div>
             <input
@@ -209,7 +233,9 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
             />
             <button onClick={handleClick} className="upload-icon">
                 <span>UPLOAD TRACKS</span>
-                <FaCloudUploadAlt size={30} />
+                <span>
+                    <FaCloudUploadAlt size={20} />
+                </span>
             </button>
         </div>
     )
