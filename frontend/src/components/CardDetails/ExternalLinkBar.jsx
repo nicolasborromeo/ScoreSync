@@ -1,6 +1,6 @@
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
-import { FaImdb } from "react-icons/fa6";
+import { FaImdb } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ export default function ExternalLinkBar({ externalLinks, waveformColor }) {
 
 
 export const ExternalLink = ({ url, waveformColor }) => {
-    
+
     if (url.includes('imdb')) {
         return <Link
                 to={url}

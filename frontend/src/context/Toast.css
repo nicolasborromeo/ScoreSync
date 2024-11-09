@@ -1,0 +1,70 @@
+/* TOAST STYLING */
+#toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 260px;
+    height: 64px;
+    max-height: 400px;
+    border-radius: 10px;
+}
+
+.toast {
+    animation: slide-in 0.3s ease-out, fade-out 0.3s 2.7s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    background:linear-gradient(160deg, #bd1792, rgb(82, 9, 74), rgb(49, 5, 44));
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toast-message {
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.toast-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .toast-progress {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.1s linear;
+  }

@@ -2,12 +2,13 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal";
 
-import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks, thunkUpdateTrackTitle } from "../../store/tracks"
+
+import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks } from "../../store/tracks"
 import { formatUploaded, formatSecsToMins } from "../../utils/utils";
 
 import AudioPlayer from "../AudioPlayer"
+import RenameModal from "../RenameModal";
 
-import { FaPlay } from "react-icons/fa6";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -16,7 +17,10 @@ import { RxCursorText } from "react-icons/rx";
 
 import './Catalog.css'
 
-
+import {
+    PlayIcon,
+    XIcon,
+} from "lucide-react";
 
 
 export default function Catalog() {
@@ -43,20 +47,24 @@ export default function Catalog() {
 
     //Thunk operations
     useEffect(() => {
-        dispatch(thunkGetUserTracks()).then(() => {
-            setStateUpdated(true)
-        })
+        dispatch(thunkGetUserTracks())
+            .then(() => {
+                setStateUpdated(true)
+            })
     }, [user, dispatch])
+
 
     const handleUploadTracks = async e => {
         const files = e.target.files
-
         if (files.length >= 1) {
             setUploading(true)
             const res = await dispatch(thunkUploadTracks(files, user.id));
             if (res.ok) setUploading(false)
         }
     }
+
+
+
 
     const handleDeleteTrack = (trackId) => {
         dispatch(thunkDeleteTrack(trackId))
@@ -81,7 +89,7 @@ export default function Catalog() {
     //Track Options Menu
     const openTrackMenu = (e, trackId, trackTitle) => {
         e.stopPropagation()
-        setX(e.clientX -80)
+        setX(e.clientX - 80)
         setY(e.clientY)
         setTrackId(trackId)
         setTrackTitle(trackTitle)
@@ -100,69 +108,90 @@ export default function Catalog() {
         <div id="catalog-container">
 
             <div className="page-title-container">
-                <p>Catalog</p>
+                <div className="page-title-content">
+                    <p id="page-title">Catalog</p>
+                    <div className="gradient-button-background">
+                        <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
+                    </div>
+                </div>
             </div>
 
             <table className="tracks-table">
-                <thead><tr><th></th><th>Name</th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
+                <thead><tr><th>Name</th><th></th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
                 {
-                catalog?.length >= 1
-                &&
-                Array.isArray(catalog)
-                &&
+                    catalog?.length >= 1
+                    &&
+                    Array.isArray(catalog)
+                    &&
                     <tbody id="tracks-tbody">
+                        {
+                            uploading
+                            &&
+                            <>
+                                <tr>
+                                    <td id="track-row-play-icon">
+                                        <div className="play-background">
+                                        <AiOutlineLoading className='loading-icon' size={16} />
+                                        </div>
+                                    </td>
+                                    <td style={{fontStyle:'italic'}}>Uploading...</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><CiMenuKebab id="menu-icon" color="#545b69" /></td>
+                                </tr>
+
+                            </>
+
+                        }
                         {stateUpdated
-                        &&
-                        catalog.map(
-                            track => (
-                            <tr key={track.id} className={`catalog-track-row ${activeTrackId == track.id ? 'active-track': ''}`} id={track.id} onClick={() => setActiveTrackId(track.id)}>
-                                <td><FaPlay style={{ cursor: 'pointer' }} onClick={() => handleTrackPlay(track.filePath, track.title)} /></td>
-                                <td>{track.title}</td>
-                                <td>{formatSecsToMins(track.duration)}</td>
-                                <td>{formatUploaded(track.createdAt)}</td>
-                                <td><CiMenuKebab id="track-menu-icon" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
-                            </tr>
-                        ))}
+                            &&
+                            catalog.toReversed().map(
+                                track => (
+                                    <tr key={track.id}
+                                        className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
+                                        <td id="track-row-play-icon">
+                                            <div className="play-background">
+                                                <PlayIcon size={16}
+                                                    onClick={() => {
+                                                        handleTrackPlay(track.filePath, track.title)
+                                                        setActiveTrackId(track.id)
+                                                    }}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>{track.title}</td>
+                                        <td>{formatSecsToMins(track.duration)}</td>
+                                        <td>{formatUploaded(track.createdAt)}</td>
+                                        <td><CiMenuKebab id="menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
+                                    </tr>
+                                ))}
                     </tbody>
                 }
-
-                {
+            </table>
+            {
                 !catalog.length
                 &&
-                    <>
-                        <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
-                    </>
-                }
-{/*
-                {
-                uploading
-                &&
-
-                    <div className="catalog-loading-icon">
-                        <AiOutlineLoading className='loading-icon' /> <span>Loading...</span>
-                    </div>
+                <>
+                    <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
+                </>
+            }
 
 
-                } */}
-
-            </table>
-
-            <TrackUploadButton handleUploadTracks={handleUploadTracks} uploading={uploading} />
 
             {/* AUDIOPLAYER */}
-           {
-           showPlayer
-           &&
-           <div className="audio-player-container">
-            <div className="title-x-container">
-                 <span id="audio-player-track-title">{trackTitle}</span>
-                <span className="close-audio-player-x" onClick={toggleShowPlayer}>x</span>
-            </div>
-                <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
-                    <AudioPlayer audioUrl={audioUrl} />
+            {
+                showPlayer
+                &&
+                <div className="audio-player-container">
+                    <div className="title-x-container">
+                        <span id="audio-player-track-title">{trackTitle}</span>
+                        <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20} /></span>
+                    </div>
+                    <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
+                        <AudioPlayer audioUrl={audioUrl} />
+                    </div>
                 </div>
-            </div>
-           }
+            }
 
             {/* OPTIONS MENU hidden component */}
             <TrackMenu
@@ -186,12 +215,25 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
             hiddenInputRef.current.click();
         }
     }
-    if(uploading) return (
-        <div style={{ textAlign: 'center', margin: '1em', display:'flex', justifyContent:'center', alignItems:'center', gap:'1em' }}>
-            <AiOutlineLoading className='loading-icon' /> Uploading...
-        </div>
-    )
-    if(!uploading) return (
+
+    // if (uploading) return (
+    //     <div>
+    //         <input
+    //             type="file"
+    //             accept=".wav,.mp3"
+    //             multiple
+    //             onChange={handleUploadTracks}
+    //             ref={hiddenInputRef}
+    //             style={{ display: 'none' }}
+    //         />
+    //         <button className="upload-icon">
+    //             <span>UPLOADING...</span>
+    //             {/* <FaCloudUploadAlt size={30} /> */}
+    //         </button>
+    //     </div>
+    // )
+
+    if (!uploading) return (
         <div>
             <input
                 type="file"
@@ -201,9 +243,11 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
                 ref={hiddenInputRef}
                 style={{ display: 'none' }}
             />
-            <button onClick={handleClick} className="upload-tracks-icon">
-                UPLOAD TRACKS
-                <FaCloudUploadAlt size={30} className="colored" />
+            <button onClick={handleClick} className="upload-icon">
+                <span>UPLOAD TRACKS</span>
+                <span>
+                    <FaCloudUploadAlt size={20} />
+                </span>
             </button>
         </div>
     )
@@ -214,13 +258,13 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
     const { setModalContent, closeModal } = useModal()
 
     return (
-        <div className="track-options-container"
+        <div className="options-container"
             style={{ display: showMenu ? 'flex' : 'none', position: 'absolute', top: y, left: x }}
             ref={menuRef}
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={() => setModalContent(<RenameModal trackId={trackId} trackTitle={trackTitle} closeModal={closeModal} />)}
+                onClick={() => setModalContent(<RenameModal id={trackId} title={trackTitle} type={'Track'} closeModal={closeModal} />)}
             >
                 <RxCursorText />Rename
             </div>
@@ -229,42 +273,6 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
                 onClick={() => handleDeleteTrack(trackId)}>
                 <RiDeleteBin6Line />
                 Delete
-            </div>
-        </div>
-    )
-}
-
-//Rename Track Modal
-function RenameModal({ trackId, trackTitle, closeModal }) {
-    const [title, setTitle] = useState(trackTitle)
-    const [disabled, setDisabled] = useState()
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (title.length > 2) {
-            setDisabled(false)
-        } else {
-            setDisabled(true)
-        }
-    }, [title])
-
-    const handleUpdateTitle = async (trackId) => {
-        if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
-    }
-    return (
-        <div id="rename-track-modal-content">
-            <h4>Rename Track</h4>
-            <fieldset>
-                <legend>Track name</legend>
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </fieldset>
-            <div className="cancel-rename-buttons">
-                <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
-                <button id="rename-button" onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
             </div>
         </div>
     )

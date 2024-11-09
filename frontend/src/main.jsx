@@ -6,6 +6,7 @@ import './index.css';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import { Modal, ModalProvider } from './context/Modal'
+import { ToastProvider, Toast } from './context/ToastContext';
 
 const store = configureStore();
 
@@ -18,11 +19,14 @@ if (import.meta.env.MODE !== 'production') {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-    <ModalProvider>
+  <ModalProvider>
+    <ToastProvider>
       <Provider store={store}>
         <App />
         <Modal />
+        <Toast />
       </Provider>
-    </ModalProvider>
+    </ToastProvider>
+  </ModalProvider>
   // </React.StrictMode>
 );

@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const multer = require("multer");
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 const NAME_OF_BUCKET = "my-score-sync-bucket";
-const mm = require('music-metadata')
+const mm = require('music-metadata');
 
 
 const deleteFile = async (key) => {
@@ -36,7 +36,7 @@ const singleFileUpload = async ({ file, username }) => {
     const metadata = await parse(buffer)
     const duration = metadata.format.duration
 
-    // const Key = new Date().getTime().toString() + originalname
+
     const Key = new Date().getTime().toString() + originalname
 
     const uploadParams = {
@@ -45,6 +45,7 @@ const singleFileUpload = async ({ file, username }) => {
         Body: buffer,
         ContentType: 'audio/wav',
     }
+
     const result = await s3.upload(uploadParams).promise()
 
     return username ? { url: result['Location'], title: originalname, duration: duration} : result.Key;
@@ -59,6 +60,7 @@ const multipleFilesUpload = async ({ files, username }) => {
         })
     )
 }
+
 
 // FOR IMAGES
 

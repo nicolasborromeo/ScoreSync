@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { thunkUploadImages } from "../../store/images";
 import { AiOutlineLoading } from "react-icons/ai";
-
+import '../../index.css'
 
 export default function ImageUploadButton() {
     const user = useSelector(state => state.session.user)
@@ -27,10 +27,28 @@ export default function ImageUploadButton() {
             hiddenInputRef.current.click();
         }
     }
-    if(uploading) return (
-            <div style={{ textAlign: 'center', color:'gray' }}>
-                <AiOutlineLoading className='loading-icon' /> Uploading...
-            </div>
+    if(uploading)
+        return (
+            // <div style={{ textAlign: 'center', color:'gray' }}>
+            //     <AiOutlineLoading className='loading-icon' /> Uploading...
+            // </div>
+            <div>
+            <input
+                type="file"
+                accept=".jpg,.png,.webp"
+                multiple
+                onChange={handleUploadImages}
+                ref={hiddenInputRef}
+                style={{ display: 'none' }}
+            />
+
+            <button onClick={handleClick} className="add-tracks-button">
+                <span>UPLOADING...</span>
+                <AiOutlineLoading className='loading-icon' size={30}/>
+            </button>
+
+
+        </div>
     )
     if(!uploading)
     return (
@@ -45,7 +63,7 @@ export default function ImageUploadButton() {
             />
 
             <button onClick={handleClick} className="add-tracks-button">
-                UPLOAD IMAGES
+                <span>UPLOAD IMAGES</span>
                 <FaCloudUploadAlt size={30} className="colored" />
             </button>
 

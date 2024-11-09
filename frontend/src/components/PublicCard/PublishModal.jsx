@@ -1,5 +1,4 @@
 import { FaCopy } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { useState } from "react";
 
@@ -18,11 +17,9 @@ export default function PublishModal({ publicUrl, closeModal }) {
     }
 
     return (
-        <>
-            <div id="decoration-top-line"></div>
-            <div id="close-modal-x"><IoMdClose onClick={() => closeModal()} /></div>
+        <div id="publish-modal-container">
             <div id="publish-modal">
-                <h3 id="publish-modal-title">Congratulations</h3>
+                <h2 id="publish-modal-title">Congratulations</h2>
                 <h5 id="publish-modal-title-subtitle">Your card is published and live online</h5>
                 <div id="copy-to-clipboard-and-address">
                     <span id="publish-modal-icon-container">
@@ -36,6 +33,6 @@ export default function PublishModal({ publicUrl, closeModal }) {
                 </div>
 
             </div>
-        </>
+        </div>
     )
 }

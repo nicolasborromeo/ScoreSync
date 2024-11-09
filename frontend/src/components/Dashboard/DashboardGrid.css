@@ -1,10 +1,7 @@
 .dashboard-grid {
     display: flex;
     flex-wrap: wrap;
-    /* flex-direction: column; */
-    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
     gap: 20px;
-    /* padding: 20px; */
     padding-bottom: 20px;
     max-width: 90%;
     margin: 0 auto;
@@ -12,8 +9,8 @@
 }
 
 .dashboard-card {
-    background-color: var(--bg-primary);
-    border-radius: 10px;
+    background-color: #2f2f3183;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
@@ -21,7 +18,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-width: 18vw;
-    max-height: 25vh;
+    max-height: 20vh;
     cursor: pointer;
 }
 

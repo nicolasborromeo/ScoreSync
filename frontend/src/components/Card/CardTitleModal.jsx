@@ -31,7 +31,7 @@ export default function CardTitleModal ({navigate, action, cardTitle = '', cardI
 
 
     return (
-        <div id="create-card-modal-content">
+        <div id="title-modal-content">
             <h4>Enter a title for your Card </h4>
             <fieldset>
                 <legend>Card title: </legend>
@@ -41,10 +41,10 @@ export default function CardTitleModal ({navigate, action, cardTitle = '', cardI
                     onChange={(e) => setNewTitle(e.target.value)}
                 />
             </fieldset>
-            <div className="cancel-create-buttons">
-                <button id="create-card-modal-cancel-button" onClick={closeModal}>CANCEL</button>
-                {action === 'create' && <button id="create-button" onClick={handleNewCard} disabled={disabled} style={disabled? {cursor:'not-allowed'} : {cursor:'pointer'}}>CREATE</button>}
-                {action === 'rename' && <button id="create-button" onClick={handleRenameCard} disabled={disabled} style={disabled? {cursor:'not-allowed'} : {cursor:'pointer'}}>RENAME</button>}
+            <div className="title-modal-buttons">
+                <button id="title-modal-cancel-button" onClick={closeModal}>CANCEL</button>
+                {action === 'create' && <button id="ok-button" onClick={handleNewCard} disabled={disabled} style={disabled? {cursor:'not-allowed'} : {cursor:'pointer'}}>CREATE</button>}
+                {action === 'rename' && <button id="ok-button" onClick={handleRenameCard} disabled={disabled} style={disabled? {cursor:'not-allowed'} : {cursor:'pointer'}}>RENAME</button>}
             </div>
         </div>
     )

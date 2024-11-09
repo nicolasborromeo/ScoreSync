@@ -6,7 +6,7 @@ import { GiPalette } from "react-icons/gi";
 
 import { thunkSaveCardStyles } from "../../store/cards";
 
-
+import { useToast } from '../../context/ToastContext'
 
 //COMPONENT
 export default function ToolBox({
@@ -28,7 +28,7 @@ export default function ToolBox({
     fontSize,
     setFontSize
 }) {
-
+    const { addToast } = useToast()
     const dispatch = useDispatch()
     const card = useSelector(state => state.cards.currentCard)
     //Draggable functions and state:
@@ -85,7 +85,7 @@ export default function ToolBox({
 
     //resetting the colors and fonts when clicking on new card
     useEffect(() => {
-        if (cardId) {
+        if (cardId && card?.CardColor && card?.CardFont) {
             setPrimaryBackground(card?.CardColor?.primaryBackground);
             setSecondaryBackground(card?.CardColor?.secondaryBackground);
             setPrimaryTextColor(card?.CardColor?.primaryTextColor);
@@ -124,7 +124,8 @@ export default function ToolBox({
         setMinimized(true)
         dispatch(thunkSaveCardStyles(cardId, colors, font))
             .then(() => {
-                window.alert('Theme saved')
+                addToast('Theme succesfully saved')
+                // window.alert('Theme saved')
             })
     }
 

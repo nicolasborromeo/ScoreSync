@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+// import { api } from '../utils/axios'
 
 const SET_USER_TRACKS = "tracks/setUserTracks"
 const RECEIVE_TRACKS = "tracks/receiveTracks"
@@ -64,43 +65,43 @@ export const thunkDeleteTrack = (trackId) => async dispatch => {
     const response = await csrfFetch(`/api/tracks/${trackId}`, {
         method: "DELETE"
     })
-    if(response.ok) dispatch(deleteTrack(trackId))
+    if (response.ok) dispatch(deleteTrack(trackId))
 }
 
 export const thunkUpdateTrackTitle = (trackId, title) => async dispatch => {
     const response = await csrfFetch(`/api/tracks/${trackId}`, {
         method: "PUT",
-        body: JSON.stringify({title})
+        body: JSON.stringify({ title })
     })
-    if(response.ok) {
+    if (response.ok) {
         const data = await response.json()
         dispatch(updateTrackTitle(trackId, data.newTitle))
-    }else {
+    } else {
         const errors = await response.json()
         return errors
     }
 }
 
-const initialState = {userTracks: []}
+const initialState = { userTracks: [] }
 
 const catalogReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER_TRACKS:{
-            return {...state, userTracks: action.payload.userTracks}
+        case SET_USER_TRACKS: {
+            return { ...state, userTracks: action.payload.userTracks }
         }
         case RECEIVE_TRACKS:
-            return {...state, userTracks: [...state.userTracks, ...action.newlyUploadedTracks]};
+            return { ...state, userTracks: [...state.userTracks, ...action.newlyUploadedTracks] };
         case DELETE_TRACK: {
-            let newState = {...state}
+            let newState = { ...state }
             let newTracksArray = newState.userTracks.filter(track => track.id !== action.trackId)
             delete newState.userTracks
             newState.userTracks = newTracksArray
             return newState
         }
-        case UPDATE_TRACK_TITLE:{
-            let newState = {...state}
+        case UPDATE_TRACK_TITLE: {
+            let newState = { ...state }
             let newTracksArray = newState.userTracks.map(track => {
-                if(track.id === action.payload.trackId) {
+                if (track.id === action.payload.trackId) {
                     track.title = action.payload.title
                     return track
                 }

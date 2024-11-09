@@ -3,7 +3,7 @@ import './ExternalLinksForm.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { thunkGetExternalLinks, thunkAddExternalLink, thunkDeleteExternalLink } from '../../store/links'
 import { ExternalLink } from '../CardDetails/ExternalLinkBar'
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { Plus, Trash } from 'lucide-react'
 
 export default function ExternalLinksForm() {
     const links = useSelector(state => state.links.linksArray)
@@ -12,45 +12,49 @@ export default function ExternalLinksForm() {
     const [errors, setErrors] = useState({})
 
     useEffect(() => {
-      dispatch(thunkGetExternalLinks())
+        dispatch(thunkGetExternalLinks())
     }, [dispatch])
 
     const handleAddLink = () => {
         dispatch(thunkAddExternalLink(url))
-        .then(()=> setUrl(''))
-        .catch(async (err) => {
+            .then(() => setUrl(''))
+            .catch(async (err) => {
                 setErrors({})
                 const error = await err.json()
                 setErrors({ ...error.errors })
-        })
+            })
 
     }
 
     const handleDeleteLink = (linkId) => {
-        dispatch(thunkDeleteExternalLink(linkId)).then(()=> setUrl('')).then(setErrors({}))
+        dispatch(thunkDeleteExternalLink(linkId)).then(() => setUrl('')).then(setErrors({}))
     }
     return (
         <div className='external-links-form-container'>
-            <h3>External Links</h3>
-            <div className='text-and-button'>
+            <h3>Social Media Links</h3>
+            <div className='subtitle-text'>
                 <p>Add your socials to be displayed by default in all the cards. Currently supported links: Instagram, Imdb, Facebook, Twitter, and Linkedin</p>
-                <button className='dashboard-button' onClick={handleAddLink}>Add</button>
-            </div>
-            <form>
-                <fieldset>
-                    <legend>External Url</legend>
-                    <label htmlFor="external-url">
-                        <input
-                            type='url'
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                        />
-                    </label>
-                </fieldset>
-                {errors.url && <p className='error-p'>{errors.url}</p>}
-            </form>
 
-                <div className='external-links-list'>
+            </div>
+            <div className='form-and-button-container'>
+
+                <form>
+                    <fieldset>
+                        <legend>External Url</legend>
+                        <label htmlFor="external-url">
+                            <input
+                                type='url'
+                                value={url}
+                                onChange={(e) => setUrl(e.target.value)}
+                            />
+                        </label>
+                    </fieldset>
+                    {errors.url && <p className='error-p'>{errors.url}</p>}
+                </form>
+                <Plus onClick={handleAddLink}/>
+            </div>
+
+            <div className='external-links-list'>
                 {links?.length > 0 && links?.map(link => (
 
                     <div key={link.id} className='external-link-row'>
@@ -58,7 +62,7 @@ export default function ExternalLinksForm() {
                             <ExternalLink url={link.url} waveformColor={'#BD1792'} />
                             <p>{link.url}</p>
                         </div>
-                        <RiDeleteBin6Line style={{cursor:'pointer', color:'red', filter:'grayscale(50%)'}}onClick={() => handleDeleteLink(link.id)} />
+                        <Trash size={15} style={{ cursor: 'pointer', color: 'red', filter: 'grayscale(50%)' }} onClick={() => handleDeleteLink(link.id)} />
                     </div>
                 ))}
             </div>
@@ -66,7 +70,10 @@ export default function ExternalLinksForm() {
             {
                 !links?.length
                 &&
-                <p>You don&apos;t have any links yet</p>
+                <div className='no-items-message-container'>
+                    <p className='no-items-message'>You don&apos;t have any links yet</p>
+                </div>
+
             }
         </div>
     )

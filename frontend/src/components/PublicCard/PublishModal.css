@@ -1,3 +1,10 @@
+#publish-modal-container {
+    padding: 2px; /* Border thickness */
+    border-radius: 8px; /* Outer border radius */
+    display: inline-block; /* Shrink to fit the modal */
+    background: var(--linear-background);
+}
+
 #publish-modal {
     background-color: var(--bg-primary);
     color: var(--text-secondary);
@@ -6,19 +13,12 @@
     justify-content: center;
     align-items: center;
     gap: 1.5em;
-    /* padding-top: 1em; */
-    padding: 1em 3em;
-    padding-bottom: 2em;
-    min-width: max-content;
-    width: max-content;
+    padding: 2em 0;
+    width: fit-content;
+    border-radius: 8px;
 }
-#decoration-top-line {
-    width: 100%;
-    background-color: var(--icon-secondary);
-    height: 5px;
-    margin: 0;
-    padding: 0;
-}
+
+
 
 #close-modal-x {
     position: relative;
@@ -26,7 +26,6 @@
     right: 7px;
     text-align: right;
     color: var(--text-primary);
-    /* padding: 1em; */
     height: 1em;
     margin: 0 !important;
     padding: 0;
@@ -35,8 +34,6 @@
 
 #publish-modal-title {
     margin: 0 !important;
-    /* padding: 0.8em 0; */
-
 }
 
 #publish-modal-title-subtitle {
@@ -59,37 +56,42 @@
 #copy-to-clipboard-and-address {
     display: flex;
     align-items: center;
-    background-color: rgb(62, 60, 60);
+    background-color: rgba(62, 60, 60, 0.578);
     border-radius: 10px;
     height: 2em;
     padding: 0 8px;
     gap: 6px;
+    width: 60%;
+
 }
+
 #publish-modal-icon-container {
-
-        display: flex;
-        align-items: center;
-        min-width: 20px; /* Match the size of the larger icon */
-    
+    display: flex;
+    align-items: center;
+    min-width: 20px;
 }
 
-#copy-to-clipboard-and-address p{
+#copy-to-clipboard-and-address p {
     max-width: 30vw;
     white-space: nowrap;
     overflow: hidden;
     background-color: var(--bg-primary);
     font-size: 0.8em;
+    text-overflow: ellipsis;
 }
 
-#publish-modal-buttons{
+#publish-modal-buttons {
     display: flex;
-    width: 100%;
+    width: 60%;
     justify-content: center !important;
     align-items: center;
     gap: 3em;
     /* padding: 1em 0 0; */
 }
-#publish-modal-buttons button{
+#publish-modal-buttons #done-button {
+   width: 93px
+}
+#publish-modal-buttons button {
     background: transparent;
     border: 1px solid gray;
     border-radius: 18px;
@@ -99,6 +101,6 @@
     transition: all 0.5s ease;
 }
 
-#publish-modal-buttons button:hover{
+#publish-modal-buttons button:hover {
     filter: brightness(2)
 }

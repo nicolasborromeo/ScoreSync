@@ -1,85 +1,150 @@
 #cards-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
-    height: 100%;
-    position: fixed;
+    /* width: calc(100% - 5em); */
+    height: 100vh;
+    /* height: 90vh; */
+    /* position: fixed; */
     margin: 0;
     font-family: inherit;
     color: var(--text-primary);
-    background-color: var(--bg-secondary);
-}
-
-.gradient-border {
-    padding: 0px;
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, var(--icon-primary), #62195f) 1; /* Apply the linear gradient */
-    width: auto;
-    overflow: hidden;
-    display: inline-block;
+    background-color: var(--bg-primary);
 }
 
 
-.page-title-container {
-    background-color: #6b6977;
-    color: white;
-    width: 100%;
-    font-weight: bold;
-    text-transform: uppercase;
-    /* margin: 1rem; */
-    white-space: nowrap;
-    font-size: 1rem;
-    letter-spacing: 0.3ch;
-    max-height: min-content;
-    box-shadow: -4px 5px 6px black;
-    margin-bottom: 3rem;
-}
-
-.page-title-container p {
-    margin: 0.6rem 8rem;
-    font-size: 1.5rem;
+#cards-container .page-title-container .upload-icon {
+    margin: 0 0em 0 8em !important;
 }
 
 /* CARDS TABLE */
 
 .cards-table {
-    background-color: var(--bg-primary);
-    /* margin: 20px auto !important; */
-    min-width: 80vw !important;
+    margin: 0px auto !important;
+    width: 80%;
     border-collapse: collapse;
     font-size: 1em;
     text-align: left;
-    /* border-radius: 15px !important; */
-    /* border-radius: 0px 4px 0px 4px; */
-    /* border-radius: 10px ; */
+    border-radius: 0px 4px 0px 4px;
+    table-layout: fixed;
     overflow: hidden;
-    padding: 20px;
-    /* z-index: 100; */
 }
 
+/* copying tracktable */
+.cards-table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    line-height: 25px;
+}
 
+.cards-table tbody {
+    display: block;
+    max-height: 30vh;
+    overflow-y: scroll;
+    width: 100%;
+}
 
-.cards-table thead th {
-    background-color: #6b6977 !important;
-    color: white;
-    font-size: 0.6rem!important;
+.cards-table thead tr {
+    color: #6b72807d;
+}
+
+.cards-table th {
+    font-weight: 500 !important;
 }
 
 .cards-table th,
 .cards-table td {
     padding: 12px 15px;
-    font-size: 0.9rem;
-    text-align: center;
+    text-align: left;
+    text-overflow: ellipsis;
 }
 
-.cards-table svg{
-    scale: 1.3;
-    cursor: pointer;
+.cards-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    transition: background-color, color 0.4s ease;
+    border-bottom: 1px solid #37415179;
+    line-height: 17px;
+}
+
+
+.cards-table tbody tr:hover {
+    background-color: #202a372d;
+}
+
+/* table columns resizing */
+.cards-table td:nth-child(1),
+.cards-table th:nth-child(1) {
+    width: 3%;
+
+}
+
+.cards-table td:nth-child(2),
+.cards-table th:nth-child(2) {
+    white-space: nowrap;
+    width: 10%;
+    overflow: hidden;
+    padding-left: 25px;
+}
+
+.cards-table td:nth-child(3),
+.cards-table th:nth-child(3) {
+    white-space: nowrap;
+    width: 5%;
+}
+
+.cards-table td:nth-child(4),
+.cards-table th:nth-child(4) {
+    white-space: nowrap;
+    width: 6%;
+}
+
+.cards-table td:nth-child(5),
+.cards-table th:nth-child(5) {
+    white-space: nowrap;
+    width: 6%;
+}
+
+.cards-table td:nth-child(6),
+.cards-table th:nth-child(6) {
+    white-space: nowrap;
+    width: 3%;
+}
+
+.cards-table td:nth-child(7),
+.cards-table th:nth-child(7) {
+    white-space: nowrap;
+    width: 3%;
+}
+
+/* SCROLLBAR FOR TABLE */
+.cards-table tbody::-webkit-scrollbar {
+    width: 3px;
+}
+
+.cards-table tbody::-webkit-scrollbar-thumb {
+    background-color: rgb(146, 133, 133);
+}
+
+.cards-table tbody::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.cards-table tbody::-webkit-scrollbar:horizontal {
+    height: 8px;
+}
+/* end */
+
+
+/* CARD ICONS */
+
+.cards-table svg {
+    scale: 1.2;
     transition: color 0.4s ease;
 }
-.cards-table svg:hover{
+
+.cards-table #navlink-to-public-url:hover {
     color: var(--icon-secondary);
 }
 
@@ -87,143 +152,14 @@
     transition: background-color, color 0.4s ease;
 }
 
-.cards-table tbody tr:nth-of-type(even) {
-    background-color: #32323d;
 
-}
-
-.cards-table tbody tr:hover {
-    background-color: #444453;
+.cards-table tbody .card-link {
     color: var(--text-secondary);
 }
 
-
-.cards-table tbody .card-link{
-    color: var(--text-secondary);
-}
-
-#add-card-button{
-    display: flex;
-    margin: 0 auto !important;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 50%;
-}
-
-#add-card-button:hover{
-    filter: brightness(1.2);
-    background-color: var(--bg-primary);
-    color: var(--icon-secondary)
-}
-
-
-/* CREATE CARD MODAL */
-
-/* RENAME TRACK MODAL */
-#create-card-modal-content{
-    height: 100%;
-    background-color: var(--bg-primary);
-    color: var(--text-secondary);
-    padding: 25px;
-    width: auto;
-    box-shadow: inset 2px 1px 10px 1px gray;
-    border-radius: 9px;
-    /* border: 1px solid var(--icon-secondary); */
-}
-
-#create-card-modal-content h4{
-    font-weight: 200;
-    margin: 0;
-    padding: 10px;
-}
-
-#create-card-modal-content input {
-    width: 100%;
-    border: none;
-    background-color: transparent;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    outline: none;
-}
-
-#create-card-modal-content legend{
-    color: var(--text-primary);
-    font-size: 0.7rem;
-}
-
-#create-card-modal-content fieldset {
-    border: 1px solid var(--text-primary);
-}
-
-#create-card-modal-content fieldset:focus-within {
-    border: 1px solid var(--icon-secondary);
-}
-
-#create-card-modal-content fieldset:focus-within legend {
-    color: var(--icon-secondary);
-}
-
-
-.cancel-create-buttons {
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-#create-card-modal-cancel-button {
-    border: none;
-    background: transparent;
-    border-radius: 4px;
-    padding: 7px 13px;
-    color: var(--text-secondary);
-}
-
-#create-card-modal-cancel-button:hover {
-    color: var(--text-secondary);
-    cursor: pointer;
-    background: #343440;
-}
-
-#create-button {
-    border-radius: 4px;
-    padding: 7px 13px;
-    border: none;
-    background-color: var(--text-secondary);
-    filter: grayscale(20%) brightness(0.9);
-    transition: filter 200ms ease;
-    box-shadow: 2px 1px 3px 1px;
-    color: black;
-}
-
-#create-button:hover {
-    filter: grayscale(0%) brightness(1);
+.cards-table #track-menu-icon {
     cursor: pointer;
 }
-
-
-/* CARD COLLECTION GRID */
-#card-collection-grid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.carousel-container {
-    display: flex;
-    overflow: hidden; /* Hide overflow to achieve the carousel effect */
-    width: 80%; /* Adjust the width as needed */
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.3s ease; /* Smooth transition for moving cards */
-}
-
-.little-card-container {
-    min-width: 200px; /* Adjust size for the cards */
-    margin: 0 10px; /* Spacing between cards */
-    /* Additional styles for your card preview */
+.cards-table #track-menu-icon:hover {
+    filter: brightness(1.3);
 }

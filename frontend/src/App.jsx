@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, redirect, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, useNavigate, RouterProvider } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import * as sessionActions from './store/session'
@@ -12,11 +12,12 @@ import Card from "./components/Card";
 import CardDetails from "./components/CardDetails"
 import PublicCard from './components/PublicCard'
 import InactiveCard from "./components/InactiveCard";
+import Footer from './components/Footer'
 
 function Layout() {
-
+  const navigate = useNavigate()
   const user = useSelector(state => state.session.user)
-  if (!user) redirect('/')
+
 
   const dispatch = useDispatch()
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,19 +25,28 @@ function Layout() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true)
-    });
+    })
   }, [dispatch])
+
+  useEffect(() => {
+    if (isLoaded && !user) {
+      navigate('/');
+    }
+  }, [isLoaded, user, navigate]);
 
 
   return (
     <div id="app-container">
       <Navigation isLoaded={isLoaded} />
       <div className="main">
-        {isLoaded && <Outlet />}
-        <Footer />
+        {isLoaded &&
+          <div id="outlet-and-footer">
+            <Outlet />
+            <Footer />
+          </div>
+        }
       </div>
     </div>
-
   )
 }
 
@@ -97,21 +107,10 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-
     </>
   )
 
 }
 
-
-const Footer = () => {
-  return (
-    <div className="footer">
-      <p>
-      Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
-      </p>
-    </div>
-  )
-}
 
 export default App;

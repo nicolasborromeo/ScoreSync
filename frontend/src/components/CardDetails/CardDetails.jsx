@@ -34,11 +34,12 @@ export default function CardDetails() {
     const [userLoaded, setUserLoaded] = useState(false)
     const [tracksLoaded, setTracksLoaded] = useState(false)
     const [audioUrl, setAudioUrl] = useState('')
+    const [cardLoaded, setCardLoaded] = useState(false)
 
 
     //getting the current card:
     useEffect(() => {
-        dispatch(thunkGetCurrentCard(cardId))
+        dispatch(thunkGetCurrentCard(cardId)).then(()=> setCardLoaded(true))
     }, [dispatch, cardId])
 
     //setting up users data:
@@ -81,6 +82,8 @@ export default function CardDetails() {
     if (userLoaded
         &&
         tracksLoaded
+        &&
+        cardLoaded
     ) return (
 
         <div
@@ -217,7 +220,7 @@ export default function CardDetails() {
                         id="add-tracks-button-container">
                         <button
                             className="add-tracks-button"
-                            onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
+                            onClick={() => setModalContent(<TracksModal cardId={cardId} trackList={trackList}/>)}>
                             ADD TRACKS
                             <MdOutlinePlaylistAdd size={25} />
                         </button>
@@ -259,15 +262,15 @@ export default function CardDetails() {
                     </div> */}
 
                     <div id="preview-button-container">
-                        <button id="preview-publish-button"
+                        <button
+                            className='add-tracks-button'
+                            id="preview-publish-button"
                             onClick={handlePreview}>
                             PREVIEW & PUBLISH
                         </button>
                     </div>
 
-                    <div id="card-details-footer">
-                        Privacy Policy | Cookie Policy | © Oct 2024 ScoreSync - All right reserved.
-                    </div>
+
                 </section>
 
             </div>
