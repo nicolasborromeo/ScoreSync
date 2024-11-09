@@ -220,7 +220,7 @@ export default function CardDetails() {
                         id="add-tracks-button-container">
                         <button
                             className="add-tracks-button"
-                            onClick={() => setModalContent(<TracksModal cardId={cardId} />)}>
+                            onClick={() => setModalContent(<TracksModal cardId={cardId} trackList={trackList}/>)}>
                             ADD TRACKS
                             <MdOutlinePlaylistAdd size={25} />
                         </button>
@@ -270,7 +270,7 @@ export default function CardDetails() {
                         </button>
                     </div>
 
-                    
+
                 </section>
 
             </div>

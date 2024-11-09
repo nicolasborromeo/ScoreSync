@@ -18,7 +18,7 @@ import { useRef } from 'react';
 import { thunkUploadTracks } from '../../store/tracks';
 
 
-export default function TracksModal({ cardId }) {
+export default function TracksModal({ cardId, trackList }) {
     const { closeModal } = useModal()
     const dispatch = useDispatch()
     const catalog = useSelector(state => state.catalog.userTracks)
@@ -26,6 +26,7 @@ export default function TracksModal({ cardId }) {
     const [selectedTracks, setSelectedTracks] = useState({})
     const [disabled, setDisabled] = useState(true)
     const multipleTracks = Object.keys(selectedTracks).length >= 2
+    const tracklistSet = new Set(trackList.map(track => track.id))
 
     useEffect(() => {
         dispatch(thunkGetUserTracks()).then(() => setLoadedTracks(true))
@@ -82,7 +83,8 @@ export default function TracksModal({ cardId }) {
                 <p>Select the tracks you want to add or upload new ones:</p>
                 <div id="tracksmodal-track-list">
                     {
-                        catalog?.map(track => (
+                        catalog?.filter((track)=> !tracklistSet.has(track.id))
+                        .map(track => (
                             <div key={track.id} id="tracksmodal-track-row">
                                 <input type="checkbox" onChange={(e) => handleSelectedTrack(e, track)} />
                                 <p>{track.title}</p>

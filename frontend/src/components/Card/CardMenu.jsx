@@ -1,28 +1,39 @@
 import { useModal } from "../../context/Modal"
-import CardTitleModal from "./CardTitleModal"
-import { thunkDeleteCard, thunkUnPublishCard } from "../../store/cards"
+import { useToast } from '../../context/ToastContext';
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
+import { thunkDeleteCard, thunkUnPublishCard, thunkPublishCard } from "../../store/cards"
+
+//components
+import CardTitleModal from "./CardTitleModal"
+//icons
+import { CiEdit } from "react-icons/ci";
 import { RxCursorText } from "react-icons/rx";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { CiEdit } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
 import { MdOutlineUnpublished } from "react-icons/md";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
+
+// import { IoMdCloudDone } from "react-icons/io";
+// import { MdOutlineCloudOff } from "react-icons/md";
 
 
-
-export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, setShowMenu }) {
+export default function CardMenu({ cardId, cardTitle, isActive, x, y, menuRef, showMenu, setShowMenu }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { addToast } = useToast()
     const { setModalContent, closeModal } = useModal()
 
     const handleDeleteCard = (cardId) => {
-        dispatch(thunkDeleteCard(cardId)).then(()=> setShowMenu(false))
+        dispatch(thunkDeleteCard(cardId)).then(() => setShowMenu(false))
     }
 
     const handleUnPublishCard = (cardId) => {
-        dispatch(thunkUnPublishCard(cardId))
-        .then(()=> setShowMenu(false))
-        .then(()=> window.alert('Your card is now private'))
+        if (isActive) dispatch(thunkUnPublishCard(cardId))
+            .then(() => setShowMenu(false))
+            .then(() => addToast('Your card is now private'))
+        if (!isActive) dispatch(thunkPublishCard(cardId))
+            .then(() => setShowMenu(false))
+            .then(() => addToast('Your card is now public'))
     }
 
     return (
@@ -32,7 +43,7 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
         >
             <div
                 style={{ cursor: 'pointer' }}
-                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle} cardId={cardId} closeModal={closeModal}/>)}
+                onClick={() => setModalContent(<CardTitleModal action={'rename'} cardTitle={cardTitle} cardId={cardId} closeModal={closeModal} />)}
             >
                 <RxCursorText />Rename
             </div>
@@ -48,12 +59,23 @@ export default function CardMenu({ cardId, cardTitle, x, y, menuRef, showMenu, s
                 <CiEdit />
                 Edit
             </div>
-            <div
-                style={{ color: 'lightgray', cursor: 'pointer' }}
-                onClick={()=>handleUnPublishCard(cardId)}>
-                <MdOutlineUnpublished />
-                UnPublish
-            </div>
+            {
+            isActive ? (
+                    <div
+                        style={{ color: 'lightgray', cursor: 'pointer' }}
+                        onClick={() => handleUnPublishCard(cardId)}>
+                        <MdOutlineUnpublished />
+                        UnPublish
+                    </div>
+                ) : (
+                    <div
+                        style={{ color: 'lightgray', cursor: 'pointer' }}
+                        onClick={() => handleUnPublishCard(cardId)}>
+                        <MdOutlinePublishedWithChanges />
+                        Publish
+                    </div>
+                )
+            }
         </div>
     )
 

@@ -17,7 +17,7 @@
     animation: slide-in 0.3s ease-out, fade-out 0.3s 2.7s ease-out forwards;
     display: flex;
     flex-direction: column;
-    background:linear-gradient(45deg, black, #bd1792);
+    background:linear-gradient(160deg, #bd1792, rgb(82, 9, 74), rgb(49, 5, 44));
     color: white;
     padding: 1rem;
     border-radius: 8px;

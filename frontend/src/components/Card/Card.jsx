@@ -7,6 +7,7 @@ import { thunkGetUserCards } from '../../store/cards'
 import { thunkGetUsersDisplayInfo } from '../../store/displayInfo'
 import { useModal } from '../../context/Modal';
 
+
 //components
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
@@ -34,6 +35,7 @@ export default function Card() {
     //Card Option Menu States Variables
     const [cardId, setCardId] = useState()
     const [cardTitle, setCardTitle] = useState()
+    const [isActive, setIsActive] = useState()
     const [x, setX] = useState()
     const [y, setY] = useState()
     const [showMenu, setShowMenu] = useState(false)
@@ -41,12 +43,13 @@ export default function Card() {
 
 
     //Card Options Menu
-    const openCardMenu = (e, cardId, cardTitle) => {
+    const openCardMenu = (e, cardId, cardTitle, isActive) => {
         e.stopPropagation()
         setX(e.clientX - 80)
         setY(e.clientY)
         setCardId(cardId)
         setCardTitle(cardTitle)
+        setIsActive(isActive)
         setShowMenu(true)
     }
     useEffect(() => {
@@ -121,7 +124,7 @@ export default function Card() {
                                             <td>{formatUploaded(card.updatedAt)}</td>
                                             {/* <td><IoMdSettings /></td> */}
                                             <td><CiMenuKebab id="track-menu-icon"
-                                                onClick={(e) => openCardMenu(e, card.id, card.title)}
+                                                onClick={(e) => openCardMenu(e, card.id, card.title, card.isActive)}
                                             /></td>
                                         </tr>
                                     ))}
@@ -148,6 +151,7 @@ export default function Card() {
             <CardMenu
                 cardId={cardId}
                 cardTitle={cardTitle}
+                isActive={isActive}
                 setShowMenu={setShowMenu}
                 showMenu={showMenu}
                 menuRef={menuRef}
