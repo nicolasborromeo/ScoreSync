@@ -7,19 +7,17 @@ import { thunkGetUserCards } from '../../store/cards'
 import { thunkGetUsersDisplayInfo } from '../../store/displayInfo'
 import { useModal } from '../../context/Modal';
 
+//components
 import CardTitleModal from './CardTitleModal';
 import CardMenu from './CardMenu';
 import CardPreviewRow from '../CardPreviewRow';
-import Footer from '../Footer'
+
 
 //icons
 import { CiMenuKebab } from "react-icons/ci";
 import { GoLink } from "react-icons/go";
 import { IoMdCloudDone } from "react-icons/io";
 import { MdOutlineCloudOff } from "react-icons/md";
-import { CiCirclePlus } from "react-icons/ci";
-// import { BsPlusSquareDotted } from "react-icons/bs";
-
 import { Plus } from 'lucide-react'
 
 

@@ -1,7 +1,7 @@
 #cards-container {
     display: flex;
     flex-direction: column;
-    width: calc(100% -10em);
+    /* width: calc(100% - 5em); */
     height: 100vh;
     /* height: 90vh; */
     /* position: fixed; */
@@ -22,7 +22,7 @@
     margin: 0px auto !important;
     width: 80%;
     border-collapse: collapse;
-    font-size: 0.9em;
+    font-size: 1em;
     text-align: left;
     border-radius: 0px 4px 0px 4px;
     table-layout: fixed;

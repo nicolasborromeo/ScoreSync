@@ -1,7 +1,7 @@
 #catalog-container {
     display: flex;
     flex-direction: column;
-    width: calc(100% -10em);
+    /* width: calc(100% -10em); */
     height: 100vh;
     margin: 0;
     font-family: inherit;

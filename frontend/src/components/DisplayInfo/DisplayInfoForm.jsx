@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './DisplayInfoForm.css'
 import { thunkGetUsersDisplayInfo, thunkSaveDisplayInfo } from '../../store/displayInfo';
-import { FaSave } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 import { useModal } from '../../context/Modal';
 

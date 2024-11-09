@@ -1,5 +1,4 @@
 import { FaCopy } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { useState } from "react";
 

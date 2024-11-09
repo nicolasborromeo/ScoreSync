@@ -2,12 +2,12 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal";
 
-import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks, thunkUpdateTrackTitle } from "../../store/tracks"
+
+import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks } from "../../store/tracks"
 import { formatUploaded, formatSecsToMins } from "../../utils/utils";
 
 import AudioPlayer from "../AudioPlayer"
 import RenameModal from "../RenameModal";
-import Footer from "../Footer"
 
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -53,15 +53,18 @@ export default function Catalog() {
             })
     }, [user, dispatch])
 
+
     const handleUploadTracks = async e => {
         const files = e.target.files
-
         if (files.length >= 1) {
             setUploading(true)
             const res = await dispatch(thunkUploadTracks(files, user.id));
             if (res.ok) setUploading(false)
         }
     }
+
+
+
 
     const handleDeleteTrack = (trackId) => {
         dispatch(thunkDeleteTrack(trackId))
@@ -124,11 +127,20 @@ export default function Catalog() {
                         {
                             uploading
                             &&
+                            <>
+                                <tr>
+                                    <td id="track-row-play-icon">
+                                        <div className="play-background">
+                                        <AiOutlineLoading className='loading-icon' size={16} />
+                                        </div>
+                                    </td>
+                                    <td style={{fontStyle:'italic'}}>Uploading...</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><CiMenuKebab id="menu-icon" color="#545b69" /></td>
+                                </tr>
 
-                            <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
-                                <AiOutlineLoading className='loading-icon' size={16} />
-                                {/* Uploading... */}
-                            </div>
+                            </>
 
                         }
                         {stateUpdated
@@ -204,22 +216,22 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
         }
     }
 
-    if (uploading) return (
-        <div>
-            <input
-                type="file"
-                accept=".wav,.mp3"
-                multiple
-                onChange={handleUploadTracks}
-                ref={hiddenInputRef}
-                style={{ display: 'none' }}
-            />
-            <button className="upload-icon">
-                <span>UPLOADING...</span>
-                {/* <FaCloudUploadAlt size={30} /> */}
-            </button>
-        </div>
-    )
+    // if (uploading) return (
+    //     <div>
+    //         <input
+    //             type="file"
+    //             accept=".wav,.mp3"
+    //             multiple
+    //             onChange={handleUploadTracks}
+    //             ref={hiddenInputRef}
+    //             style={{ display: 'none' }}
+    //         />
+    //         <button className="upload-icon">
+    //             <span>UPLOADING...</span>
+    //             {/* <FaCloudUploadAlt size={30} /> */}
+    //         </button>
+    //     </div>
+    // )
 
     if (!uploading) return (
         <div>
@@ -265,39 +277,3 @@ function TrackMenu({ trackId, trackTitle, x, y, menuRef, showMenu, handleDeleteT
         </div>
     )
 }
-
-//Rename Track Modal
-// function RenameModal({ trackId, trackTitle, closeModal }) {
-//     const [title, setTitle] = useState(trackTitle)
-//     const [disabled, setDisabled] = useState()
-//     const dispatch = useDispatch()
-
-//     useEffect(() => {
-//         if (title.length > 2) {
-//             setDisabled(false)
-//         } else {
-//             setDisabled(true)
-//         }
-//     }, [title])
-
-//     const handleUpdateTitle = async (trackId) => {
-//         if (title !== '') dispatch(thunkUpdateTrackTitle(trackId, title)).then(() => closeModal())
-//     }
-//     return (
-//         <div id="rename-track-modal-content">
-//             <h4>Rename Track</h4>
-//             <fieldset>
-//                 <legend>Track name</legend>
-//                 <input
-//                     type="text"
-//                     value={title}
-//                     onChange={(e) => setTitle(e.target.value)}
-//                 />
-//             </fieldset>
-//             <div className="cancel-rename-buttons">
-//                 <button id="rename-modal-cancel-button" onClick={closeModal}>CANCEL</button>
-//                 <button id="rename-button" onClick={() => handleUpdateTitle(trackId)} disabled={disabled}>RENAME</button>
-//             </div>
-//         </div>
-//     )
-// }

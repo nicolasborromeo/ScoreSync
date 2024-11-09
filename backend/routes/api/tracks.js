@@ -1,7 +1,7 @@
 const express = require('express');
 const { multipleFilesUpload, multipleMulterUpload, deleteFile } = require("../../awsS3");
 const { requireAuth } = require('../../utils/auth');
-const { Track, CardTrack } = require('../../db/models');
+const { Track } = require('../../db/models');
 const router = express.Router();
 
 
@@ -38,7 +38,6 @@ router.post(
         return res.json(tracks);
     },
 )
-
 
 
 ////////////////DELETING FROM AWS AND DTABASE

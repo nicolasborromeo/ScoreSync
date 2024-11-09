@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom"
 import { TbCards } from "react-icons/tb";
 import { GiMusicalScore } from "react-icons/gi";
 import { CgMusicNote } from "react-icons/cg";
-import { CiUser } from "react-icons/ci";
 import { logout } from "../store/session";
 import { useDispatch } from "react-redux";
 import { PiImageSquareFill } from "react-icons/pi";
