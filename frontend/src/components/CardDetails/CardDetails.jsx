@@ -204,7 +204,7 @@ export default function CardDetails() {
                     </div>
                 </section>
 
-                {/* audioplayer */}
+                {/* audioplayer  */}
 
                 <section id="card-audioplayer" >
                     <div
