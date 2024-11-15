@@ -18,7 +18,7 @@ module.exports = {
         secondaryBackground: '#141418',
         primaryTextColor: '#ececec',
         secondaryTextColor: '#b6b6b6',
-        waveformColor: '#EB3678'
+        waveformColor: '#C8000B'
       },
       {
         cardId: 2,

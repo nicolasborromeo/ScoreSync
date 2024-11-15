@@ -38,6 +38,25 @@ module.exports = {
         url: `${AWS_BUCKET_URL}/nicoborro/images/Nico+Goldtop+Studios.png`,
         key: 'nicoborro/images/Nico Goldtop Studios.png'
       },
+      {
+        userId: 4,
+        name: 'Nico Bass.png',
+        url: `https://res.cloudinary.com/dklsvbe1v/image/upload/v1731710522/IMG_1407_oaf8mc.jpg`,
+        key: 'cloudinary'
+      },
+      {
+        userId: 4,
+        name: 'Bleeding Finders Logo.png',
+        url: `https://res.cloudinary.com/dklsvbe1v/image/upload/v1731711262/Bleeding_fingers_mv1yqa.webp`,
+        key: 'cloudinary'
+      },
+      {
+        userId: 4,
+        name: 'Bleeding Finders Banner.png',
+        url: `https://res.cloudinary.com/dklsvbe1v/image/upload/v1731711175/bleeding_fingers_banner_qxo1nc.jpg`,
+        key: 'cloudinary'
+      },
+
 
     ], { validate: true })
   },

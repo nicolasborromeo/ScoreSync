@@ -240,7 +240,8 @@ export default function PublicCard({ preview }) {
                     {preview &&
                         <div className='preview-buttons-container'>
                             <div id="preview-button-container">
-                                <button id="preview-publish-button"
+                                <button
+                                    className='add-tracks-button'
                                     onClick={() => navigate(`/cards/${cardId}`)}
                                 >
                                     <IoMdArrowRoundBack size={18} />

@@ -67,7 +67,7 @@ export default function CardTrackList({ trackList, setTrackList, cardId, setAudi
                                 // color: primaryTextColor,
                                 border:`1px solid ${waveformColor}44`,
                                 borderRadius:'15px',
-                                overflow:'scroll'}}
+                               }}
                         >
                             {trackList?.map((track, i) => (
                                 <Draggable key={track.id.toString()} draggableId={track.id.toString()} index={i} isDragDisabled={isPublic}>

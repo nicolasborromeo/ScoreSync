@@ -1,25 +1,22 @@
 'use strict';
-
-const {CardBanner} = require('../models')
+const { CardProfilePic } = require('../models')
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
-
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    CardBanner.bulkCreate([
+  async up(queryInterface, Sequelize) {
+    CardProfilePic.bulkCreate([
       {
-        imgId: 7,
+        imgId: 1,
         cardId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        imgId: 3,
+        imgId: 2,
         cardId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -27,13 +24,13 @@ module.exports = {
     ], { validate: true })
   },
 
-  async down (queryInterface, Sequelize) {
-    options.tableName = 'CardBanners'
+  async down(queryInterface, Sequelize) {
+    options.tableName = 'CardProfilePics'
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       cardId: {
-        [Op.in]: [1,2]
+        [Op.in]: [1, 2]
       }
-    }, {});
+    }, {})
   }
 };

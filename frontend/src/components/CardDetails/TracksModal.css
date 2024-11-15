@@ -3,7 +3,7 @@
     display: flex;
     background-color: var(--bg-primary);
     color: var(--text-secondary);
-    box-shadow: 1px 1px 4px 3px gray;
+    box-shadow: 1px 1px 4px 1px gray;
     gap: 2rem;
     padding: 1.5rem;
     height: min-content;
@@ -13,9 +13,14 @@
     border-radius: 10px;
 }
 
+#tracksmodal-track-list {
+    box-shadow: inset 0px 0px 4px 4px rgb(33, 32, 32);
+}
+
 #tracksmodal-search-column span {
     margin-top: 1em;
     white-space: nowrap;
+    text-overflow: ellipsis;
     display: flex;
     align-items: center;
     gap: 3px;
@@ -83,13 +88,11 @@
     align-items: center;
     justify-content: center;
     gap: 1em;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 #track-modal-buttons-container>.add-tracks-button {
     padding: 6px 27px;
 }
-
-
 
 
 .add-tracks-button .loading-icon {
