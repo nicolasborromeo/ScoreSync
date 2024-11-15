@@ -14,13 +14,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     CardHeadshot.bulkCreate([
       {
-        imgId: 1,
+        imgId: 5,
         cardId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        imgId: 3,
+        imgId: 1,
         cardId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),

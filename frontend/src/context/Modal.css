@@ -25,6 +25,6 @@
     border-radius: 10px;
     position: absolute;
     width: min-content;
-    overflow: scroll;
+    /* overflow: scroll; */
     min-width: 265px;
   }

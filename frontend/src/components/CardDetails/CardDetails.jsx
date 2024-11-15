@@ -204,7 +204,7 @@ export default function CardDetails() {
                     </div>
                 </section>
 
-                {/* audioplayer */}
+                {/* audioplayer  */}
 
                 <section id="card-audioplayer" >
                     <div
@@ -217,7 +217,8 @@ export default function CardDetails() {
                     </div>
 
                     <div
-                        id="add-tracks-button-container">
+                        id="add-tracks-button-container"
+                        >
                         <button
                             className="add-tracks-button"
                             onClick={() => setModalContent(<TracksModal cardId={cardId} trackList={trackList}/>)}>
@@ -263,8 +264,7 @@ export default function CardDetails() {
 
                     <div id="preview-button-container">
                         <button
-                            className='add-tracks-button'
-                            id="preview-publish-button"
+                            className="add-tracks-button"
                             onClick={handlePreview}>
                             PREVIEW & PUBLISH
                         </button>
