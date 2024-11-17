@@ -50,14 +50,11 @@
 #images-container {
     display: flex;
     flex-direction: column;
-    width: calc(100vw - 5rem);
-    /* height: 100vh; */
-    /* position: fixed; */
-    /* margin: 0; */
+    height: 100vh;
+    margin: 0;
     font-family: inherit;
     color: var(--text-primary);
     background-color: var(--bg-primary);
-    /* overflow: scroll; */
 }
 
 
@@ -67,10 +64,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    padding: 20px;
+    padding: 20px 20px 80px;
     width: 80%;
     margin: 0 auto;
-    /* margin-right: 10em; */
 }
 
 /* Individual image items */

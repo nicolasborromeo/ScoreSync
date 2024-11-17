@@ -28,6 +28,21 @@ module.exports = {
         cardId: 1,
         trackId: 3,
         trackOrder:3
+      },
+      {
+        cardId: 2,
+        trackId: 1,
+        trackOrder:1
+      },
+      {
+        cardId: 2,
+        trackId: 2,
+        trackOrder:2
+      },
+      {
+        cardId: 2,
+        trackId: 3,
+        trackOrder:3
       }
 
     ], { validate: true })

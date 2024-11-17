@@ -25,13 +25,13 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
         url: audioUrl,
         plugins: useMemo(() => [
             Hover.create({
-                lineColor: '#ff0000',
+                lineColor: tinycolor(waveformColor).lighten(20).toString() || 'rgb(100, 0, 100)',
                 lineWidth: 2,
                 labelBackground: '#555',
                 labelColor: '#fff',
                 labelSize: '11px',
             }),
-        ], []),
+        ], [waveformColor]),
     });
 
     // Function to handle volume change
