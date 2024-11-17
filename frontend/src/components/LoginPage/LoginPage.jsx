@@ -36,6 +36,7 @@ const LoginPage = () => {
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
                 required
+                autoComplete="username"
               />
             </label>
           </div>
@@ -48,6 +49,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="current-password"
               />
             </label>
           </div>

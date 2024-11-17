@@ -41,9 +41,14 @@ export default function Catalog() {
 
     //Audio Plater State variables
     const [stateUpdated, setStateUpdated] = useState()
-    const [uploading, setUploading] = useState()
     const [audioUrl, setAudioUrl] = useState()
     const [showPlayer, setShowPlayer] = useState(false)
+
+
+    //uplading
+    const [uploading, setUploading] = useState()
+    const [uploadingTrackNames, setUploadingTrackNames] = useState()
+
 
     //Thunk operations
     useEffect(() => {
@@ -56,13 +61,15 @@ export default function Catalog() {
 
     const handleUploadTracks = async e => {
         const files = e.target.files
+        const trackNames = [...files].map(file => file.name)
+        console.log(trackNames)
         if (files.length >= 1) {
+            setUploadingTrackNames(trackNames)
             setUploading(true)
             const res = await dispatch(thunkUploadTracks(files, user.id));
             if (res.ok) setUploading(false)
         }
     }
-
 
 
 
@@ -115,83 +122,93 @@ export default function Catalog() {
                     </div>
                 </div>
             </div>
+            <div className="table-and-player-container">
 
-            <table className="tracks-table">
-                <thead><tr><th>Name</th><th></th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
-                {
-                    catalog?.length >= 1
-                    &&
-                    Array.isArray(catalog)
-                    &&
-                    <tbody id="tracks-tbody">
-                        {
-                            uploading
-                            &&
-                            <>
+                <table className="tracks-table">
+                    <thead><tr><th>Name</th><th></th><th>Duration</th><th>Uploaded</th><th></th></tr></thead>
+                    {
+                        catalog
+                        &&
+                        Array.isArray(catalog)
+                        &&
+                        <tbody id="tracks-tbody">
+                            {
+                                !catalog.length
+                                &&
+                                !uploading
+                                &&
                                 <tr>
-                                    <td id="track-row-play-icon">
-                                        <div className="play-background">
-                                        <AiOutlineLoading className='loading-icon' size={16} />
-                                        </div>
-                                    </td>
-                                    <td style={{fontStyle:'italic'}}>Uploading...</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><CiMenuKebab id="menu-icon" color="#545b69" /></td>
+                                    <td colSpan={4} style={{ textAlign: 'center' }}>You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</td>
                                 </tr>
+                            }
+                            {
+                                uploading
+                                &&
+                                uploadingTrackNames.map(
+                                    track => (
+                                        <tr key={track}>
+                                            <td id="track-row-play-icon">
+                                                <div className="play-background">
+                                                    <AiOutlineLoading className='loading-icon' size={16} />
+                                                </div>
+                                            </td>
+                                            {/* <td style={{ fontStyle: 'italic' }}>Uploading...</td> */}
+                                            <td style={{ fontStyle: 'italic' }}>{track}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><CiMenuKebab id="menu-icon" color="#545b69" /></td>
+                                        </tr>
+                                    )
+                                )
+                                // <>
 
-                            </>
+                                // </>
 
-                        }
-                        {stateUpdated
-                            &&
-                            catalog.toReversed().map(
-                                track => (
-                                    <tr key={track.id}
-                                        className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
-                                        <td id="track-row-play-icon">
-                                            <div className="play-background">
-                                                <PlayIcon size={16}
-                                                    onClick={() => {
-                                                        handleTrackPlay(track.filePath, track.title)
-                                                        setActiveTrackId(track.id)
-                                                    }}
-                                                />
-                                            </div>
-                                        </td>
-                                        <td>{track.title}</td>
-                                        <td>{formatSecsToMins(track.duration)}</td>
-                                        <td>{formatUploaded(track.createdAt)}</td>
-                                        <td><CiMenuKebab id="menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
-                                    </tr>
-                                ))}
-                    </tbody>
+                            }
+                            {stateUpdated
+                                &&
+                                catalog.toReversed().map(
+                                    track => (
+                                        <tr key={track.id}
+                                            className={`catalog-track-row ${activeTrackId == track.id ? 'active-track' : ''}`} id={track.id} >
+                                            <td id="track-row-play-icon">
+                                                <div className="play-background">
+                                                    <PlayIcon size={16}
+                                                        onClick={() => {
+                                                            handleTrackPlay(track.filePath, track.title)
+                                                            setActiveTrackId(track.id)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </td>
+                                            <td>{track.title}</td>
+                                            <td>{formatSecsToMins(track.duration)}</td>
+                                            <td>{formatUploaded(track.createdAt)}</td>
+                                            <td><CiMenuKebab id="menu-icon" color="#545b69" onClick={(e) => openTrackMenu(e, track.id, track.title)} /></td>
+                                        </tr>
+                                    ))}
+                        </tbody>
+                    }
+
+                </table>
+
+
+
+                {/* AUDIOPLAYER */}
+                {
+                    showPlayer
+                    &&
+                    <div className="audio-player-container">
+                        <div className="title-x-container">
+                            <span id="audio-player-track-title">{trackTitle}</span>
+                            <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20} /></span>
+                        </div>
+                        <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
+                            <AudioPlayer audioUrl={audioUrl} />
+                        </div>
+                    </div>
                 }
-            </table>
-            {
-                !catalog.length
-                &&
-                <>
-                    <p className="no-items-message-container">You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</p>
-                </>
-            }
-
-
-
-            {/* AUDIOPLAYER */}
-            {
-                showPlayer
-                &&
-                <div className="audio-player-container">
-                    <div className="title-x-container">
-                        <span id="audio-player-track-title">{trackTitle}</span>
-                        <span className="close-audio-player-x" onClick={toggleShowPlayer}><XIcon size={20} /></span>
-                    </div>
-                    <div id="audio-player" style={{ display: showPlayer ? 'block' : 'none' }}>
-                        <AudioPlayer audioUrl={audioUrl} />
-                    </div>
-                </div>
-            }
+            </div>
 
             {/* OPTIONS MENU hidden component */}
             <TrackMenu

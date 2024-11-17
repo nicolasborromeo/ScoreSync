@@ -3,8 +3,6 @@
     flex-direction: column;
     /* width: calc(100% - 5em); */
     height: 100vh;
-    /* height: 90vh; */
-    /* position: fixed; */
     margin: 0;
     font-family: inherit;
     color: var(--text-primary);

@@ -39,7 +39,7 @@ export default function Navigation({ isLoaded }) {
             </ul>
                 {isLoaded &&
                     <li className="nav-item">
-                        <NavLink to='/' className="nav-link" style={{fontWeight:'bold'}} onClick={dispatch(logout)}>
+                        <NavLink to='/' className="nav-link" style={{fontWeight:'bold'}} onClick={()=>dispatch(logout())}>
                             <span className="link-icon"><Power size={30} color="red"/></span>
                             <span className="link-text">Log Out</span>
                         </NavLink>
