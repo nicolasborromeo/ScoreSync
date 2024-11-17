@@ -13,7 +13,6 @@ const setUserImages = userImages => {
 }
 
 const updateImageName = (imageId, name) => {
-    console.log(name)
     return {
         type: UPDATE_IMAGE_NAME,
         payload: {

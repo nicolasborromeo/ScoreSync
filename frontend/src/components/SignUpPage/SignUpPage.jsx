@@ -32,7 +32,6 @@ export default function SignUpPage() {
                if (res.ok) navigate('/dashboard')
            } catch (error) {
                 const err = await error.json()
-                console.log(err)
                 setErrorMessage(err.errors)
            }
         }

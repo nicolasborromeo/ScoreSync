@@ -22,7 +22,7 @@ export default function ImagesModal({ cardId, type, closeModal }) {
     const handleUpdatePicture = (imgId) => {
         dispatch(thunkUpdateCardImage(cardId, type, imgId)).then(() => closeModal())
     }
-    console.log(images)
+
     return (
         <div id="images-modal-container">
 
