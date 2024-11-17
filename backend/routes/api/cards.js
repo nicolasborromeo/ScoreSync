@@ -42,7 +42,7 @@ router.get(
     requireAuth,
     async (req, res) => {
         const { user } = req;
-        console.log('----------------------ROUTE, user: ', user)
+
         const userCards = await Card.findAll({ where: { userId: user.id } });
         return res.status(200).json({ userCards: userCards });
     },

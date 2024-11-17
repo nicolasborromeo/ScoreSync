@@ -100,7 +100,6 @@ const publishCard = (cardId) => {
 
 export const thunkGetUserCards = () => async (dispatch) => {
     const response = await csrfFetch("/api/cards/current")
-    console.log('thunk')
     const userCards = await response.json()
     dispatch(setUserCards(userCards))
     return userCards

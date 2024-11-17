@@ -18,8 +18,6 @@ export default function RenameModal({ id, title, type, closeModal }) {
     }, [newTitle])
 
     const handleUpdateTitle = async (id) => {
-        console.log(id)
-        console.log(type)
         if (newTitle !== '') {
             if (type === 'Track') dispatch(thunkUpdateTrackTitle(id, newTitle)).then(() => closeModal())
             if (type === 'Image') dispatch(thunkUpdateImageName(id, newTitle)).then(() => closeModal())

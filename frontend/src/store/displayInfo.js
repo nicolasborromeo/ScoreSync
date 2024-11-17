@@ -26,7 +26,6 @@ export const thunkGetUsersDisplayInfo = () => async dispatch => {
 }
 
 export const thunkSaveDisplayInfo = (data) => async dispatch => {
-    console.log('DATA IN THUNK', data)
     const response = await csrfFetch(`/api/displayinfo/current`, {
         method: "POST",
         body: JSON.stringify({data})
