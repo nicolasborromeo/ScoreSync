@@ -36,6 +36,9 @@ const singleFileUpload = async ({ file, username }) => {
     const metadata = await parse(buffer)
     const duration = metadata.format.duration
 
+    if(!duration) {
+        throw new Error(`Failed to upload ${originalname}`);
+    }
 
     const Key = new Date().getTime().toString() + originalname
 
@@ -56,6 +59,7 @@ const singleFileUpload = async ({ file, username }) => {
 const multipleFilesUpload = async ({ files, username }) => {
     return await Promise.all(
         files.map((file) => {
+            console.log('----------------file: ', file)
             return singleFileUpload({ file, username })
         })
     )

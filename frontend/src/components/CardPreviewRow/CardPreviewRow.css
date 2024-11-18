@@ -1,10 +1,10 @@
 /* Container for the preview row */
 .card-preview-row-container {
-    margin: 40px auto !important;
+    margin: 40px auto 0 !important;
     min-width: 80%;
     max-width: 80%;
-    /* min-height: max-content;
-    overflow: auto; */
+    padding-bottom: 15px;
+    overflow: hidden;
 }
 
 #card-preview-row-title {
@@ -34,7 +34,9 @@
 /* Container for each card preview (clickable) */
 .card-preview-container {
     position: relative;
-    width: 160px; /* Width of the preview */
+    width: 155px; /* Width of the preview */
+    min-width: 155px; /* Width of the preview */
+    max-width: 155px;
     height: 195px; /* Height of the preview */
     border-radius: 8px;
     overflow: hidden;

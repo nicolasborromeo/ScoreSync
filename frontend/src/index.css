@@ -80,7 +80,6 @@ html {
 
 #app-container {
     display: flex;
-
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -302,7 +301,7 @@ html {
     content: '';
     position: absolute;
     height: 107%;
-    width: 102%;
+    width: 102.3%;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -349,4 +348,25 @@ html {
 
 .options-container div:hover {
     background-color: #3a3c45;
+}
+
+
+/* NO ITEMS MESSAGE */
+
+.no-items-message-container span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+}
+
+
+@media screen and (width < 955px) {
+    .no-items-message-container{
+        display: flex;
+        flex-direction: column;
+        width: max-content !important;
+        /* height: 14em; */
+        margin: 0 auto !important;
+    }
 }

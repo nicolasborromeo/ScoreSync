@@ -21,21 +21,27 @@ router.post(
     requireAuth,
     multipleMulterUpload('tracks'),
     async (req, res) => {
-        const { user } = req;
-        const userId = user.id
-        const username = user.username
-        const awsResponse = await multipleFilesUpload({ files: req.files, public: true, username })
 
-        const tracks = await Promise.all(
-            awsResponse.map(track => Track.create({
-                filePath: track.url,
-                userId: userId,
-                title: track.title,
-                duration: Math.ceil(track.duration)
-            }))
-        );
+        try {
+            const { user } = req;
+            const userId = user.id
+            const username = user.username
+            const awsResponse = await multipleFilesUpload({ files: req.files, public: true, username })
 
-        return res.json(tracks);
+            const tracks = await Promise.all(
+                awsResponse.map(track => Track.create({
+                    filePath: track.url,
+                    userId: userId,
+                    title: track.title,
+                    duration: Math.ceil(track.duration)
+                }))
+            );
+            return res.json(tracks);
+
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
     },
 )
 

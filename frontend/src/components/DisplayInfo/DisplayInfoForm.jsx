@@ -54,7 +54,6 @@ export default function DisplayInfoForm() {
             <h3>Display Information</h3>
             <div className="text-and-button">
                 <p>Below are your personal details that will appear by default in all the cards. Any changes made here will affect all other cards (existing and future), unless you&apos;ve modified the field directly in the card. The modifiable fields are: Job Title and Biographhy.</p>
-                {/* <button className="dashboard-button" onClick={handleSaveDisplayInfo}>Save</button> */}
                 <span><IoIosSave id="save-button" className={hasChanged ? 'active-button' : 'grayed'} size={40} onClick={() => setModalContent(<AreYouSure handleSaveDisplayInfo={handleSaveDisplayInfo} closeModal={closeModal} />)} /></span>
             </div>
 

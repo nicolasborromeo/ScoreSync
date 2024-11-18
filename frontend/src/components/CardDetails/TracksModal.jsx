@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { thunkGetUserTracks } from "../../store/tracks"
 import { thunkAddTracksToCard } from "../../store/cards"
 import { useModal } from "../../context/Modal"
+import { useToast } from "../../context/ToastContext"
 // import TrackUploadButton from "../Catalog/TrackUploadButton"
 import './TracksModal.css'
 import '../CardDetails/CardDetails.css'
@@ -114,6 +115,7 @@ export default function TracksModal({ cardId, trackList }) {
 
 function TrackUploadButton() {
     const userId = useSelector(state => state.session.user.id)
+    const { addToast } = useToast()
     const [uploading, setUploading] = useState()
     const dispatch = useDispatch()
     const handleUploadTracks = async e => {
@@ -121,8 +123,17 @@ function TrackUploadButton() {
 
         if (files.length >= 1) {
             setUploading(true)
-            const res = await dispatch(thunkUploadTracks(files, userId));
-            if (res.ok) setUploading(false)
+            dispatch(thunkUploadTracks(files, userId))
+            .then(() => {
+                addToast('Upload successful!')
+                setUploading(false)
+            })
+            .catch( async (e) => {
+                const err = await e.json()
+                addToast(err.error || 'Error: There was an error while uploading', 'error')
+                setUploading(false)
+            })
+
         }
     }
 

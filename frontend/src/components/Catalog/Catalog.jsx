@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal";
-
+import { useToast} from '../../context/ToastContext'
 
 import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks } from "../../store/tracks"
 import { formatUploaded, formatSecsToMins } from "../../utils/utils";
@@ -49,6 +49,8 @@ export default function Catalog() {
     const [uploading, setUploading] = useState()
     const [uploadingTrackNames, setUploadingTrackNames] = useState()
 
+    //toast
+    const {addToast} = useToast()
 
     //Thunk operations
     useEffect(() => {
@@ -62,19 +64,27 @@ export default function Catalog() {
     const handleUploadTracks = async e => {
         const files = e.target.files
         const trackNames = [...files].map(file => file.name)
-        console.log(trackNames)
         if (files.length >= 1) {
             setUploadingTrackNames(trackNames)
             setUploading(true)
-            const res = await dispatch(thunkUploadTracks(files, user.id));
-            if (res.ok) setUploading(false)
+            dispatch(thunkUploadTracks(files, user.id))
+            .then(() => {
+                addToast('Upload successful!')
+                setUploading(false)
+            })
+            .catch( async (e) => {
+                const err = await e.json()
+                addToast(err.error || 'Error: There was an error while uploading', 'error')
+                setUploading(false)
+            })
+
         }
     }
 
 
-
     const handleDeleteTrack = (trackId) => {
         dispatch(thunkDeleteTrack(trackId))
+        .then(()=> addToast('Successfully deleted.'))
         setShowMenu(false)
     }
 
@@ -138,7 +148,9 @@ export default function Catalog() {
                                 !uploading
                                 &&
                                 <tr>
-                                    <td colSpan={4} style={{ textAlign: 'center' }}>You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</td>
+                                    <td colSpan={4} style={{ textAlign: 'center'}} >
+                                        <p className="no-items-message-container"> You don&apos;t have any Tracks uploaded yet.<span> Click the icon <FaCloudUploadAlt /> to start building your catalog</span></p>
+                                    </td>
                                 </tr>
                             }
                             {

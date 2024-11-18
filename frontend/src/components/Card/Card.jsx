@@ -92,58 +92,60 @@ export default function Card() {
                     </div>
                 </div>
             </div>
+            <div className='table-card-previews-container'>
 
-            <div>
-                <table className="cards-table">
-                    <thead>
-                        <tr>
-                            <th>Active</th>
-                            <th>Title</th>
-                            <th>Live Link</th>
-                            <th>Created</th>
-                            <th>Updated</th>
-                            {/* <th>Settings</th> */}
-                            <th></th>
-                        </tr>
-                    </thead>
+                <div>
+                    <table className="cards-table">
+                        <thead>
+                            <tr>
+                                <th>Active</th>
+                                <th>Title</th>
+                                <th>Live Link</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                {/* <th>Settings</th> */}
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {
+                            cards?.length >= 1
+                            &&
+                            Array.isArray(cards)
+                            &&
+                            <tbody>
+                                {stateUpdated
+                                    &&
+                                    cards.map(
+                                        card => (
+                                            <tr key={card.id}>
+                                                <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />}</td>
+                                                <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
+                                                <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
+                                                <td>{formatUploaded(card.createdAt)}</td>
+                                                <td>{formatUploaded(card.updatedAt)}</td>
+                                                {/* <td><IoMdSettings /></td> */}
+                                                <td><CiMenuKebab id="track-menu-icon"
+                                                    onClick={(e) => openCardMenu(e, card.id, card.title, card.isActive)}
+                                                /></td>
+                                            </tr>
+                                        ))}
+                            </tbody>
+                        }
+                    </table>
                     {
-                        cards?.length >= 1
+                        !cards.length
                         &&
-                        Array.isArray(cards)
-                        &&
-                        <tbody>
-                            {stateUpdated
-                                &&
-                                cards.map(
-                                    card => (
-                                        <tr key={card.id}>
-                                            <td>{card.isActive ? <IoMdCloudDone /> : <MdOutlineCloudOff />}</td>
-                                            <td><NavLink className='card-link' id="navlink-to-card-details" to={`/cards/${card.id}`}>{card.title || 'Untitled'}</NavLink></td>
-                                            <td><a className='card-link' id="navlink-to-public-url" href={card.publicUrl} target="_blank" rel="noopener noreferrer"><GoLink /></a></td>
-                                            <td>{formatUploaded(card.createdAt)}</td>
-                                            <td>{formatUploaded(card.updatedAt)}</td>
-                                            {/* <td><IoMdSettings /></td> */}
-                                            <td><CiMenuKebab id="track-menu-icon"
-                                                onClick={(e) => openCardMenu(e, card.id, card.title, card.isActive)}
-                                            /></td>
-                                        </tr>
-                                    ))}
-                        </tbody>
+                        <>
+                            <p className="no-items-message-container">You don&apos;t have any Cards created yet. <span>Click the icon <Plus /> to start creating.</span></p>
+                        </>
                     }
-                </table>
-                {
-                    !cards.length
-                    &&
-                    <>
-                        <p className="no-items-message-container">You don&apos;t have any Cards created yet. Click the icon <Plus /> to start creating.</p>
-                    </>
-                }
+                </div>
+
+
+                {/* Card Preview Row */}
+
+                <CardPreviewRow cards={cards} />
             </div>
-
-
-            {/* Card Preview Row */}
-
-            <CardPreviewRow cards={cards} />
 
 
 

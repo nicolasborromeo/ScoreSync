@@ -14,13 +14,22 @@
     margin: 0 0em 0 8em !important;
 }
 
+.table-card-previews-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    align-items: center;
+    height: 100%;
+    margin: 0 !important;
+}
+
 /* CARDS TABLE */
 
 .cards-table {
     margin: 0px auto !important;
     width: 80%;
     border-collapse: collapse;
-    font-size: 1em;
+    font-size: 0.9em;
     text-align: left;
     border-radius: 0px 4px 0px 4px;
     table-layout: fixed;
@@ -37,7 +46,7 @@
 
 .cards-table tbody {
     display: block;
-    max-height: 30vh;
+    max-height: 28vh;
     overflow-y: scroll;
     width: 100%;
 }

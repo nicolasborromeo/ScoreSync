@@ -1,11 +1,9 @@
 import './CardPreviewRow.css'
-
 import { useNavigate } from 'react-router-dom';
 
 export default function CardPreviewRow({ cards }) {
     const navigate = useNavigate();
-    // const appUrl = import.meta.env.VITE_BASE_URL
-    console.log(cards)
+
     return (
         <div className="card-preview-row-container">
             <p id="card-preview-row-title">Active Cards:</p>
@@ -13,6 +11,7 @@ export default function CardPreviewRow({ cards }) {
 
                 {cards
                     .filter((card) => card.isActive)
+                    .slice(0,6) //limiting the previews to 6 cards
                     .map((card) => (
                         <div
                             key={card.id}
