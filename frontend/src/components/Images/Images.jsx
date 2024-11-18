@@ -84,11 +84,14 @@ export default function Images() {
                 <div className="page-title-content">
                     <p id="page-title">Images</p>
                     <div className='gradient-button-background'>
-                    <ImageUploadButton handleUploadImages={handleUploadImages} uploading={uploading} />
+                        <ImageUploadButton handleUploadImages={handleUploadImages} uploading={uploading} />
                     </div>
                 </div>
             </div>
 
+            {
+            images?.length >= 1
+             &&
             <div className="image-grid">
                 {
                     stateUpdated
@@ -111,18 +114,19 @@ export default function Images() {
                 {
                     uploading
                     &&
-                    <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
-                        <AiOutlineLoading className='loading-icon colored' />
+                    <div style={{ textAlign: 'center', margin: '1em', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1em'}}>
+                        <AiOutlineLoading size={50} className='colored' />
                     </div>
                 }
-            </div>
 
+            </div>}
             {
                 !images?.length
                 &&
-                <>
-                    <p className="no-items-message-container">You don&apos;t have any Images yet. Click the icon <FaCloudUploadAlt /> to upload images and customize your cards</p>
-                </>
+                <div>
+                    <p style={{margin:'4em'}}className="no-items-message-container" >You don&apos;t have any Images yet. Click the icon <FaCloudUploadAlt /> to upload images and customize your cards</p>
+                    {/* <img src="/no-images-default.jpg" alt="Default" style={{borderRadius:'10px', width:'20vw', margin:'0 auto', filter:'grayscale(30%)'}}/> */}
+                </div>
             }
 
             <ImageMenu
@@ -134,7 +138,6 @@ export default function Images() {
                 x={x}
                 y={y}
             />
-            {/* <Footer /> */}
         </div>
     )
 }

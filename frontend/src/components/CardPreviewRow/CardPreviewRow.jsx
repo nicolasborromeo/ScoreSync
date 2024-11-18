@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function CardPreviewRow({ cards }) {
     const navigate = useNavigate();
     // const appUrl = import.meta.env.VITE_BASE_URL
+    console.log(cards)
     return (
         <div className="card-preview-row-container">
             <p id="card-preview-row-title">Active Cards:</p>

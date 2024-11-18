@@ -125,7 +125,6 @@ export default function ToolBox({
         dispatch(thunkSaveCardStyles(cardId, colors, font))
             .then(() => {
                 addToast('Theme succesfully saved')
-                // window.alert('Theme saved')
             })
     }
 
@@ -150,8 +149,8 @@ export default function ToolBox({
 
     const openToolBox = (e) => {
         setPosition({
-            x: e.pageX,
-            y: e.pageY - 350
+            x: e.pageX - 200,
+            y: e.pageY + 50
         })
         setMinimized(false)
     }

@@ -12,7 +12,7 @@ import Card from "./components/Card";
 import CardDetails from "./components/CardDetails"
 import PublicCard from './components/PublicCard'
 import InactiveCard from "./components/InactiveCard";
-import Footer from './components/Footer'
+// import Footer from './components/Footer'
 
 function Layout() {
   const navigate = useNavigate()
@@ -42,7 +42,7 @@ function Layout() {
         {isLoaded &&
           <div id="outlet-and-footer">
             <Outlet />
-            <Footer />
+            {/* <Footer /> */}
           </div>
         }
       </div>
