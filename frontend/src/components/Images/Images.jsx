@@ -123,8 +123,8 @@ export default function Images() {
             {
                 !images?.length
                 &&
-                <div>
-                    <p style={{margin:'4em'}}className="no-items-message-container" >You don&apos;t have any Images yet. <span>Click the icon <FaCloudUploadAlt /> to upload images and customize your cards</span></p>
+                <div style={{padding:'64px'}}>
+                    <p className="no-items-message-container" >You don&apos;t have any Images yet. <span>Click the icon <FaCloudUploadAlt /> to upload images and customize your cards</span></p>
                     {/* <img src="/no-images-default.jpg" alt="Default" style={{borderRadius:'10px', width:'20vw', margin:'0 auto', filter:'grayscale(30%)'}}/> */}
                 </div>
             }

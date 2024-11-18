@@ -36,6 +36,7 @@ const singleFileUpload = async ({ file, username }) => {
     const metadata = await parse(buffer)
     const duration = metadata.format.duration
 
+    if(!duration) return {errors: 'Failed to calculate duration'}
 
     const Key = new Date().getTime().toString() + originalname
 

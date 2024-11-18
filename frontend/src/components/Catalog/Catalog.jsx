@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal";
-
+import { useToast} from '../../context/ToastContext'
 
 import { thunkGetUserTracks, thunkDeleteTrack, thunkUploadTracks } from "../../store/tracks"
 import { formatUploaded, formatSecsToMins } from "../../utils/utils";
@@ -49,6 +49,8 @@ export default function Catalog() {
     const [uploading, setUploading] = useState()
     const [uploadingTrackNames, setUploadingTrackNames] = useState()
 
+    //toast
+    const {addToast} = useToast()
 
     //Thunk operations
     useEffect(() => {
@@ -62,12 +64,19 @@ export default function Catalog() {
     const handleUploadTracks = async e => {
         const files = e.target.files
         const trackNames = [...files].map(file => file.name)
-        console.log(trackNames)
         if (files.length >= 1) {
             setUploadingTrackNames(trackNames)
             setUploading(true)
-            const res = await dispatch(thunkUploadTracks(files, user.id));
-            if (res.ok) setUploading(false)
+            dispatch(thunkUploadTracks(files, user.id))
+            .then(() => {
+                addToast('Upload successful!')
+                setUploading(false)
+            })
+            .catch(()=> {
+                addToast('Error: There was an error while uploading', 'error')
+                    setUploading(false)
+            })
+
         }
     }
 
@@ -75,6 +84,7 @@ export default function Catalog() {
 
     const handleDeleteTrack = (trackId) => {
         dispatch(thunkDeleteTrack(trackId))
+        .then(()=> addToast('Successfully deleted.'))
         setShowMenu(false)
     }
 

@@ -1,16 +1,16 @@
 import { useRef, useState, useContext, createContext, useCallback } from "react";
 import ReactDOM from "react-dom";
 import './Toast.css'
-import { SquareCheckBig } from 'lucide-react'
+import { SquareCheckBig, Ban } from 'lucide-react'
 const ToastContext = createContext()
 
 export function ToastProvider({ children }) {
   const toastRef = useRef();
   const [toasts, setToasts] = useState([]);
 
-  const addToast = useCallback((message, duration = 3000) => {
+  const addToast = useCallback((message,type='ok', duration = 3000 ) => {
     const id = Date.now();
-    setToasts((prevToasts) => [...prevToasts, { id, message }]);
+    setToasts((prevToasts) => [...prevToasts, { id, type, message, }]);
 
     setTimeout(() => {
       setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
@@ -61,7 +61,7 @@ export function Toast() {
       {toasts.map((toast) => (
         <div key={toast.id} className="toast">
           <div className="toast-message">
-            <SquareCheckBig />
+           {toast.type === 'ok' ? <SquareCheckBig /> : <Ban/> }
             {toast.message}
           </div>
         </div>

@@ -26,16 +26,17 @@ router.post(
         const username = user.username
         const awsResponse = await multipleFilesUpload({ files: req.files, public: true, username })
 
-        const tracks = await Promise.all(
-            awsResponse.map(track => Track.create({
-                filePath: track.url,
-                userId: userId,
-                title: track.title,
-                duration: Math.ceil(track.duration)
-            }))
-        );
 
-        return res.json(tracks);
+            const tracks = await Promise.all(
+                awsResponse.map(track => Track.create({
+                    filePath: track.url,
+                    userId: userId,
+                    title: track.title,
+                    duration: Math.ceil(track.duration)
+                }))
+            );
+            return res.json(tracks);
+
     },
 )
 

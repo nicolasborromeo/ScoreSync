@@ -361,7 +361,7 @@ html {
 }
 
 
-@media screen and (width < 915px) {
+@media screen and (width < 955px) {
     .no-items-message-container{
         display: flex;
         flex-direction: column;
