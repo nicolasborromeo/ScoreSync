@@ -9,7 +9,7 @@ import ImageUploadButton from '../ImageUploadButton';
 
 export default function ImagesModal({ cardId, type, closeModal }) {
     const user = useSelector(state => state.session.user)
-    const images = useSelector(state => state.images.userImages)
+    const images = useSelector(state => state.images.userImages || [])
     const dispatch = useDispatch()
     const [stateUpdated, setStateUpdated] = useState(false)
     //Thunk operations
@@ -27,6 +27,8 @@ export default function ImagesModal({ cardId, type, closeModal }) {
         <div id="images-modal-container">
 
             {
+                images?.length
+                &&
                 stateUpdated
                 &&
                 <div className="images-modal-grid">
@@ -39,11 +41,11 @@ export default function ImagesModal({ cardId, type, closeModal }) {
                 </div>
             }
             {
-                !images
+                !images.length
                 &&
                 <>
-                    <div style={{ textAlign: 'center' }}>
-                        You don&apos;t have any uploaded images yet. Click the icon <FaCloudUploadAlt /> to start building your catalog
+                    <div style={{ textAlign: 'center', color: 'white', lineHeight: '2em' }}>
+                        You don&apos;t have any uploaded images yet. <br />Click the icon <FaCloudUploadAlt /> to start building your catalog
                     </div>
 
                 </>

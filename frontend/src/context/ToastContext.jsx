@@ -52,7 +52,9 @@ export function Toast() {
 
 
 
-  if (!toastRef, !toastRef.current) return null
+  if (!toastRef || !toastRef.current) return null
+
+  if(!toasts.length) return null
 
   return ReactDOM.createPortal(
     <div id="toast-container">
@@ -62,14 +64,9 @@ export function Toast() {
             <SquareCheckBig />
             {toast.message}
           </div>
-          {/* <div className="toast-progress-bar" style={{ height: '20px', backgroundColor: 'white' }}>
-            <div className="inner-progress" style={{ backgroundColor: 'black' }}></div>
-          </div> */}
         </div>
       ))}
     </div>,
     toastRef.current
   );
 }
-
-

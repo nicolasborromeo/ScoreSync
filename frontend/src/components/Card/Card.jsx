@@ -87,7 +87,7 @@ export default function Card() {
                     <div className='gradient-button-background'>
                         <button className='upload-icon' onClick={handleCreateCard}>
                             <Plus />
-                            <span>NEW CARD</span>
+                            <span >NEW CARD</span>
                         </button>
                     </div>
                 </div>

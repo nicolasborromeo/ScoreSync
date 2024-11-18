@@ -99,6 +99,7 @@
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.5s ease;
+    white-space: nowrap;
 }
 
 #publish-modal-buttons button:hover {

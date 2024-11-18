@@ -152,7 +152,6 @@ export default function Catalog() {
                                                     <AiOutlineLoading className='loading-icon' size={16} />
                                                 </div>
                                             </td>
-                                            {/* <td style={{ fontStyle: 'italic' }}>Uploading...</td> */}
                                             <td style={{ fontStyle: 'italic' }}>{track}</td>
                                             <td></td>
                                             <td></td>
@@ -232,23 +231,6 @@ function TrackUploadButton({ handleUploadTracks, uploading }) {
             hiddenInputRef.current.click();
         }
     }
-
-    // if (uploading) return (
-    //     <div>
-    //         <input
-    //             type="file"
-    //             accept=".wav,.mp3"
-    //             multiple
-    //             onChange={handleUploadTracks}
-    //             ref={hiddenInputRef}
-    //             style={{ display: 'none' }}
-    //         />
-    //         <button className="upload-icon">
-    //             <span>UPLOADING...</span>
-    //             {/* <FaCloudUploadAlt size={30} /> */}
-    //         </button>
-    //     </div>
-    // )
 
     if (!uploading) return (
         <div>

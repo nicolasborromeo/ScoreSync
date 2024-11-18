@@ -306,7 +306,8 @@ router.post(
                 userId: user.id,
                 title: title,
                 privateToken: privateToken,
-                previewUrl: `${APP_BASE_URL}/cards/${privateToken}`
+                previewUrl: `${APP_BASE_URL}/preview/${privateToken}`,
+                publicUrl:  `${APP_BASE_URL}/${privateToken}`
             })
 
             await CardColor.create({ cardId: newCard.id })
@@ -423,7 +424,7 @@ router.put(
             }
             card.update({
                 isActive: true,
-                publicUrl: `${APP_BASE_URL}/${privateToken}`
+                publicUrl: `${APP_BASE_URL}/${card.privateToken || privateToken}`
             })
             return res.status(201).json(card)
 
