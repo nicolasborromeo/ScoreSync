@@ -148,7 +148,7 @@ export default function Catalog() {
                                 !uploading
                                 &&
                                 <tr>
-                                    <td colSpan={4} style={{ textAlign: 'center'}} >
+                                    <td colSpan={4} style={{ textAlign: 'center', fontSize:'1.1em'}} >
                                         <p className="no-items-message-container"> You don&apos;t have any Tracks uploaded yet.<span> Click the icon <FaCloudUploadAlt /> to start building your catalog</span></p>
                                     </td>
                                 </tr>

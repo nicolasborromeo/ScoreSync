@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 import { login } from '../../store/session'
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import { CgMusicNote } from "react-icons/cg";
 
 const LoginPage = () => {
   const dispatch = useDispatch()
@@ -22,16 +23,21 @@ const LoginPage = () => {
     }
   };
 
+  const handleLoginDemoUser = () => {
+    dispatch(login({ credential:'nicoborro', password:'password'})).then(()=> navigate('/dashboard'))
+  }
+
   return (
     <div className='login-parent-container'>
       <div className="login-container">
-        <h2>Login</h2>
-        {errorMessage?.credential && <p className="error-message">{errorMessage.credential}</p>}
+        <h2 className="logo" style={{margin:'10px auto 10px', fontSize:'1.5em'}}><CgMusicNote size={45}/></h2>
+        <h2 style={{fontWeight:'700', fontSize:'1.2em',margin:'0 auto 30px'}} className="logo">SCORE SYNC</h2>
+        <p style={{fontSize:'0.9em', margin:'0 auto 35px'}}>Log in to your account to start creating.</p>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="credential">
               <input
-                placeholder='Enter your username or email'
+                placeholder='Username or email address*'
                 id="credential"
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
@@ -45,19 +51,22 @@ const LoginPage = () => {
               <input
                 type="password"
                 id="password"
-                placeholder='Enter your password'
+                placeholder='Password*'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
               />
             </label>
+            {errorMessage?.credential && <p className="error-message">{errorMessage.credential}</p>}
           </div>
-          <button type="submit" className="login-button">Login</button>
+          <button type="submit" className="login-button">Continue</button>
         </form>
         <p className="register-link">
           <span>Don&apos;t have an account?</span>
-          <a href="/signup">Sign up here</a>
+          <div>
+          <a href="/signup">Sign up</a> <span>or <a><span style={{textDecoration:'underline', cursor:'pointer'}} onClick={handleLoginDemoUser}> log in as  Demo User</span></a></span>
+          </div>
         </p>
       </div>
     </div>

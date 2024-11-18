@@ -29,16 +29,19 @@ module.exports = {
       {
         userId: 4,
         title: 'Nico Borromeo - Kisaeng Elegy (seed)',
+        duration: 137,
         filePath: `${AWS_BUCKET_URL}/nicoborro/1729288522918Nico+Borromeo_Kisaeng+Elegy.wav`,
       },
       {
         userId: 4,
         title: 'Nico Borromeo - Cyrillic Magic (seed)',
+        duration: 199,
         filePath: `${AWS_BUCKET_URL}/nicoborro/1729288523005Nico+Borromeo_Cyrillic+Magic.wav`,
       },
       {
         userId: 4,
         title: 'Nico Borromeo - Power of Life (seed)',
+        duration: 130,
         filePath: `${AWS_BUCKET_URL}/nicoborro/1729288523008Nico+Borromeo_Power+of+Life.wav`,
       },
     ])
