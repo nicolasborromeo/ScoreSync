@@ -6,6 +6,8 @@
     max-width: 90%;
     margin: 0 auto;
     width: 40vw;
+    min-width: 242px;
+
 }
 
 .dashboard-card {
@@ -17,7 +19,8 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-width: 18vw;
+    /* min-width: 18vw; */
+    min-width: 242px;
     max-height: 20vh;
     cursor: pointer;
 }
@@ -59,6 +62,11 @@
 
 
 /* Responsive adjustments */
+
+
+
+
+
 @media (max-width: 768px) {
     .dashboard-card {
         padding: 15px;
@@ -71,4 +79,56 @@
     .card-content p {
         font-size: 1rem;
     }
+}
+
+
+@media screen and (width < 1320px) {
+
+    .dashboard-row-layout {
+        display: flex;
+        justify-content: space-between !important;
+        width: 80% !important;
+    }
+
+    .dashboard-grid {
+        width: 20vw;
+        margin: 0;
+    }
+
+    .external-links-form-container {
+        width: 70% !important;
+        margin-left: 2em;
+    }
+
+    #display-information-container{
+        width: 80% !important;
+        justify-self: center;
+        margin: 10px auto;
+    }
+
+}
+
+
+@media screen and (width < 755px) {
+    .dashboard-row-layout {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between !important;
+        width: 80% !important;
+        min-width: 510px;
+    }
+    .dashboard-grid {
+        width: 100% !important;
+        min-width: 100%;
+        margin: 0;
+    }
+
+    .external-links-form-container {
+        width: 100% !important;
+        min-width: 100%;
+        margin: 0;
+    }
+
+
+
 }

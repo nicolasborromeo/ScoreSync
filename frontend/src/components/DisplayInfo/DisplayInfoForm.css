@@ -1,7 +1,9 @@
 #display-information-container {
-    width: 80vw;
+    width: 80%;
     height: auto;
-    margin-left: 8em;
+    /* margin-left: 8em; */
+    justify-self: center;
+    margin-left: 10px auto !important;
     background-color: #2f2f3183;
     padding: 1.5em;
     border-radius: 20px;
@@ -29,6 +31,7 @@
     cursor: pointer;
     margin: 0 10px;
 }
+
 .active-button {
     animation: pulse 1.5s infinite;
 }
@@ -36,16 +39,18 @@
 @keyframes pulse {
     0% {
 
-      color: rgba(255, 200, 200, 0.3);
+        color: rgba(255, 200, 200, 0.3);
     }
+
     50% {
 
-      color: white;
+        color: white;
     }
+
     100% {
-      color: rgba(255, 200, 200, 0.3);
+        color: rgba(255, 200, 200, 0.3);
     }
-  }
+}
 
 .grayed {
     filter: grayscale(100%) brightness(0.3);
@@ -124,7 +129,7 @@
 
 
 /* ARE YOU SURE MODAL */
-.are-you-sure-container{
+.are-you-sure-container {
     height: 100%;
     /* background-color: var(--bg-secondary); */
     background-color: #0d1217;
@@ -181,3 +186,4 @@
     filter: grayscale(0%) brightness(1);
     cursor: pointer;
 }
+

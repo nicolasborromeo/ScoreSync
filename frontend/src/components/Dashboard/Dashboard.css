@@ -10,11 +10,19 @@
 
 }
 
-.dashboard-row-layout {
+/* .dashboard-row-layout {
     display: flex;
     width: 100% !important;
     justify-content: flex-start !important;
     margin-left: 8em;
+    max-width: 80vw;
+} */
+.dashboard-row-layout {
+    display: flex;
+    width: 80% !important;
+    justify-content: center !important;
+    margin: 0 auto;
+    /* margin-left: 8em; */
     max-width: 80vw;
 }
 

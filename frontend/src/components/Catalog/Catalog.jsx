@@ -138,7 +138,9 @@ export default function Catalog() {
                                 !uploading
                                 &&
                                 <tr>
-                                    <td colSpan={4} style={{ textAlign: 'center' }}>You don&apos;t have any Tracks uploaded yet. Click the icon <FaCloudUploadAlt /> to start building your catalog</td>
+                                    <td colSpan={4} style={{ textAlign: 'center'}} >
+                                        <p className="no-items-message-container"> You don&apos;t have any Tracks uploaded yet.<span> Click the icon <FaCloudUploadAlt /> to start building your catalog</span></p>
+                                    </td>
                                 </tr>
                             }
                             {
