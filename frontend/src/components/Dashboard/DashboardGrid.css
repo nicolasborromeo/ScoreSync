@@ -2,12 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding-bottom: 20px;
     max-width: 90%;
     margin: 0 auto;
     width: 40vw;
     min-width: 242px;
-
 }
 
 .dashboard-card {
@@ -19,9 +17,9 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* min-width: 18vw; */
     min-width: 242px;
     max-height: 20vh;
+    min-height: 130px;
     cursor: pointer;
 }
 
