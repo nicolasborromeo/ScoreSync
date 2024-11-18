@@ -57,8 +57,11 @@ export const thunkUploadTracks = (tracks) => async dispatch => {
       if (response.ok) {
         const data = await response.json();
         dispatch(receiveTracks(data));
+        return data;
+      } else {
+        const error = await response.json()
+        return error
       }
-      return response;
 }
 
 export const thunkDeleteTrack = (trackId) => async dispatch => {

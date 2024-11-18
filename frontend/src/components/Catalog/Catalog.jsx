@@ -72,14 +72,14 @@ export default function Catalog() {
                 addToast('Upload successful!')
                 setUploading(false)
             })
-            .catch(()=> {
-                addToast('Error: There was an error while uploading', 'error')
-                    setUploading(false)
+            .catch( async (e) => {
+                const err = await e.json()
+                addToast(err.error || 'Error: There was an error while uploading', 'error')
+                setUploading(false)
             })
 
         }
     }
-
 
 
     const handleDeleteTrack = (trackId) => {
