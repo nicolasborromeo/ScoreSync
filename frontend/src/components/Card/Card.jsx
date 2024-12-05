@@ -84,11 +84,11 @@ export default function Card() {
                 <div className='page-title-content'>
 
                     <p id="page-title">Cards</p>
-                        <div className='gradient-button-background' onClick={handleCreateCard}>
-                            <button className='upload-icon' >
+                            <button className='upload-icon' onClick={handleCreateCard}>
                                 <Plus />
                                 <span >NEW CARD</span>
                             </button>
+                        <div className='gradient-button-background'>
                         </div>
                 </div>
             </div>
