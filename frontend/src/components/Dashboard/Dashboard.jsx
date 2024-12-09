@@ -19,7 +19,7 @@ export default function Dashboard() {
             <DashboardGrid />
             <ExternalLinksForm />
          </div>
-         <div>
+         <div className='display-info-container-on-dashboard'>
             <DisplayInfoForm />
          </div>
       </div>
