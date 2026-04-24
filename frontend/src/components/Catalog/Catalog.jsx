@@ -114,7 +114,7 @@ export default function Catalog() {
     }
     useEffect(() => {
         const closeMenu = e => {
-            if (!menuRef.current.contains(e.target)) setShowMenu(false)
+            if (!menuRef.current || !menuRef.current.contains(e.target)) setShowMenu(false)
         }
         if (showMenu) document.addEventListener('click', closeMenu)
         return () => document.removeEventListener('click', closeMenu)

@@ -4,91 +4,64 @@ const { requireAuth } = require('../../utils/auth');
 const { Track } = require('../../db/models');
 const router = express.Router();
 
+async function getOwnedTrack(trackId, userId) {
+    return await Track.findOne({ where: { id: trackId, userId } });
+}
 
+router.get('/current', requireAuth, async (req, res) => {
+    const userTracks = await Track.findAll({ where: { userId: req.user.id } });
+    return res.status(200).json({ userTracks });
+});
 
-router.get(
-    '/current',
-    requireAuth,
-    async (req, res) => {
-        const { user } = req;
-        const userTracks = await Track.findAll({ where: { userId: user.id } });
-        return res.status(200).json({ userTracks: userTracks });
-    },
-);
+router.post('/', requireAuth, multipleMulterUpload('tracks'), async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const username = req.user.username;
+        const uploadResponse = await multipleFilesUpload({ files: req.files || [], public: true, username });
 
-router.post(
-    '/',
-    requireAuth,
-    multipleMulterUpload('tracks'),
-    async (req, res) => {
-
-        try {
-            const { user } = req;
-            const userId = user.id
-            const username = user.username
-            const awsResponse = await multipleFilesUpload({ files: req.files, public: true, username })
-
-            const tracks = await Promise.all(
-                awsResponse.map(track => Track.create({
-                    filePath: track.url,
-                    userId: userId,
-                    title: track.title,
-                    duration: Math.ceil(track.duration)
-                }))
-            );
-            return res.json(tracks);
-
-        } catch (error) {
-            return res.status(500).json({ error: error.message });
-        }
-
-    },
-)
-
-
-////////////////DELETING FROM AWS AND DTABASE
-router.delete(
-    '/:trackId',
-    requireAuth,
-    async (req, res, next) => {
-        const trackId = req.params.trackId
-        //search for the track in the db
-        const track = await Track.findByPk(trackId)
-        if (!track) return res.status(404).json("Couldn't find track in database")
-        //format the filePath to match AWS key
-        let key;
-        if (track.filePath.includes('/media/')) {
-            key = track.filePath.split('/media/')[1]
-        } else {
-            const filePath = track.filePath.split('.com/')[1]
-            key = filePath?.replaceAll('+', ' ')
-        }
-        if (!key) return res.status(500).json({ error: 'Could not resolve media key for deletion' })
-        //send the delete command to AWS
-        const successfulDelete = await deleteFile(key)
-        //if successful => delete from db
-        if (successfulDelete) {
-            const deleteFromDb = await track.destroy()
-            return res.status(201).json({ success: deleteFromDb })
-        }
-        else return res.status(500).json({ error: 'An error ocurred while trying to delete the track from the database' })
+        const tracks = await Promise.all(
+            uploadResponse.map(track => Track.create({
+                filePath: track.url,
+                userId,
+                title: track.title,
+                duration: Math.ceil(track.duration)
+            }))
+        );
+        return res.json(tracks);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
-)
+});
 
-/////////////UPDATING RENAME TITLE
-router.put(
-    '/:trackId',
-    requireAuth,
-    async (req, res, next) => {
-        const trackId = req.params.trackId
-        const { title } = req.body
-        const track = await Track.findByPk(trackId)
-        if (!track) return res.status(404).json("Couldn't find track in database")
-        track.update({ title: title })
-        res.status(201).json({ newTitle: track.title })
+router.delete('/:trackId', requireAuth, async (req, res) => {
+    const track = await getOwnedTrack(req.params.trackId, req.user.id);
+    if (!track) return res.status(404).json("Couldn't find track in database");
+
+    let key;
+    if (track.filePath.includes('/media/')) {
+        key = track.filePath.split('/media/')[1];
+    } else {
+        const filePath = track.filePath.split('.com/')[1];
+        key = filePath?.replaceAll('+', ' ');
     }
-)
 
+    if (!key) return res.status(500).json({ error: 'Could not resolve media key for deletion' });
 
+    const successfulDelete = await deleteFile(key);
+    if (!successfulDelete) {
+        return res.status(500).json({ error: 'An error ocurred while trying to delete the track from the database' });
+    }
 
-module.exports = router
+    const deleteFromDb = await track.destroy();
+    return res.status(201).json({ success: deleteFromDb });
+});
+
+router.put('/:trackId', requireAuth, async (req, res) => {
+    const track = await getOwnedTrack(req.params.trackId, req.user.id);
+    if (!track) return res.status(404).json("Couldn't find track in database");
+
+    await track.update({ title: req.body.title?.trim() || track.title });
+    res.status(201).json({ newTitle: track.title });
+});
+
+module.exports = router;
