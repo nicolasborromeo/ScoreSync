@@ -2,53 +2,60 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     margin: 0;
-    font-family: inherit;
     color: var(--text-primary);
-    background-color: var(--bg-primary);
-
+    background: transparent;
+    padding-bottom: 3rem;
 }
 
 .dashboard-row-layout {
     display: flex;
-    width: 80% !important;
-    justify-content: center !important;
-    margin: 0 auto 20px;
-    max-width: 80vw;
+    width: min(1100px, calc(100% - 48px));
+    justify-content: center;
+    align-items: stretch;
+    gap: 24px;
+    margin: 0 auto 24px;
 }
 
 #divider {
-    background-color: gray;
-    width: 4px;
-    margin: 0 10px;
+    display: none;
 }
 
 .dashboard-button {
-    padding: 10px 20px;
-    border-radius: 18px;
-    height: 3.5em;
-    background: none;
-    border: 1px solid lightgray;
-    color: white;
+    padding: 10px 18px;
+    border-radius: 14px;
+    min-height: 44px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-soft);
+    color: var(--text-secondary);
     cursor: pointer;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .dashboard-button:hover {
-    border-color: var(--icon-secondary);
-    color: var(--icon-secondary);
-
+    border-color: rgba(222, 93, 187, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
 }
 
 .text-and-button {
     display: flex !important;
     flex-direction: row !important;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.65em;
 }
 
 .display-info-container-on-dashboard {
     display: flex;
     justify-content: center !important;
     margin: 0 auto;
+    width: 100%;
+}
+
+@media screen and (width < 980px) {
+    .dashboard-row-layout {
+        flex-direction: column;
+        width: min(900px, calc(100% - 32px));
+    }
 }

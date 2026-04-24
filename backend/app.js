@@ -5,6 +5,7 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const { ValidationError } = require('sequelize');
 
@@ -20,6 +21,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use('/media', express.static(path.resolve(__dirname, 'media')));
 
 // Security Middleware
 if (!isProduction) {

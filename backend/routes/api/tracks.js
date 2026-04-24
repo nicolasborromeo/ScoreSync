@@ -56,8 +56,14 @@ router.delete(
         const track = await Track.findByPk(trackId)
         if (!track) return res.status(404).json("Couldn't find track in database")
         //format the filePath to match AWS key
-        const filePath = track.filePath.split('.com/')[1]
-        const key = filePath.replaceAll('+', ' ')
+        let key;
+        if (track.filePath.includes('/media/')) {
+            key = track.filePath.split('/media/')[1]
+        } else {
+            const filePath = track.filePath.split('.com/')[1]
+            key = filePath?.replaceAll('+', ' ')
+        }
+        if (!key) return res.status(500).json({ error: 'Could not resolve media key for deletion' })
         //send the delete command to AWS
         const successfulDelete = await deleteFile(key)
         //if successful => delete from db

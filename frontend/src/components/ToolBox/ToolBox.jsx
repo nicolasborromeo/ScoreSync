@@ -169,9 +169,12 @@ export default function ToolBox({
     )
     if (!minimized) return (
         <div id="toolbox-container" style={style}>
-            <div id="toolbox-top-bar" onMouseDown={handleMouseDown} style={{ cursor: isDragging ? 'grabbing' : 'all-scroll' }}>
-                <span onClick={toggleMinimize}>-</span>
-
+            <div id="toolbox-top-bar" onMouseDown={handleMouseDown} style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
+                <div className="toolbox-title-group">
+                    <strong>Card styling</strong>
+                    <small>Adjust the public card look</small>
+                </div>
+                <button type="button" className="toolbox-minimize" onClick={toggleMinimize}>−</button>
             </div>
 
             <div>
@@ -250,14 +253,14 @@ export default function ToolBox({
             <div className="separator"></div>
             <div id="toolbox-button-container">
                 <button
-                    className='add-tracks-button'
+                    className='add-tracks-button toolbox-secondary-button'
                     onClick={handleRevertStyle}
-                >Cancel
+                >Reset
                 </button>
                 <button
-                    className='add-tracks-button'
+                    className='add-tracks-button toolbox-primary-button'
                     onClick={handleSaveCardStyles}
-                >Save
+                >Save theme
                 </button>
             </div>
         </div>

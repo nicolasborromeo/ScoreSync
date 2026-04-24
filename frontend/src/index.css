@@ -372,3 +372,210 @@ html {
         margin: 0 auto !important;
     }
 }
+
+:root {
+    --text-muted: rgba(236, 236, 236, 0.72);
+    --border-soft: rgba(255, 255, 255, 0.08);
+    --surface-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+html {
+    background:
+        radial-gradient(circle at top, rgba(189, 23, 146, 0.17), transparent 30%),
+        radial-gradient(circle at 20% 20%, rgba(82, 34, 88, 0.32), transparent 35%),
+        linear-gradient(180deg, #02050b 0%, #070d18 100%);
+}
+
+body,
+html {
+    color: var(--text-secondary);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at bottom right, rgba(222, 93, 187, 0.08), transparent 30%);
+    z-index: -1;
+}
+
+.main {
+    margin-left: 5.75rem;
+    width: calc(100% - 5.75rem);
+}
+
+.navigation-container {
+    width: 5.75rem;
+    padding: 18px 12px;
+    background: rgba(3, 7, 18, 0.92);
+    backdrop-filter: blur(18px);
+    border-right: 1px solid var(--border-soft);
+    justify-content: space-between;
+}
+
+.navigation-ul {
+    gap: 8px;
+    align-items: stretch;
+}
+
+.navigation-container:hover {
+    width: 15rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 24px;
+    padding: 10px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #de5dbb, #8f096b);
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 10px 24px rgba(143, 9, 107, 0.35);
+}
+
+.brand-copy {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+}
+
+.brand-copy strong {
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.brand-copy small {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+}
+
+.navigation-container:hover .brand-copy,
+.navigation-container:hover .link-text {
+    display: flex;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    gap: 12px;
+    height: 3.35rem;
+    margin: 0;
+    padding: 0 12px;
+    border-radius: 14px;
+    filter: none;
+    transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover,
+.active-nav-link {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-secondary);
+    border-color: rgba(222, 93, 187, 0.2);
+    transform: translateX(2px);
+}
+
+.link-icon {
+    margin: 0;
+    min-width: 28px;
+    display: inline-flex;
+    justify-content: center;
+    color: var(--icon-secondary);
+}
+
+.link-text {
+    color: inherit;
+}
+
+.nav-footer {
+    margin-top: auto;
+}
+
+.nav-link-logout .link-icon,
+.nav-link-logout {
+    color: #ff8ebf;
+}
+
+.page-title-content {
+    width: min(1100px, calc(100% - 48px));
+    margin: 26px auto 22px;
+}
+
+.page-title-container {
+    background: transparent !important;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.page-title-container p {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.external-links-form-container,
+#display-information-container {
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--surface-shadow);
+}
+
+.external-links-form-container h3,
+#display-information-container h3 {
+    font-size: 1.05rem;
+}
+
+.subtitle-text p,
+.text-and-button p {
+    color: var(--text-muted);
+}
+
+@media screen and (max-width: 920px) {
+    .navigation-container {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: 0;
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    .navigation-container:hover {
+        width: 100%;
+    }
+
+    .brand-copy,
+    .link-text {
+        display: flex;
+    }
+
+    .navigation-ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+}
