@@ -21,6 +21,25 @@ import { CiEdit } from "react-icons/ci";
 
 import { isEmpty } from "../../utils/utils"
 
+const pickPreferredInitialTrack = (tracks = []) => {
+    if (!tracks.length) return null
+
+    const scored = [...tracks].sort((a, b) => scoreTrack(b) - scoreTrack(a))
+    return scored[0]
+}
+
+const scoreTrack = (track) => {
+    const url = (track?.filePath || '').toLowerCase()
+    let score = 0
+
+    if (url.includes('127.0.0.1:8000/media/')) score += 100
+    if (url.endsWith('.mp3')) score += 20
+    if (url.endsWith('.m4a')) score += 15
+    if (url.endsWith('.wav')) score -= 5
+    if (url.includes('amazonaws.com')) score -= 100
+
+    return score
+}
 
 export default function CardDetails() {
     const dispatch = useDispatch()
@@ -57,7 +76,8 @@ export default function CardDetails() {
     useEffect(() => {
         if (cardId && card && card.Tracks?.length) {
             setTrackList(card.Tracks)
-            setAudioUrl(card.Tracks[0].filePath)
+            const preferredTrack = pickPreferredInitialTrack(card.Tracks)
+            setAudioUrl(preferredTrack?.filePath || card.Tracks[0].filePath)
 
         }
         setTracksLoaded(true)
