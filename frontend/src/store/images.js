@@ -61,7 +61,11 @@ export const thunkDeleteImage = (imageId) => async dispatch => {
     const response = await csrfFetch(`/api/images/${imageId}`, {
         method: "DELETE"
     })
-    if(response.ok) dispatch(deleteImage(imageId))
+    if (response.ok) {
+        dispatch(deleteImage(imageId))
+        return await response.json()
+    }
+    return await response.json()
 }
 
 export const thunkUploadImages = (images) => async dispatch => {
