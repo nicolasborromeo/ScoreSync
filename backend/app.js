@@ -21,13 +21,14 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use('/media', express.static(path.resolve(__dirname, 'media')));
 
 // Security Middleware
 if (!isProduction) {
     // enable cors only in development
     app.use(cors());
 }
+
+app.use('/media', express.static(path.resolve(__dirname, 'media')));
 
 // helmet helps set a variety of headers to better secure your app
 app.use(
