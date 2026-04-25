@@ -10,10 +10,12 @@ import { PlayIcon, Pause } from "lucide-react";
 const AudioPlayer = ({ audioUrl }) => {
     const containerRef = useRef()
     const [duration, setDuration] = useState()
-    const [loadingProgress, setLoadingProgress] = useState()
+    const [loadingProgress, setLoadingProgress] = useState(0)
+    const [loadError, setLoadError] = useState('')
 
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
+        key: audioUrl,
         container: containerRef,
         height: 60,
         autoplay: false,
@@ -22,6 +24,12 @@ const AudioPlayer = ({ audioUrl }) => {
         url: audioUrl,
         plugins: useMemo(() => [Timeline.create()], []),
     })
+
+    useEffect(() => {
+        setLoadError('')
+        setLoadingProgress(0)
+        setDuration(undefined)
+    }, [audioUrl])
 
     //play pause
     const onPlayPause = useCallback(() => {
@@ -32,24 +40,33 @@ const AudioPlayer = ({ audioUrl }) => {
     useEffect(() => {
         if (wavesurfer && isReady) {
             setDuration(wavesurfer.getDuration())
+            setLoadingProgress(100)
         }
     }, [wavesurfer, isReady])
 
     //Loading
     useEffect(() => {
-        if (wavesurfer) {
-            wavesurfer.on('loading', (percent) => {
-                setLoadingProgress(percent)
-            })
+        if (!wavesurfer) return
+
+        const onLoading = (percent) => setLoadingProgress(percent)
+        const onError = () => setLoadError('Could not load audio preview')
+        wavesurfer.on('loading', onLoading)
+        wavesurfer.on('error', onError)
+
+        return () => {
+            wavesurfer.un('loading', onLoading)
+            wavesurfer.un('error', onError)
         }
-    }, [wavesurfer, loadingProgress])
+    }, [wavesurfer])
 
 
     return (
         <>
 
+            {loadError && <p style={{ color: '#ff8aa1', fontSize: '0.85rem' }}>{loadError}</p>}
+
             {/* LOADING BAR */}
-            {loadingProgress < 100 &&
+            {!loadError && loadingProgress < 100 &&
                 <div className="loading-bar-container" style={{ width: '50%', backgroundColor: '#030712', height: '25px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
                     <div style={{ position: "absolute", display: 'flex', justifyContent: 'center', padding: '0 10px', fontSize: '0.8rem', color: 'black' }}>
                     </div>

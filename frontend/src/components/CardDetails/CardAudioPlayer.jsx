@@ -13,10 +13,12 @@ import { FaCirclePause } from "react-icons/fa6";
 const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     const containerRef = useRef()
     const [duration, setDuration] = useState()
-    const [loadingProgress, setLoadingProgress] = useState()
+    const [loadingProgress, setLoadingProgress] = useState(0)
+    const [loadError, setLoadError] = useState('')
 
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
+        key: audioUrl,
         container: containerRef,
         height: 100,
         autoplay: false,
@@ -43,11 +45,16 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     // };
 
     useEffect(() => {
-        if (wavesurfer) {
-            wavesurfer.on('interaction', () => {
-                wavesurfer.play()
-            })
-        }
+        setLoadError('')
+        setLoadingProgress(0)
+        setDuration(undefined)
+    }, [audioUrl])
+
+    useEffect(() => {
+        if (!wavesurfer) return
+        const onInteraction = () => wavesurfer.play()
+        wavesurfer.on('interaction', onInteraction)
+        return () => wavesurfer.un('interaction', onInteraction)
     }, [wavesurfer])
 
 
@@ -60,24 +67,33 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     useEffect(() => {
         if (wavesurfer && isReady) {
             setDuration(wavesurfer.getDuration())
+            setLoadingProgress(100)
         }
     }, [wavesurfer, isReady])
 
     //Loading
     useEffect(() => {
-        if (wavesurfer) {
-            wavesurfer.on('loading', (percent) => {
-                setLoadingProgress(percent)
-            })
+        if (!wavesurfer) return
+
+        const onLoading = (percent) => setLoadingProgress(percent)
+        const onError = () => setLoadError('Could not load audio preview')
+        wavesurfer.on('loading', onLoading)
+        wavesurfer.on('error', onError)
+
+        return () => {
+            wavesurfer.un('loading', onLoading)
+            wavesurfer.un('error', onError)
         }
-    }, [wavesurfer, loadingProgress])
+    }, [wavesurfer])
 
 
     return (
         <>
 
+            {loadError && <p style={{ color: '#ff8aa1', fontSize: '0.9rem' }}>{loadError}</p>}
+
             {/* LOADING BAR */}
-            {loadingProgress < 100 &&
+            {!loadError && loadingProgress < 100 &&
                 <div className="card-loading-bar-container" style={{ width: '50%', backgroundColor: 'lightgray', height: '20px', display: 'flex', alignItems: 'center', margin: '50px auto', borderRadius: '20px' }}>
                     <div style={{ position: "absolute", display: 'flex', justifyContent: 'center', padding: '0 10px', fontSize: '0.8rem', color: 'black' }}>
                     </div>
