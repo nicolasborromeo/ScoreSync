@@ -5,46 +5,46 @@ import { CgMusicNote } from "react-icons/cg";
 import { logout } from "../store/session";
 import { useDispatch } from "react-redux";
 import { PiImageSquareFill } from "react-icons/pi";
-import { Power } from 'lucide-react'
+import {Power} from 'lucide-react'
 
-const navItems = [
-    { to: '/cards', label: 'Cards', icon: <TbCards /> },
-    { to: '/catalog', label: 'Catalog', icon: <GiMusicalScore /> },
-    { to: '/images', label: 'Images', icon: <PiImageSquareFill /> },
-]
 
 export default function Navigation({ isLoaded }) {
     const dispatch = useDispatch()
-
     return (
-        <aside className="navigation-container">
-            <NavLink to='/dashboard' className="logo" style={{ textDecoration: 'none' }}>
-                <span className="brand-badge"><CgMusicNote /></span>
-                <span className="brand-copy">
-                    <strong>ScoreSync</strong>
-                    <small>Pitch cards for music</small>
-                </span>
-            </NavLink>
-
+        <div className="navigation-container">
             <ul className="navigation-ul">
-                {navItems.map(({ to, label, icon }) => (
-                    <li className="nav-item" key={to}>
-                        <NavLink to={to} className={({ isActive }) => isActive ? 'nav-link active-nav-link' : 'nav-link'}>
-                            <span className="link-icon">{icon}</span>
-                            <span className="link-text">{label}</span>
+                <li className="logo">
+                    <NavLink to='/dashboard' style={{textDecoration:'none'}}>
+                    <span className="link-icon"><CgMusicNote /></span>
+                    <span className="link-text">SCORE SYNC</span></NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to='/cards' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
+                        <span className="link-icon"><TbCards /></span>
+                        <span className="link-text">Cards</span>
+                    </NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to='/catalog' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
+                        <span className="link-icon"><GiMusicalScore /></span>
+                        <span className="link-text">Catalog</span>
+                    </NavLink>
+                </li>
+                <li className="nav-item">
+                    <NavLink to='/images' className={({ isActive }) => isActive ? 'nav-link active-nav-link' : "nav-link" }>
+                        <span className="link-icon"><PiImageSquareFill /></span>
+                        <span className="link-text">Images</span>
+                    </NavLink>
+                </li>
+            </ul>
+                {isLoaded &&
+                    <li className="nav-item">
+                        <NavLink to='/' className="nav-link" style={{fontWeight:'bold'}} onClick={()=>dispatch(logout())}>
+                            <span className="link-icon"><Power size={30} color="red"/></span>
+                            <span className="link-text">Log Out</span>
                         </NavLink>
                     </li>
-                ))}
-            </ul>
-
-            {isLoaded && (
-                <div className="nav-footer">
-                    <NavLink to='/' className="nav-link nav-link-logout" onClick={() => dispatch(logout())}>
-                        <span className="link-icon"><Power size={22} /></span>
-                        <span className="link-text">Log out</span>
-                    </NavLink>
-                </div>
-            )}
-        </aside>
+                }
+        </div>
     );
 }
