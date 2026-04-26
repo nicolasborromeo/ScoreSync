@@ -9,6 +9,8 @@ import { formatTime } from "../../utils/utils";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
 
+const DEFAULT_WAVEFORM_COLOR = '#EB3678'
+
 //component
 const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     const containerRef = useRef()
@@ -16,24 +18,32 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     const [loadingProgress, setLoadingProgress] = useState(0)
     const [loadError, setLoadError] = useState('')
 
+    const resolvedWaveformColor = waveformColor || DEFAULT_WAVEFORM_COLOR
+    const progressColor = useMemo(
+        () => tinycolor(resolvedWaveformColor).darken(10).toString() || 'rgb(100, 0, 100)',
+        [resolvedWaveformColor]
+    )
+
+    const hoverPlugin = useMemo(() => Hover.create({
+        lineColor: tinycolor(DEFAULT_WAVEFORM_COLOR).lighten(20).toString() || 'rgb(100, 0, 100)',
+        lineWidth: 2,
+        labelBackground: '#555',
+        labelColor: '#fff',
+        labelSize: '11px',
+    }), [])
+
+    const plugins = useMemo(() => [hoverPlugin], [hoverPlugin])
+
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
         key: audioUrl,
         container: containerRef,
         height: 100,
         autoplay: false,
-        waveColor: waveformColor || '#EB3678',
-        progressColor: tinycolor(waveformColor).darken(10).toString() || 'rgb(100, 0, 100)',
+        waveColor: DEFAULT_WAVEFORM_COLOR,
+        progressColor: tinycolor(DEFAULT_WAVEFORM_COLOR).darken(10).toString(),
         url: audioUrl,
-        plugins: useMemo(() => [
-            Hover.create({
-                lineColor: tinycolor(waveformColor).lighten(20).toString() || 'rgb(100, 0, 100)',
-                lineWidth: 2,
-                labelBackground: '#555',
-                labelColor: '#fff',
-                labelSize: '11px',
-            }),
-        ], [waveformColor]),
+        plugins,
     });
 
     // Function to handle volume change
@@ -57,6 +67,14 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
         return () => wavesurfer.un('interaction', onInteraction)
     }, [wavesurfer])
 
+    useEffect(() => {
+        if (!wavesurfer) return
+
+        wavesurfer.setOptions({
+            waveColor: resolvedWaveformColor,
+            progressColor,
+        })
+    }, [wavesurfer, resolvedWaveformColor, progressColor])
 
     //play pause
     const onPlayPause = useCallback(() => {
