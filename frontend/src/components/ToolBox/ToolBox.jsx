@@ -81,7 +81,7 @@ export default function ToolBox({
 
     //Tools function and state:
     const [originalSecondaryBackground, setOriginalSecondaryBackground] = useState(secondaryBackground)
-    const [draftWaveformColor, setDraftWaveformColor] = useState(waveformColor || '#BD1792')
+    const [draftWaveformColor, setDraftWaveformColor] = useState(waveformColor)
     const [minimized, setMinimized] = useState(true)
 
     //resetting the colors and fonts when clicking on new card
@@ -112,8 +112,14 @@ export default function ToolBox({
     }, [secondaryEnabled, originalSecondaryBackground, primaryBackground, setSecondaryBackground]);
 
     useEffect(() => {
-        setDraftWaveformColor(waveformColor || '#BD1792')
+        setDraftWaveformColor(waveformColor)
     }, [waveformColor])
+
+    const commitWaveformColor = useCallback(() => {
+        if (draftWaveformColor !== waveformColor) {
+            setWaveformColor(draftWaveformColor)
+        }
+    }, [draftWaveformColor, waveformColor, setWaveformColor])
 
     //thunks API calls
     const handleSaveCardStyles = () => {
@@ -230,6 +236,9 @@ export default function ToolBox({
                     type="color"
                     value={draftWaveformColor}
                     onChange={(e) => setDraftWaveformColor(e.target.value)}
+                    onBlur={commitWaveformColor}
+                    onMouseUp={commitWaveformColor}
+                    onTouchEnd={commitWaveformColor}
                 />
                 <p>Waveform Color</p>
             </div>
