@@ -74,7 +74,13 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
             waveColor: resolvedWaveformColor,
             progressColor,
         })
-    }, [wavesurfer, resolvedWaveformColor, progressColor])
+
+        if (hoverPlugin?.wrapper) {
+            const hoverLineColor = tinycolor(resolvedWaveformColor).lighten(20).toString() || resolvedWaveformColor
+            hoverPlugin.wrapper.style.borderLeftColor = hoverLineColor
+            hoverPlugin.options.lineColor = hoverLineColor
+        }
+    }, [wavesurfer, hoverPlugin, resolvedWaveformColor, progressColor])
 
     //play pause
     const onPlayPause = useCallback(() => {
