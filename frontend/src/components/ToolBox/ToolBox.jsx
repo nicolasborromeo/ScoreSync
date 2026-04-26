@@ -81,6 +81,7 @@ export default function ToolBox({
 
     //Tools function and state:
     const [originalSecondaryBackground, setOriginalSecondaryBackground] = useState(secondaryBackground)
+    const [draftWaveformColor, setDraftWaveformColor] = useState(waveformColor)
     const [minimized, setMinimized] = useState(true)
 
     //resetting the colors and fonts when clicking on new card
@@ -91,6 +92,7 @@ export default function ToolBox({
             setPrimaryTextColor(card?.CardColor?.primaryTextColor);
             setSecondaryTextColor(card?.CardColor?.secondaryTextColor);
             setWaveformColor(card?.CardColor?.waveformColor);
+            setDraftWaveformColor(card?.CardColor?.waveformColor);
 
             setOriginalSecondaryBackground(card?.CardColor?.secondaryBackground);
             setSecondaryEnabled(true);
@@ -109,14 +111,29 @@ export default function ToolBox({
         }
     }, [secondaryEnabled, originalSecondaryBackground, primaryBackground, setSecondaryBackground]);
 
+    useEffect(() => {
+        setDraftWaveformColor(waveformColor)
+    }, [waveformColor])
+
+    const commitWaveformColor = useCallback(() => {
+        if (draftWaveformColor !== waveformColor) {
+            setWaveformColor(draftWaveformColor)
+        }
+    }, [draftWaveformColor, waveformColor, setWaveformColor])
+
     //thunks API calls
     const handleSaveCardStyles = () => {
+        const nextWaveformColor = draftWaveformColor || waveformColor
+        if (nextWaveformColor !== waveformColor) {
+            setWaveformColor(nextWaveformColor)
+        }
+
         const colors = {
             primaryBackground,
             secondaryBackground: secondaryEnabled ? secondaryBackground : primaryBackground,
             primaryTextColor,
             secondaryTextColor,
-            waveformColor
+            waveformColor: nextWaveformColor
         }
         const font = {
             fontFamily, fontSize
@@ -134,6 +151,7 @@ export default function ToolBox({
         setPrimaryTextColor(card?.CardColor?.primaryTextColor);
         setSecondaryTextColor(card?.CardColor?.secondaryTextColor);
         setWaveformColor(card?.CardColor?.waveformColor);
+        setDraftWaveformColor(card?.CardColor?.waveformColor);
 
         setOriginalSecondaryBackground(card?.CardColor?.secondaryBackground);
         setSecondaryEnabled(true);
@@ -216,8 +234,11 @@ export default function ToolBox({
             <div>
                 <input
                     type="color"
-                    value={waveformColor}
-                    onChange={(e) => setWaveformColor(e.target.value)}
+                    value={draftWaveformColor}
+                    onChange={(e) => setDraftWaveformColor(e.target.value)}
+                    onBlur={commitWaveformColor}
+                    onMouseUp={commitWaveformColor}
+                    onTouchEnd={commitWaveformColor}
                 />
                 <p>Waveform Color</p>
             </div>
