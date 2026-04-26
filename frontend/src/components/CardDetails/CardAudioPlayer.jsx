@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState, useMemo } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useWavesurfer } from '@wavesurfer/react'
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 import tinycolor from "tinycolor2";
@@ -10,27 +10,11 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
 
 //component
-const DEFAULT_WAVEFORM_COLOR = '#EB3678'
-
 const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
     const containerRef = useRef()
     const [duration, setDuration] = useState()
     const [loadingProgress, setLoadingProgress] = useState(0)
     const [loadError, setLoadError] = useState('')
-
-    const resolvedWaveformColor = waveformColor || DEFAULT_WAVEFORM_COLOR
-    const progressColor = useMemo(
-        () => tinycolor(resolvedWaveformColor).darken(10).toString() || 'rgb(100, 0, 100)',
-        [resolvedWaveformColor]
-    )
-
-    const hoverPlugin = useMemo(() => Hover.create({
-        lineColor: tinycolor(DEFAULT_WAVEFORM_COLOR).lighten(20).toString() || 'rgb(100, 0, 100)',
-        lineWidth: 2,
-        labelBackground: '#555',
-        labelColor: '#fff',
-        labelSize: '11px',
-    }), [])
 
     //wavesurfer instance
     const { wavesurfer, isReady, isPlaying, currentTime } = useWavesurfer({
@@ -38,10 +22,18 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
         container: containerRef,
         height: 100,
         autoplay: false,
-        waveColor: DEFAULT_WAVEFORM_COLOR,
-        progressColor,
+        waveColor: waveformColor || '#EB3678',
+        progressColor: tinycolor(waveformColor).darken(10).toString() || 'rgb(100, 0, 100)',
         url: audioUrl,
-        plugins: [hoverPlugin],
+        plugins: useMemo(() => [
+            Hover.create({
+                lineColor: tinycolor(waveformColor).lighten(20).toString() || 'rgb(100, 0, 100)',
+                lineWidth: 2,
+                labelBackground: '#555',
+                labelColor: '#fff',
+                labelSize: '11px',
+            }),
+        ], [waveformColor]),
     });
 
     // Function to handle volume change
@@ -65,14 +57,6 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
         return () => wavesurfer.un('interaction', onInteraction)
     }, [wavesurfer])
 
-    useEffect(() => {
-        if (!wavesurfer) return
-
-        wavesurfer.setOptions({
-            waveColor: resolvedWaveformColor,
-            progressColor,
-        })
-    }, [wavesurfer, resolvedWaveformColor, progressColor])
 
     //play pause
     const onPlayPause = useCallback(() => {
@@ -137,4 +121,4 @@ const CardAudioPlayer = ({ audioUrl, waveformColor }) => {
 };
 
 
-export default memo(CardAudioPlayer);
+export default CardAudioPlayer;
